@@ -1,0 +1,20 @@
+---
+const year = new Date().getFullYear();
+---
+<footer>
+  <div class="container inner">
+    <span>© {year} NioSystems · Jutiapa, Guatemala</span>
+    <span>nio.gt</span>
+  </div>
+</footer>
+
+<style>
+  footer {
+    border-top: 1px solid var(--border);
+    padding-block: 32px;
+    color: var(--ink-tertiary);
+    font-size: 0.875rem;
+    transition: border-color var(--transition), color var(--transition);
+  }
+  .inner { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+</style>

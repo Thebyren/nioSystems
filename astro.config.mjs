@@ -1,5 +1,12 @@
-// @ts-check
 import { defineConfig } from 'astro/config';
+import cloudflare from '@astrojs/cloudflare';
 
-// https://astro.build/config
-export default defineConfig({});
+export default defineConfig({
+  // Build estático para Cloudflare Pages
+  output: 'static',
+  // Adapter solo en producción
+  adapter: process.env.NODE_ENV === 'production' ? cloudflare() : undefined,
+
+  // Sitio final
+  site: 'https://nio.gt',
+});

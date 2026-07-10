@@ -1,0 +1,62 @@
+---
+const servicios = [
+  {
+    t: 'Implementación Odoo',
+    d: 'Odoo v17/v18/v19. Certificación oficial. FEL con TEKRA como AC.',
+  },
+  {
+    t: 'Migraciones y upgrades',
+    d: 'v10→v19 incluido. Payroll, contabilidad, inventario. Sin sorpresas en payslips.',
+  },
+  {
+    t: 'Módulos a medida',
+    d: 'Presupuestos, integraciones WooCommerce, reportes analíticos, control de stock.',
+  },
+  {
+    t: 'SaaS hosting multi-tenant',
+    d: 'Docker Compose, Caddy, PostgreSQL. Para PYMES que necesitan Odoo sin operar infra.',
+  },
+];
+---
+<section id="servicios">
+  <div class="container">
+    <p class="eyebrow">Servicios</p>
+    <h2>Lo que hacemos.</h2>
+    <ul class="list">
+      {servicios.map(({ t, d }) => (
+        <li>
+          <h3>{t}</h3>
+          <p>{d}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .list {
+    list-style: none;
+    padding: 0;
+    margin: 48px 0 0;
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--border);
+  }
+  li {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 32px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+    transition: all var(--transition);
+  }
+  li:hover {
+    padding-inline: 12px;
+    background: var(--accent-subtle);
+    border-radius: var(--radius);
+  }
+  li h3 { color: var(--ink); }
+  @media (max-width: 640px) {
+    li { grid-template-columns: 1fr; gap: 8px; }
+  }
+</style>

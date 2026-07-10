@@ -1,0 +1,59 @@
+---
+---
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="container hero-content">
+    <p class="eyebrow">Odoo ERP · Guatemala · LATAM</p>
+    <h1>
+      Primero diagnosticamos.<br />
+      Después construimos.
+    </h1>
+    <p class="lede">
+      Consultoría Odoo y desarrollo a medida sin ataduras a un stack.
+      Si tu problema no es ERP, te lo decimos. FEL/DTE, IGSS, ISR,
+      integraciones — con auditoría antes de tocar producción.
+    </p>
+    <div class="cta">
+      <a href="#contacto" class="btn btn-primary">Agendar diagnóstico</a>
+      <a href="#servicios" class="btn btn-ghost">Ver servicios</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-glow {
+    position: absolute;
+    top: -180px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    height: 450px;
+    background: radial-gradient(
+      ellipse,
+      var(--indigo-glow) 0%,
+      var(--accent-glow) 40%,
+      transparent 70%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 1;
+  }
+  .lede {
+    max-width: 62ch;
+    font-size: 1.125rem;
+    margin-top: 20px;
+  }
+  .cta {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+</style>
