@@ -1,0 +1,40 @@
+---
+---
+<section id="contacto">
+  <div class="container">
+    <div class="contact-card">
+      <p class="eyebrow">Siguiente paso</p>
+      <h2>¿Hablamos?</h2>
+      <p class="lede">
+        Diagnóstico inicial sin costo. Contame el problema y te digo si
+        Odoo aplica — o qué aplica. Sin humo, sin propuesta genérica.
+      </p>
+      <div class="cta">
+        <a href="mailto:hola@nio.gt" class="btn btn-primary">hola@nio.gt</a>
+        <a href="https://wa.me/502XXXXXXXX" class="btn btn-ghost">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: clamp(32px, 6vw, 56px);
+    box-shadow: var(--shadow-md), var(--shadow-glow);
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-subtle);
+    pointer-events: none;
+  }
+  .contact-card > * { position: relative; }
+  .lede { max-width: 60ch; margin-top: 16px; font-size: 1.0625rem; }
+  .cta  { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
+</style>
