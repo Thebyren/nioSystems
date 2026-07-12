@@ -1,5 +1,3 @@
-import type { PagesFunction } from '@cloudflare/workers-types';
-import { Response } from '@cloudflare/workers-types';
 
 // functions/api/contacto.ts
 // Cloudflare Pages Function — recibe el POST del formulario
@@ -17,7 +15,7 @@ interface Env {
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   // CORS básico
   const headers = {
-    'Access-Control-Allow-Origin': 'https://nio.gt',
+    'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json',
   };
 
