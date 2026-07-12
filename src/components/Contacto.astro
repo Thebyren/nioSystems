@@ -10,13 +10,88 @@
         Diagnóstico inicial sin costo. Contame el problema y te digo si
         Odoo aplica — o qué aplica. Sin humo, sin propuesta genérica.
       </p>
-      <div class="cta">
-        <a href="mailto:hola@nio.gt" class="btn btn-primary">hola@nio.gt</a>
-        <a href="https://wa.me/502XXXXXXXX" class="btn btn-ghost">WhatsApp</a>
+
+      <form id="contact-form" class="contact-form">
+        <div class="form-group">
+          <label for="nombre">Nombre *</label>
+          <input type="text" id="nombre" name="nombre" required />
+        </div>
+
+        <div class="form-group">
+          <label for="empresa">Empresa</label>
+          <input type="text" id="empresa" name="empresa" />
+        </div>
+
+        <div class="form-group">
+          <label for="contacto">Email o teléfono *</label>
+          <input type="text" id="contacto" name="contacto" required />
+        </div>
+
+        <div class="form-group">
+          <label for="problema">¿Cuál es el problema? *</label>
+          <textarea id="problema" name="problema" rows="4" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Enviar diagnóstico</button>
+        <p class="form-status" id="form-status"></p>
+      </form>
+
+      <div class="contact-fallback">
+        <p class="tech-label">O contacta directamente:</p>
+        <div class="cta">
+          <a href="mailto:hola@nio.gt" class="btn btn-ghost">hola@nio.gt</a>
+          <a href="https://wa.me/502XXXXXXXX" class="btn btn-ghost">WhatsApp</a>
+        </div>
       </div>
     </div>
   </div>
 </section>
+
+<script>
+  const form = document.getElementById('contact-form');
+  const statusEl = document.getElementById('form-status');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+
+    // UI: loading
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Enviando...';
+    statusEl.textContent = '';
+    statusEl.className = 'form-status';
+
+    try {
+      const res = await fetch('/api/contacto', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await res.json();
+
+      if (res.ok && result.ok) {
+        // Success
+        statusEl.textContent = '✓ Mensaje enviado. Te contactaremos pronto.';
+        statusEl.className = 'form-status success';
+        form.reset();
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+      } else {
+        // API error
+        throw new Error(result.error || 'Error desconocido');
+      }
+    } catch (err) {
+      // Network or parsing error
+      statusEl.textContent = `✗ ${err.message || 'Error al enviar. Intenta por email o WhatsApp.'}`;
+      statusEl.className = 'form-status error';
+      submitBtn.textContent = originalText;
+      submitBtn.disabled = false;
+    }
+  });
+</script>
 
 <style>
   .contacto-section {
@@ -45,5 +120,70 @@
   }
   .contact-card > * { position: relative; }
   .lede { max-width: 60ch; margin-top: 16px; font-size: 1.0625rem; }
-  .cta  { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
+
+  .contact-form {
+    display: grid;
+    gap: 20px;
+    margin-top: 28px;
+    max-width: 560px;
+  }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .form-group label {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .form-group input,
+  .form-group textarea {
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    transition: border-color var(--transition), box-shadow var(--transition);
+  }
+  .form-group input:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent-subtle);
+  }
+  .form-group textarea {
+    resize: vertical;
+  }
+
+  .form-status {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    margin: 0;
+    min-height: 20px;
+  }
+  .form-status.success {
+    color: var(--status-ok);
+  }
+  .form-status.error {
+    color: #FF6B6B;
+  }
+
+  .contact-fallback {
+    margin-top: 36px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+  }
+  .contact-fallback .cta {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 640px) {
+    .contact-form { max-width: 100%; }
+  }
 </style>
