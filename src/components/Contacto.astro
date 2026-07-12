@@ -11,7 +11,7 @@
         Odoo aplica — o qué aplica. Sin humo, sin propuesta genérica.
       </p>
 
-      <form id="contact-form" class="contact-form">
+      <form id="contact-form" class="contact-form" method="POST" action="/api/Contacto">
         <div class="form-group">
           <label for="nombre">Nombre *</label>
           <input type="text" id="nombre" name="nombre" required />
@@ -32,7 +32,7 @@
           <textarea id="problema" name="problema" rows="4" required></textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary">Enviar diagnóstico</button>
+        <button type="submit" data-sitekey="_key_" class="btn btn-primary">Enviar diagnóstico</button>
         <p class="form-status" id="form-status"></p>
       </form>
 
@@ -40,12 +40,13 @@
         <p class="tech-label">O contacta directamente:</p>
         <div class="cta">
           <a href="mailto:hola@nio.gt" class="btn btn-ghost">hola@nio.gt</a>
-          <a href="https://wa.me/502XXXXXXXX" class="btn btn-ghost">WhatsApp</a>
+          <a href="https://wa.me/50255155215" class="btn btn-ghost">WhatsApp</a>
         </div>
       </div>
     </div>
   </div>
 </section>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 <script>
   const form = document.getElementById('contact-form') as HTMLFormElement | null;
@@ -74,7 +75,7 @@
         body: formData,
       });
 
-      const result = await res.json();
+      const result = await res.json() as { ok: boolean; error?: string };
 
       if (res.ok && result.ok) {
         // Success
