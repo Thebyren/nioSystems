@@ -1,11 +1,24 @@
 ---
+const estado = [
+  { l: 'Odoo Core', v: 'Operativo' },
+  { l: 'FEL / DTE', v: 'Conectado' },
+  { l: 'IGSS / ISR', v: 'Validado' },
+];
 ---
 <section class="hero">
-  <div class="hero-glow"></div>
+  <!-- Decoración: anillos de señal del logo -->
+  <svg class="hero-rings" viewBox="0 0 580 580" fill="none" aria-hidden="true">
+    <circle class="ring ring-1" cx="290" cy="290" r="270" stroke="currentColor" stroke-width="1"/>
+    <circle class="ring ring-2" cx="290" cy="290" r="210" stroke="currentColor" stroke-width="1"/>
+    <circle class="ring ring-3" cx="290" cy="290" r="150" stroke="currentColor" stroke-width="1"/>
+    <circle class="ring ring-4" cx="290" cy="290" r="90"  stroke="currentColor" stroke-width="1"/>
+    <circle class="ring-core"  cx="290" cy="290" r="40"  stroke="currentColor" stroke-width="1.5"/>
+    <circle class="ring-pulse" cx="290" cy="290" r="40"  stroke="currentColor" stroke-width="1.5"/>
+  </svg>
   <div class="container hero-content">
     <p class="eyebrow">Odoo ERP · Guatemala · LATAM</p>
     <h1>
-      Primero diagnosticamos.<br />
+      Primero <span class="accent-word">diagnosticamos</span>.<br />
       Después construimos.
     </h1>
     <p class="lede">
@@ -17,6 +30,18 @@
       <a href="#contacto" class="btn btn-primary">Agendar diagnóstico</a>
       <a href="#servicios" class="btn btn-ghost">Ver servicios</a>
     </div>
+
+    <div class="hero-status">
+      <p class="tech-label coords">
+        <span class="status-dot is-accent"></span>
+        14.2915° N, 89.8956° W · Jutiapa GT
+      </p>
+      <ul class="status-strip">
+        {estado.map(({ l, v }) => (
+          <li class="status-chip"><span class="status-dot"></span>{l} · {v}</li>
+        ))}
+      </ul>
+    </div>
   </div>
 </section>
 
@@ -24,27 +49,50 @@
   .hero {
     position: relative;
     overflow: hidden;
+    background-image: var(--plus-grid);
   }
-  .hero-glow {
+  .hero-status {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 48px;
+  }
+  .coords {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-rings {
     position: absolute;
-    top: -180px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 700px;
-    height: 450px;
-    background: radial-gradient(
-      ellipse,
-      var(--indigo-glow) 0%,
-      var(--accent-glow) 40%,
-      transparent 70%
-    );
+    right: -80px;
+    top: 50%;
+    transform: translateY(-55%);
+    width: 580px;
+    height: 580px;
     pointer-events: none;
-    z-index: 0;
+    color: var(--accent);
+    opacity: .07;
+    z-index: -1;
+  }
+  .ring, .ring-core, .ring-pulse {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .ring {
+    animation: ring-breathe 6s ease-in-out infinite;
+  }
+  .ring-1 { animation-delay: 0s; }
+  .ring-2 { animation-delay: .4s; }
+  .ring-3 { animation-delay: .8s; }
+  .ring-4 { animation-delay: 1.2s; }
+  .ring-pulse {
+    animation: ring-pulse 3.6s cubic-bezier(.4,0,.2,1) infinite;
   }
   .hero-content {
     position: relative;
     z-index: 1;
   }
+  .accent-word { color: var(--accent); }
   .lede {
     max-width: 62ch;
     font-size: 1.125rem;
@@ -55,5 +103,24 @@
     gap: 12px;
     margin-top: 32px;
     flex-wrap: wrap;
+  }
+  @media (max-width: 640px) {
+    .hero-rings { opacity: .04; right: -180px; }
+  }
+
+  @keyframes ring-breathe {
+    0%, 100% { opacity: .6; }
+    50% { opacity: 1; }
+  }
+  @keyframes ring-pulse {
+    0% { transform: scale(1); opacity: .9; }
+    70% { transform: scale(4.2); opacity: 0; }
+    100% { transform: scale(4.2); opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ring, .ring-pulse {
+      animation: none;
+    }
   }
 </style>

@@ -1,5 +1,6 @@
 :root {
   --font-sans: 'Archivo', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Mono', Consolas, 'SF Mono', monospace;
   --radius: 6px;
   --radius-lg: 12px;
   --container: 1120px;
@@ -43,6 +44,9 @@
   --shadow-md: 0 4px 16px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.03);
   --shadow-glow: 0 0 40px rgba(43,92,255,.08);
   --gradient-subtle: linear-gradient(135deg, rgba(75,63,200,.08) 0%, rgba(43,92,255,.04) 50%, transparent 100%);
+  --plus-grid: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96'%3E%3Cpath d='M48 42v12M42 48h12' stroke='%23FFFFFF' stroke-opacity='.05' stroke-width='1'/%3E%3C/svg%3E");
+  --status-ok: #3ECF7E;
+  --status-ok-glow: rgba(62, 207, 126, .5);
 
   color-scheme: dark;
 }
@@ -70,6 +74,9 @@
   --shadow-md: 0 4px 20px rgba(0,0,0,.08), 0 0 0 1px rgba(0,0,0,.03);
   --shadow-glow: 0 0 40px rgba(36,72,204,.05);
   --gradient-subtle: linear-gradient(135deg, rgba(75,63,200,.04) 0%, rgba(36,72,204,.02) 50%, transparent 100%);
+  --plus-grid: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96'%3E%3Cpath d='M48 42v12M42 48h12' stroke='%230A0B0F' stroke-opacity='.05' stroke-width='1'/%3E%3C/svg%3E");
+  --status-ok: #1FA35C;
+  --status-ok-glow: rgba(31, 163, 92, .35);
 
   color-scheme: light;
 }
@@ -106,11 +113,129 @@ p  { margin: 0; color: var(--ink-secondary); }
 }
 
 .eyebrow {
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--amber-ink);
+}
+.eyebrow .idx {
+  color: var(--ink-tertiary);
+  margin-right: 8px;
+}
+.eyebrow .idx::after {
+  content: ' /';
+}
+
+.tech-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-tertiary);
+}
+
+/* Numeral fantasma — marca de sección, sistema compartido en todo el sitio */
+.section-numeral {
+  position: absolute;
+  top: -.08em;
+  right: var(--gutter);
+  font-size: clamp(6rem, 15vw, 11rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  opacity: .04;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+/* Panel de estado — dot + etiqueta mono, reutilizado en hero y footer */
+.status-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-tertiary);
+}
+.status-dot {
+  position: relative;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--status-ok);
+  flex-shrink: 0;
+}
+.status-dot::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: var(--status-ok);
+  opacity: .5;
+  animation: signal-ping 2.2s cubic-bezier(.4,0,.2,1) infinite;
+}
+.status-dot.is-accent { background: var(--accent); }
+.status-dot.is-accent::after { background: var(--accent); }
+
+@keyframes signal-ping {
+  0% { transform: scale(1); opacity: .5; }
+  70%, 100% { transform: scale(2.6); opacity: 0; }
+}
+
+/* Device de corchetes — enlaces técnicos */
+.bracket-link {
+  position: relative;
+  transition: color var(--transition);
+}
+.bracket-link::before,
+.bracket-link::after {
+  display: inline-block;
+  opacity: 0;
+  color: var(--accent);
+  transition: opacity var(--transition), transform var(--transition);
+}
+.bracket-link::before { content: '['; margin-right: 5px; transform: translateX(5px); }
+.bracket-link::after { content: ']'; margin-left: 5px; transform: translateX(-5px); }
+.bracket-link:hover::before,
+.bracket-link:hover::after { opacity: 1; transform: translateX(0); }
+
+/* Código de referencia mono — servicios, ítems catalogados */
+.ref-code {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-tertiary);
+}
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-dot::after { animation: none; }
 }
 
 .btn {

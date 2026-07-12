@@ -1,9 +1,10 @@
 ---
 ---
-<section id="contacto">
+<section id="contacto" class="contacto-section">
+  <span class="section-numeral" aria-hidden="true">03</span>
   <div class="container">
     <div class="contact-card">
-      <p class="eyebrow">Siguiente paso</p>
+      <p class="eyebrow"><span class="idx">03</span>Siguiente paso</p>
       <h2>¿Hablamos?</h2>
       <p class="lede">
         Diagnóstico inicial sin costo. Contame el problema y te digo si
@@ -18,6 +19,14 @@
 </section>
 
 <style>
+  .contacto-section {
+    position: relative;
+    overflow: hidden;
+  }
+  .contacto-section .container {
+    position: relative;
+    z-index: 1;
+  }
   .contact-card {
     background: var(--bg-elevated);
     border: 1px solid var(--border);
@@ -31,7 +40,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: var(--gradient-subtle);
+    background-image: var(--plus-grid), var(--gradient-subtle);
     pointer-events: none;
   }
   .contact-card > * { position: relative; }
