@@ -3,18 +3,44 @@ const year = new Date().getFullYear();
 ---
 <footer>
   <div class="container inner">
-    <span>© {year} NioSystems · Jutiapa, Guatemala</span>
-    <span>nio.gt</span>
+    <div class="col">
+      <span class="brand-mark">NioSystems<sup>®</sup></span>
+      <span class="tech-label">© {year} · Jutiapa, Guatemala</span>
+    </div>
+    <div class="col right">
+      <span class="tech-label">14.2915° N, 89.8956° W</span>
+      <span class="tech-label">nio.gt · est. {year}</span>
+    </div>
   </div>
 </footer>
 
 <style>
   footer {
     border-top: 1px solid var(--border);
-    padding-block: 32px;
-    color: var(--ink-tertiary);
-    font-size: 0.875rem;
+    padding-block: 40px;
     transition: border-color var(--transition), color var(--transition);
   }
-  .inner { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .inner {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .col {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .col.right { text-align: right; }
+  .brand-mark {
+    font-weight: 600;
+    font-size: 0.8125rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-secondary);
+  }
+  .brand-mark sup { font-size: 0.5625rem; letter-spacing: 0; }
+  @media (max-width: 480px) {
+    .col.right { text-align: left; }
+  }
 </style>

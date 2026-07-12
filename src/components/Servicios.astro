@@ -1,32 +1,45 @@
 ---
 const servicios = [
   {
+    code: 'SVC-01',
     t: 'Implementación Odoo',
     d: 'Odoo v17/v18/v19. Certificación oficial. FEL con TEKRA como AC.',
+    estado: 'Disponible',
   },
   {
+    code: 'SVC-02',
     t: 'Migraciones y upgrades',
     d: 'v10→v19 incluido. Payroll, contabilidad, inventario. Sin sorpresas en payslips.',
+    estado: 'Disponible',
   },
   {
+    code: 'SVC-03',
     t: 'Módulos a medida',
     d: 'Presupuestos, integraciones WooCommerce, reportes analíticos, control de stock.',
+    estado: 'Disponible',
   },
   {
+    code: 'SVC-04',
     t: 'SaaS hosting multi-tenant',
     d: 'Docker Compose, Caddy, PostgreSQL. Para PYMES que necesitan Odoo sin operar infra.',
+    estado: 'Cupo limitado',
   },
 ];
 ---
-<section id="servicios">
+<section id="servicios" class="servicios-section">
+  <span class="section-numeral" aria-hidden="true">02</span>
   <div class="container">
-    <p class="eyebrow">Servicios</p>
+    <p class="eyebrow"><span class="idx">02</span>Servicios</p>
     <h2>Lo que hacemos.</h2>
     <ul class="list">
-      {servicios.map(({ t, d }) => (
+      {servicios.map(({ code, t, d, estado }) => (
         <li>
-          <h3>{t}</h3>
+          <div class="head">
+            <span class="ref-code">{code}</span>
+            <h3>{t}</h3>
+          </div>
           <p>{d}</p>
+          <span class="tag-pill">{estado}</span>
         </li>
       ))}
     </ul>
@@ -34,6 +47,14 @@ const servicios = [
 </section>
 
 <style>
+  .servicios-section {
+    position: relative;
+    overflow: hidden;
+  }
+  .servicios-section .container {
+    position: relative;
+    z-index: 1;
+  }
   .list {
     list-style: none;
     padding: 0;
@@ -44,7 +65,8 @@ const servicios = [
   }
   li {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 2fr auto;
+    align-items: center;
     gap: 32px;
     padding: 28px 0;
     border-bottom: 1px solid var(--border);
@@ -55,8 +77,15 @@ const servicios = [
     background: var(--accent-subtle);
     border-radius: var(--radius);
   }
+  .head {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .ref-code { color: var(--accent); }
   li h3 { color: var(--ink); }
   @media (max-width: 640px) {
     li { grid-template-columns: 1fr; gap: 8px; }
+    li > .tag-pill { justify-self: start; }
   }
 </style>
