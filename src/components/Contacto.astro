@@ -48,14 +48,18 @@
 </section>
 
 <script>
-  const form = document.getElementById('contact-form');
-  const statusEl = document.getElementById('form-status');
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const statusEl = document.getElementById('form-status') as HTMLElement | null;
 
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    if (!form || !statusEl) return;
+
     const formData = new FormData(form);
-    const submitBtn = form.querySelector('button[type="submit"]');
+    const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+    if (!submitBtn) return;
+
     const originalText = submitBtn.textContent;
 
     // UI: loading
@@ -85,7 +89,7 @@
       }
     } catch (err) {
       // Network or parsing error
-      statusEl.textContent = `✗ ${err.message || 'Error al enviar. Intenta por email o WhatsApp.'}`;
+      statusEl.textContent = `✗ ${err instanceof Error ? err.message : 'Error al enviar. Intenta por email o WhatsApp.'}`;
       statusEl.className = 'form-status error';
       submitBtn.textContent = originalText;
       submitBtn.disabled = false;
