@@ -31,8 +31,12 @@
           <label for="problema">¿Cuál es el problema? *</label>
           <textarea id="problema" name="problema" rows="4" required></textarea>
         </div>
-
-        <button type="submit" data-sitekey="_key_" class="btn btn-primary">Enviar diagnóstico</button>
+        <div
+          class="cf-turnstile"
+          data-sitekey="0x4AAAAAAD0lVm7kI0JJC2cw"
+          data-theme="dark"
+        ></div>
+        <button type="submit" class="btn btn-primary">Enviar diagnóstico</button>
         <p class="form-status" id="form-status"></p>
       </form>
 
@@ -70,7 +74,7 @@
     statusEl.className = 'form-status';
 
     try {
-      const res = await fetch('/api/contacto', {
+      const res = await fetch('/api/Contacto', {
         method: 'POST',
         body: formData,
       });
