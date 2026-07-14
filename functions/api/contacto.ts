@@ -1,5 +1,4 @@
 import type { PagesFunction } from '@cloudflare/workers-types';
-import { Response } from '@cloudflare/workers-types';
 
 // Cloudflare Pages Function — recibe POST del formulario
 // y reenvía el mensaje a tu email vía Resend (gratuito hasta 3k/mes).
