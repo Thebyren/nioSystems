@@ -1,92 +1,31 @@
 ---
-const puntos = [
-  {
-    t: 'Diagnóstico primero',
-    d: 'No prescribimos Odoo sin entender el problema. A veces la respuesta no es ERP — y también te lo vamos a decir.',
-  },
-  {
-    t: 'Auditoría antes de tocar',
-    d: 'Migraciones, integraciones y customs entran con evaluación previa. No hay JOINs rotos sorpresa en producción.',
-  },
-  {
-    t: 'Documentación mecánica',
-    d: 'Actas de entrega, deslindes, credenciales. Todo por escrito, con el detalle técnico y legal que hace falta.',
-  },
-];
 ---
-<section id="filosofia" class="filosofia-section">
-  <span class="section-numeral" aria-hidden="true">01</span>
+<section id="filosofia">
   <div class="container">
-    <p class="eyebrow"><span class="idx">01</span>Cómo trabajamos</p>
-    <h2>El diagnóstico es el trabajo.</h2>
+    <div class="sec-rule"><span class="sec-id"><b>SEC. 01</b>Cómo trabajamos</span></div>
+    <h2>El diagnóstico <span class="outline-word">es</span> el trabajo.</h2>
     <ol class="proceso">
-      {puntos.map(({ t, d }, i) => (
-        <li>
-          <span class="num">{String(i + 1).padStart(2, '0')}</span>
-          <div class="paso">
-            <h3>{t}</h3>
-            <p>{d}</p>
-          </div>
-        </li>
-      ))}
+      <li>
+        <span class="num">01</span>
+        <div class="paso">
+          <h3>Diagnóstico primero</h3>
+          <p>No recomendamos Odoo sin entender el problema. A veces la respuesta no es ERP — y se lo decimos.</p>
+        </div>
+      </li>
+      <li>
+        <span class="num">02</span>
+        <div class="paso">
+          <h3>Auditoría antes de tocar</h3>
+          <p>Antes de migrar, integrar o adaptar, evaluamos. Sin sorpresas después del cambio: su facturación y su inventario siguen cuadrando.</p>
+        </div>
+      </li>
+      <li>
+        <span class="num">03</span>
+        <div class="paso">
+          <h3>Documentación mecánica</h3>
+          <p>Actas de entrega, deslindes, credenciales. Todo por escrito, con el detalle técnico y legal que hace falta.</p>
+        </div>
+      </li>
     </ol>
   </div>
 </section>
-
-<style>
-  .filosofia-section {
-    position: relative;
-    overflow: hidden;
-  }
-  .filosofia-section .container {
-    position: relative;
-    z-index: 1;
-  }
-  .proceso {
-    list-style: none;
-    padding: 0;
-    margin: 48px 0 0;
-    max-width: 720px;
-  }
-  li {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 24px;
-    position: relative;
-    padding-bottom: 40px;
-  }
-  li:last-child { padding-bottom: 0; }
-  /* línea vertical conectando los pasos */
-  li:not(:last-child)::before {
-    content: '';
-    position: absolute;
-    left: 21px;
-    top: 48px;
-    bottom: 4px;
-    width: 1px;
-    background: var(--border);
-  }
-  .num {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    border: 1px solid var(--border);
-    border-radius: 50%;
-    background: var(--bg-elevated);
-    font-size: 0.8125rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    color: var(--accent);
-    flex-shrink: 0;
-    transition: border-color var(--transition), box-shadow var(--transition);
-  }
-  li:hover .num {
-    border-color: var(--accent);
-    box-shadow: 0 0 16px var(--accent-glow);
-  }
-  .paso { padding-top: 8px; }
-  .paso h3 { margin-bottom: 8px; }
-  .paso p { max-width: 56ch; }
-</style>
