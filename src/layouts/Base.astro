@@ -8,12 +8,12 @@ interface Props {
 }
 
 const {
-  title       = 'NioSystems — Infraestructura que funciona',
+  title       = 'NioSystems — Primero diagnosticamos',
   description = 'Consultoría Odoo ERP y desarrollo a medida para Guatemala y LATAM. Especialistas en FEL/DTE, IGSS, ISR. El diagnóstico primero, siempre.',
   ogImage     = '/og-default.png',
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://nio.gt').toString();
+const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://nio.gt/').toString();
 ---
 <!DOCTYPE html>
 <html lang="es">
@@ -37,7 +37,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://nio.gt').to
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet"
   />
   <script is:inline>
@@ -49,6 +49,13 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://nio.gt').to
   </script>
 </head>
 <body>
-  <slot />
+  <div class="sheet">
+    <span class="reg-mark tl" aria-hidden="true"></span>
+    <span class="reg-mark tr" aria-hidden="true"></span>
+    <span class="reg-mark bl" aria-hidden="true"></span>
+    <span class="reg-mark br" aria-hidden="true"></span>
+    <span class="sheet-ref" aria-hidden="true">DOC. NIO-INF-01 · REV A</span>
+    <slot />
+  </div>
 </body>
 </html>

@@ -1,46 +1,9 @@
 ---
-const year = new Date().getFullYear();
 ---
-<footer>
-  <div class="container inner">
-    <div class="col">
-      <span class="brand-mark">NioSystems<sup>®</sup></span>
-      <span class="tech-label">© {year} · Jutiapa, Guatemala</span>
-    </div>
-    <div class="col right">
-      <span class="tech-label">14.2915° N, 89.8956° W</span>
-      <span class="tech-label">nio.gt · est. {year}</span>
-    </div>
-  </div>
+<footer class="cajetin">
+  <div class="cell"><span class="k">Proyecto</span><span class="v">NioSystems — Infraestructura que no se nota, porque funciona</span></div>
+  <div class="cell"><span class="k">Ubicación</span><span class="v">Jutiapa, Guatemala · 14.2915° N, 89.8956° W</span></div>
+  <div class="cell"><span class="k">Contacto</span><span class="v"><a href="mailto:hola@nio.gt">hola@nio.gt</a></span></div>
+  <div class="cell"><span class="k">Rev.</span><span class="v">A · 2026</span></div>
+  <div class="cell"><span class="k">Dominio</span><span class="v">nio.gt</span></div>
 </footer>
-
-<style>
-  footer {
-    border-top: 1px solid var(--border);
-    padding-block: 40px;
-    transition: border-color var(--transition), color var(--transition);
-  }
-  .inner {
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-  .col {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  .col.right { text-align: right; }
-  .brand-mark {
-    font-weight: 600;
-    font-size: 0.8125rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--ink-secondary);
-  }
-  .brand-mark sup { font-size: 0.5625rem; letter-spacing: 0; }
-  @media (max-width: 480px) {
-    .col.right { text-align: left; }
-  }
-</style>

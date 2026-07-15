@@ -1,91 +1,30 @@
 ---
-const servicios = [
-  {
-    code: 'SVC-01',
-    t: 'Implementación Odoo',
-    d: 'Odoo v17/v18/v19. Certificación oficial. FEL con TEKRA como AC.',
-    estado: 'Disponible',
-  },
-  {
-    code: 'SVC-02',
-    t: 'Migraciones y upgrades',
-    d: 'v10→v19 incluido. Payroll, contabilidad, inventario. Sin sorpresas en payslips.',
-    estado: 'Disponible',
-  },
-  {
-    code: 'SVC-03',
-    t: 'Módulos a medida',
-    d: 'Presupuestos, integraciones WooCommerce, reportes analíticos, control de stock.',
-    estado: 'Disponible',
-  },
-  {
-    code: 'SVC-04',
-    t: 'SaaS hosting multi-tenant',
-    d: 'Docker Compose, Caddy, PostgreSQL. Para PYMES que necesitan Odoo sin operar infra.',
-    estado: 'Cupo limitado',
-  },
-];
 ---
-<section id="servicios" class="servicios-section">
-  <span class="section-numeral" aria-hidden="true">02</span>
+<section id="ingenieria">
   <div class="container">
-    <p class="eyebrow"><span class="idx">02</span>Servicios</p>
-    <h2>Lo que hacemos.</h2>
+    <div class="sec-rule"><span class="sec-id"><b>SEC. 02</b>Ingeniería de procesos</span></div>
+    <h2>Ingeniería.</h2>
     <ul class="list">
-      {servicios.map(({ code, t, d, estado }) => (
-        <li>
-          <div class="head">
-            <span class="ref-code">{code}</span>
-            <h3>{t}</h3>
-          </div>
-          <p>{d}</p>
-          <span class="tag-pill">{estado}</span>
-        </li>
-      ))}
+      <li>
+        <span class="ref-code">ING-01 / IMPLEMENTACIÓN</span>
+        <h3>Implementación</h3>
+        <p>Su Odoo certificado, configurado y listo para facturar con la SAT.</p>
+      </li>
+      <li>
+        <span class="ref-code">ING-02 / RESCATE Y MIGRACIÓN</span>
+        <h3>Rescate y migración</h3>
+        <p>Aunque su sistema tenga años sin actualizarse, lo migramos sin perder su historial.</p>
+      </li>
+      <li>
+        <span class="ref-code">ING-03 / DESARROLLO</span>
+        <h3>Desarrollo</h3>
+        <p>Lo que Odoo no trae de fábrica lo desarrollamos para su operación: tiendas en línea, reportes, control de stock.</p>
+      </li>
+      <li>
+        <span class="ref-code">ING-04 / INFRAESTRUCTURA</span>
+        <h3>Infraestructura</h3>
+        <p>Su sistema en línea, con respaldo diario probado, sin que usted tenga que operar servidores.</p>
+      </li>
     </ul>
   </div>
 </section>
-
-<style>
-  .servicios-section {
-    position: relative;
-    overflow: hidden;
-  }
-  .servicios-section .container {
-    position: relative;
-    z-index: 1;
-  }
-  .list {
-    list-style: none;
-    padding: 0;
-    margin: 48px 0 0;
-    display: grid;
-    gap: 0;
-    border-top: 1px solid var(--border);
-  }
-  li {
-    display: grid;
-    grid-template-columns: 1fr 2fr auto;
-    align-items: center;
-    gap: 32px;
-    padding: 28px 0;
-    border-bottom: 1px solid var(--border);
-    transition: all var(--transition);
-  }
-  li:hover {
-    padding-inline: 12px;
-    background: var(--accent-subtle);
-    border-radius: var(--radius);
-  }
-  .head {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  .ref-code { color: var(--accent); }
-  li h3 { color: var(--ink); }
-  @media (max-width: 640px) {
-    li { grid-template-columns: 1fr; gap: 8px; }
-    li > .tag-pill { justify-self: start; }
-  }
-</style>

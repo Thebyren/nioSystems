@@ -1,126 +1,65 @@
 ---
-const estado = [
-  { l: 'Odoo Core', v: 'Operativo' },
-  { l: 'FEL / DTE', v: 'Conectado' },
-  { l: 'IGSS / ISR', v: 'Validado' },
-];
 ---
 <section class="hero">
-  <!-- Decoración: anillos de señal del logo -->
-  <svg class="hero-rings" viewBox="0 0 580 580" fill="none" aria-hidden="true">
-    <circle class="ring ring-1" cx="290" cy="290" r="270" stroke="currentColor" stroke-width="1"/>
-    <circle class="ring ring-2" cx="290" cy="290" r="210" stroke="currentColor" stroke-width="1"/>
-    <circle class="ring ring-3" cx="290" cy="290" r="150" stroke="currentColor" stroke-width="1"/>
-    <circle class="ring ring-4" cx="290" cy="290" r="90"  stroke="currentColor" stroke-width="1"/>
-    <circle class="ring-core"  cx="290" cy="290" r="40"  stroke="currentColor" stroke-width="1.5"/>
-    <circle class="ring-pulse" cx="290" cy="290" r="40"  stroke="currentColor" stroke-width="1.5"/>
-  </svg>
-  <div class="container hero-content">
-    <p class="eyebrow">Odoo ERP · Guatemala · LATAM</p>
-    <h1>
-      Primero <span class="accent-word">diagnosticamos</span>.<br />
-      Después construimos.
-    </h1>
-    <p class="lede">
-      Consultoría Odoo y desarrollo a medida sin ataduras a un stack.
-      Si tu problema no es ERP, te lo decimos. FEL/DTE, IGSS, ISR,
-      integraciones — con auditoría antes de tocar producción.
-    </p>
-    <div class="cta">
-      <a href="#contacto" class="btn btn-primary">Agendar diagnóstico</a>
-      <a href="#servicios" class="btn btn-ghost">Ver servicios</a>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-rail" aria-hidden="true">
+        <span>NIO-SYS · 14.2915° N — 89.8956° W · JUTIAPA GT · SEÑAL ACTIVA</span>
+      </div>
+      <div>
+        <p class="eyebrow">Odoo ERP · Guatemala · LATAM</p>
+        <h1>Primero <span class="outline-word">diagnosticamos</span>. Después construimos.</h1>
+        <p class="lede">No vendemos herramienta. Resolvemos problemas. Revisamos todo antes de cambiar nada en su operación.</p>
+        <div class="cta">
+          <a href="#contacto" class="btn btn-primary">Agendar diagnóstico</a>
+          <a href="#ingenieria" class="btn btn-ghost">Ver ingeniería</a>
+        </div>
+      </div>
+
+      <div class="nreveal-wrap">
+        <svg class="nreveal" viewBox="0 0 400 400" fill="none" aria-hidden="true">
+          <defs>
+            <clipPath id="nclip">
+              <path d="M 60 350 V 50 H 145 L 255 220 V 50 H 340 V 350 H 255 L 145 180 V 350 Z"/>
+            </clipPath>
+          </defs>
+          <g class="rings-faint" stroke="currentColor" stroke-width="1">
+            <circle cx="200" cy="200" r="185"/>
+            <circle cx="200" cy="200" r="148"/>
+            <circle cx="200" cy="200" r="111"/>
+            <circle cx="200" cy="200" r="74"/>
+            <circle cx="200" cy="200" r="37"/>
+          </g>
+          <g class="rings-full" clip-path="url(#nclip)" stroke="currentColor" stroke-width="2.5">
+            <circle cx="200" cy="200" r="185"/>
+            <circle cx="200" cy="200" r="148"/>
+            <circle cx="200" cy="200" r="111"/>
+            <circle cx="200" cy="200" r="74"/>
+            <circle cx="200" cy="200" r="37"/>
+            <circle cx="200" cy="200" r="8" fill="currentColor" stroke="none"/>
+          </g>
+          <path class="n-edge" d="M 60 350 V 50 H 145 L 255 220 V 50 H 340 V 350 H 255 L 145 180 V 350 Z" stroke-width="1"/>
+          <circle class="ring-pulse" cx="200" cy="200" r="148" stroke-width="1.5"/>
+        </svg>
+
+        <div class="diag-panel" role="img" aria-label="Extracto de un informe de diagnóstico">
+          <div class="diag-head"><span>diagnostico.log</span><span class="diag-tag">extracto · caso real</span></div>
+          <div class="diag-body">
+            <div><span class="ln">01</span>sistema sin actualizar ...... <span class="val">4 años</span></div>
+            <div><span class="ln">02</span>facturación electrónica ...... <span class="ok">✓ al día con SAT</span></div>
+            <div><span class="ln">03</span>inventario .................. <span class="warn">▲ Q 1,04M desviación</span></div>
+            <div><span class="ln">04</span>ajustes hechos a mano ....... <span class="val">23 hallados</span></div>
+            <div><span class="ln">05</span>historial en riesgo ......... <span class="val">1 sola copia, sin respaldo</span></div>
+            <div class="diag-foot">informe preliminar en 72 h — sin costo</div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="hero-status">
-      <p class="tech-label coords">
-        <span class="status-dot is-accent"></span>
-        14.2915° N, 89.8956° W · Jutiapa GT
-      </p>
-      <ul class="status-strip">
-        {estado.map(({ l, v }) => (
-          <li class="status-chip"><span class="status-dot"></span>{l} · {v}</li>
-        ))}
-      </ul>
-    </div>
+    <ul class="status-strip">
+      <li class="status-chip"><span class="status-dot"></span>Odoo core · operativo</li>
+      <li class="status-chip"><span class="status-dot"></span>FEL / DTE · conectado</li>
+      <li class="status-chip"><span class="status-dot"></span>IGSS / ISR · validado</li>
+    </ul>
   </div>
 </section>
-
-<style>
-  .hero {
-    position: relative;
-    overflow: hidden;
-    background-image: var(--plus-grid);
-  }
-  .hero-status {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    margin-top: 48px;
-  }
-  .coords {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .hero-rings {
-    position: absolute;
-    right: -80px;
-    top: 50%;
-    transform: translateY(-55%);
-    width: 580px;
-    height: 580px;
-    pointer-events: none;
-    color: var(--accent);
-    opacity: .07;
-    z-index: -1;
-  }
-  .ring, .ring-core, .ring-pulse {
-    transform-box: fill-box;
-    transform-origin: center;
-  }
-  .ring {
-    animation: ring-breathe 6s ease-in-out infinite;
-  }
-  .ring-1 { animation-delay: 0s; }
-  .ring-2 { animation-delay: .4s; }
-  .ring-3 { animation-delay: .8s; }
-  .ring-4 { animation-delay: 1.2s; }
-  .ring-pulse {
-    animation: ring-pulse 3.6s cubic-bezier(.4,0,.2,1) infinite;
-  }
-  .hero-content {
-    position: relative;
-    z-index: 1;
-  }
-  .accent-word { color: var(--accent); }
-  .lede {
-    max-width: 62ch;
-    font-size: 1.125rem;
-    margin-top: 20px;
-  }
-  .cta {
-    display: flex;
-    gap: 12px;
-    margin-top: 32px;
-    flex-wrap: wrap;
-  }
-  @media (max-width: 640px) {
-    .hero-rings { opacity: .04; right: -180px; }
-  }
-
-  @keyframes ring-breathe {
-    0%, 100% { opacity: .6; }
-    50% { opacity: 1; }
-  }
-  @keyframes ring-pulse {
-    0% { transform: scale(1); opacity: .9; }
-    70% { transform: scale(4.2); opacity: 0; }
-    100% { transform: scale(4.2); opacity: 0; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .ring, .ring-pulse {
-      animation: none;
-    }
-  }
-</style>
