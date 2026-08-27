@@ -1,0 +1,364 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+const stack = [
+  {
+    cat: 'Lenguajes',
+    items: [
+      { name: 'Python', note: 'Odoo core, módulos, scripts de migración' },
+      { name: 'Rust', note: 'NioBerp, firmware nioClock, herramientas de sistema' },
+      { name: 'JavaScript', note: 'OWL (Odoo Web Library), QWeb, automatizaciones' },
+      { name: 'SQL', note: 'PostgreSQL directo, diagnóstico de esquema, migraciones' },
+    ],
+  },
+  {
+    cat: 'Plataformas y runtime',
+    items: [
+      { name: 'Odoo ERP', note: 'Community y Enterprise, v10 a v19' },
+      { name: 'Docker', note: 'Contenedores de instancia, redes aisladas, compose' },
+      { name: 'PostgreSQL', note: 'Motor de base de datos único, sin capas ORM adicionales' },
+      { name: 'Caddy', note: 'Reverse proxy con TLS automático, configuración declarativa' },
+      { name: 'Linux', note: 'Debian/Ubuntu en producción, sin dependencias de vendor' },
+    ],
+  },
+  {
+    cat: 'CI/CD y operaciones',
+    items: [
+      { name: 'GitHub Actions', note: 'Pipeline propio: build → test → security → deploy' },
+      { name: 'Trivy', note: 'Escaneo de vulnerabilidades de imágenes y dependencias' },
+      { name: 'Respaldo validado', note: 'Backup diario con verificación de integridad automatizada' },
+      { name: 'Monitoreo continuo', note: 'Alertas de disponibilidad, uso de recursos y errores de app' },
+    ],
+  },
+  {
+    cat: 'Integraciones y protocolos',
+    items: [
+      { name: 'REST / JSON-RPC / XML-RPC', note: 'Odoo RPC, APIs de terceros, webhooks bidireccionales' },
+      { name: 'OAuth 2.0 / JWT', note: 'Autenticación segura en integraciones externas' },
+      { name: 'WhatsApp Business API', note: 'API oficial (no bots genéricos), integración con CRM de Odoo' },
+      { name: 'SAT Guatemala', note: 'FEL/DTE, webservices de la SAT, certificadores autorizados' },
+    ],
+  },
+];
+
+const hardware = {
+  nombre: 'nioClock',
+  ref: 'HW-01',
+  descripcion: 'Terminal de asistencia de diseño modular desarrollado íntegramente en NioSystems. Construido sobre ESP32-C3/S6, soporta identificación biométrica y RFID en la misma unidad. El firmware usa una arquitectura de dos etapas que separa el bootloader del sistema de aplicación, permitiendo actualización OTA sin intervención manual ni riesgo de ladrillo.',
+  caracteristicas: [
+    { k: 'Microcontrolador', v: 'ESP32-C3 / S6 (seleccionable por configuración)' },
+    { k: 'Identificación', v: 'Biométrico (huella) + RFID (13.56 MHz)' },
+    { k: 'Firmware', v: 'Arquitectura dos etapas · OTA modular' },
+    { k: 'Integración', v: 'Odoo Attendance nativo · sin middleware' },
+    { k: 'Dependencias cloud', v: 'Ninguna de terceros · servidor propio' },
+    { k: 'Estado', v: 'Desarrollo avanzado · pruebas de campo en curso' },
+  ],
+};
+---
+<Base
+  title="Infraestructura — NioSystems"
+  description="Stack técnico de NioSystems: Odoo v10-v19, Docker, PostgreSQL, Caddy, CI/CD con Trivy. Hardware propio nioClock (ESP32, biométrico, RFID, OTA). NioBerp en Rust."
+>
+  <Nav />
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <div class="sec-rule"><span class="sec-id"><b>DOC. NIO-INF</b>Infraestructura técnica</span></div>
+        <h1>La infraestructura<br/>que no se nota.</h1>
+        <p class="hero-desc">Porque cuando funciona, no tiene que notarse. Este es el stack que opera detrás de cada implementación, cada conector y cada servicio que entregamos.</p>
+        <ul class="status-strip">
+          <li class="status-chip"><span class="status-dot"></span>Python · Rust · JavaScript · SQL</li>
+          <li class="status-chip"><span class="status-dot"></span>Docker · PostgreSQL · Caddy · Linux</li>
+          <li class="status-chip"><span class="status-dot is-accent"></span>nioClock · HW-01 en desarrollo</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="stack-section">
+      <div class="container">
+        <div class="sec-rule"><span class="sec-id"><b>SEC. 01</b>Stack técnico</span></div>
+        <div class="stack-grid">
+          {stack.map(({ cat, items }) => (
+            <div class="stack-cat">
+              <h3 class="cat-title">{cat}</h3>
+              <ul class="stack-list">
+                {items.map(({ name, note }) => (
+                  <li class="stack-item">
+                    <span class="stack-name">{name}</span>
+                    <span class="stack-note">{note}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="hosting-section">
+      <div class="container">
+        <div class="sec-rule"><span class="sec-id"><b>SEC. 02</b>Arquitectura de hosting</span></div>
+        <div class="arch-block">
+          <div class="arch-text">
+            <h2>Hosting propio.<br/>Sin caja negra.</h2>
+            <p>Cada instancia de cliente corre en su propio contenedor Docker con red aislada. PostgreSQL en instancia dedicada. Caddy gestiona el TLS automáticamente. El respaldo se ejecuta diariamente y la integridad se verifica antes de marcar el ciclo como exitoso — no asumimos que el backup funcionó, lo verificamos.</p>
+            <p style="margin-top: 16px;">El pipeline de CI/CD en GitHub Actions ejecuta build, tests de integración, escaneo de vulnerabilidades con Trivy y deploy automático solo si todos los pasos son verdes. No existe push manual a producción.</p>
+          </div>
+          <div class="arch-diagram">
+            <div class="diag-panel">
+              <div class="diag-head">
+                <span>ARCH-DIAGRAM · REV A</span>
+                <span class="diag-tag">NIO-INF-01</span>
+              </div>
+              <div class="diag-body">
+                <div class="ln">01</div><div class="val">GitHub Actions</div><br/>
+                <div class="ln">02</div><div class="val">  └─ build</div><br/>
+                <div class="ln">03</div><div class="val">  └─ test</div><br/>
+                <div class="ln">04</div><div class="val">  └─ trivy scan</div><br/>
+                <div class="ln">05</div><div class="val">  └─ <span class="ok">deploy ✓</span></div><br/>
+                <div class="ln">06</div><div class="val"></div><br/>
+                <div class="ln">07</div><div class="val">Caddy <span class="ok">TLS auto</span></div><br/>
+                <div class="ln">08</div><div class="val">  └─ Docker · red aislada</div><br/>
+                <div class="ln">09</div><div class="val">       └─ Odoo instance</div><br/>
+                <div class="ln">10</div><div class="val">       └─ PostgreSQL</div><br/>
+                <div class="ln">11</div><div class="val"></div><br/>
+                <div class="ln">12</div><div class="val">Backup diario · <span class="ok">integridad OK</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hw-section">
+      <div class="container">
+        <div class="sec-rule">
+          <span class="sec-id"><b>{hardware.ref}</b>Hardware propio · {hardware.nombre}</span>
+          <span class="dev-badge">Desarrollo avanzado</span>
+        </div>
+        <div class="hw-block">
+          <div class="hw-text">
+            <h2>nioClock.</h2>
+            <p>{hardware.descripcion}</p>
+            <p style="margin-top: 16px; font-size: .9375rem; color: var(--ink-tertiary);">El objetivo de nioClock no es reemplazar terminales genéricas — es ser la terminal diseñada específicamente para empresas que ya corren sobre Odoo, con integración nativa sin middleware extra y sin dependencia de servicios en la nube de terceros que puedan discontinuarse.</p>
+          </div>
+          <div class="hw-specs">
+            {hardware.caracteristicas.map(({ k, v }) => (
+              <div class="spec-row">
+                <span class="spec-key">{k}</span>
+                <span class="spec-val">{v}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="nioberp-section">
+      <div class="container">
+        <div class="sec-rule"><span class="sec-id"><b>LT-01</b>Investigación de largo plazo</span></div>
+        <div class="lt-card">
+          <div class="lt-head">
+            <span class="ref-code">NIOBERP · Rust</span>
+            <span class="lt-estado">No comercial · I+D</span>
+          </div>
+          <h3>NioBerp</h3>
+          <p>Motor ERP escrito en Rust. Investigación activa, sin objetivo comercial en el corto plazo. El propósito es entender en profundidad los cuellos de botella de los ERP modernos — concurrencia, acceso a datos, renderizado de UI — desde el nivel del lenguaje. Lo que aprendemos alimenta las decisiones de arquitectura en los proyectos de producción.</p>
+          <p style="margin-top: 12px;">No es un producto competidor de Odoo. Es un laboratorio.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-cta">
+      <div class="container">
+        <div class="contact-card">
+          <div class="sec-rule"><span class="sec-id"><b>SIGUIENTE PASO</b>Hablemos de infraestructura</span></div>
+          <h2>¿Necesita infraestructura que no explique cada semana?</h2>
+          <p class="lede">Diagnóstico de su configuración actual sin costo. Le decimos qué está bien y qué puede fallar antes de que falle.</p>
+          <div class="cta">
+            <a href="mailto:hola@nio.gt?subject=Consulta%20Infraestructura%20NioSystems" class="btn btn-primary">hola@nio.gt</a>
+            <a href="https://wa.me/50255155215" class="btn btn-ghost">WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .page-hero {
+    border-bottom: 1px solid var(--border);
+    padding-block: clamp(48px, 7vw, 88px);
+  }
+  .page-hero h1 { margin-bottom: 16px; }
+  .hero-desc {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    max-width: 58ch;
+    margin-bottom: 28px;
+  }
+
+  /* Stack */
+  .stack-section { padding-block: clamp(48px, 6vw, 80px); }
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border: 1px solid var(--border-hard);
+    margin-top: 28px;
+  }
+  .stack-cat {
+    padding: 28px;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .stack-cat:nth-child(2n) { border-right: 0; }
+  .stack-cat:nth-last-child(-n+2) { border-bottom: 0; }
+  .cat-title {
+    font-family: var(--font-mono);
+    font-size: .75rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--amber-ink);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  .stack-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0; }
+  .stack-item {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: baseline;
+  }
+  .stack-item:last-child { border-bottom: 0; }
+  .stack-name { font-weight: 600; font-size: .9375rem; }
+  .stack-note { font-size: .8125rem; color: var(--ink-tertiary); line-height: 1.4; }
+
+  /* Hosting */
+  .hosting-section { padding-block: clamp(48px, 6vw, 80px); border-top: 1px solid var(--border); }
+  .arch-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(28px, 4vw, 56px);
+    margin-top: 28px;
+    align-items: start;
+  }
+  .arch-text h2 { margin-bottom: 16px; }
+  .arch-text p { font-size: .9375rem; line-height: 1.65; }
+
+  /* Hardware */
+  .hw-section { padding-block: clamp(48px, 6vw, 80px); border-top: 1px solid var(--border); }
+  .dev-badge {
+    font-family: var(--font-mono);
+    font-size: .625rem;
+    letter-spacing: .08em;
+    padding: 3px 8px;
+    border: 1px solid var(--amber-ink);
+    color: var(--amber-ink);
+    border-radius: 2px;
+  }
+  .hw-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(28px, 4vw, 56px);
+    margin-top: 28px;
+    align-items: start;
+  }
+  .hw-text h2 { margin-bottom: 16px; }
+  .hw-text p { font-size: .9375rem; line-height: 1.65; }
+  .hw-specs {
+    border: 1px solid var(--border-hard);
+    display: flex;
+    flex-direction: column;
+  }
+  .spec-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 16px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    align-items: baseline;
+  }
+  .spec-row:last-child { border-bottom: 0; }
+  .spec-key {
+    font-family: var(--font-mono);
+    font-size: .6875rem;
+    letter-spacing: .06em;
+    color: var(--ink-tertiary);
+    text-transform: uppercase;
+  }
+  .spec-val { font-size: .9rem; }
+
+  /* NioBerp */
+  .nioberp-section { padding-block: clamp(48px, 6vw, 80px); border-top: 1px solid var(--border); }
+  .lt-card {
+    margin-top: 28px;
+    border: 1px solid var(--border);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: var(--bg-elevated);
+  }
+  .lt-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .ref-code {
+    font-family: var(--font-mono);
+    font-size: .6875rem;
+    letter-spacing: .06em;
+    color: var(--ink-tertiary);
+  }
+  .lt-estado {
+    font-family: var(--font-mono);
+    font-size: .625rem;
+    letter-spacing: .06em;
+    color: var(--ink-tertiary);
+    padding: 2px 8px;
+    border: 1px solid var(--border-hard);
+    border-radius: 2px;
+  }
+  .lt-card h3 { font-size: 1.125rem; }
+  .lt-card p { font-size: .9375rem; line-height: 1.65; }
+
+  /* Diag panel inside arch */
+  .diag-panel {
+    border: 1px solid var(--border-hard);
+    background: var(--bg-panel);
+    font-family: var(--font-mono);
+    font-size: .76rem;
+  }
+  .diag-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--ink-tertiary);
+    letter-spacing: .06em;
+  }
+  .diag-tag { color: var(--ink-tertiary); }
+  .diag-body { padding: 14px; line-height: 2.05; color: var(--ink-secondary); }
+  .diag-body .ln { color: var(--ink-tertiary); margin-right: 10px; display: inline; }
+  .diag-body .val { color: var(--ink); display: inline; }
+  .diag-body .ok { color: var(--status-ok); }
+
+  .page-cta { padding-block: clamp(48px, 6vw, 80px); border-top: 1px solid var(--border); }
+
+  @media (max-width: 860px) {
+    .stack-grid { grid-template-columns: 1fr; }
+    .stack-cat { border-right: 0; }
+    .stack-cat:nth-last-child(-n+2) { border-bottom: 1px solid var(--border); }
+    .stack-cat:last-child { border-bottom: 0; }
+    .arch-block { grid-template-columns: 1fr; }
+    .hw-block { grid-template-columns: 1fr; }
+    .stack-item { grid-template-columns: 1fr; gap: 4px; }
+  }
+</style>

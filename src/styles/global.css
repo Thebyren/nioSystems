@@ -219,6 +219,8 @@ p  { margin: 0; color: var(--ink-secondary); }
 }
 .nav-right nav a::before { content: '/'; color: var(--ink-tertiary); margin-right: 2px; }
 .nav-right nav a:hover { color: var(--ink); }
+.nav-right nav a.is-active { color: var(--ink); }
+.nav-right nav a.is-active::before { color: var(--accent); }
 .theme-toggle {
   display: inline-flex;
   align-items: center;

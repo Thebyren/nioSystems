@@ -1,0 +1,262 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+const catalogo = [
+  {
+    cat: 'ERP · Odoo',
+    ref: 'CAT-A',
+    servicios: [
+      {
+        code: 'SVC-01',
+        t: 'Implementación Odoo',
+        d: 'Instalación certificada de Odoo Community o Enterprise, configurada para operar en Guatemala desde el día cero: plan de cuentas, regímenes fiscales, FEL/DTE con la SAT, IGSS e ISR. Acompañamos la migración de datos, la capacitación del equipo y el arranque operativo.',
+        tags: ['Community', 'Enterprise', 'FEL / DTE', 'IGSS', 'ISR'],
+        estado: 'Disponible',
+      },
+      {
+        code: 'SVC-02',
+        t: 'Migración y rescate de versión',
+        d: 'Actualizamos instancias de cualquier versión — hemos cerrado el salto más extenso posible, v10 a v19, con nómina completa. Migramos módulos a medida, preservamos el historial contable, la trazabilidad de inventario y las reglas de negocio. Si otro implementador dejó la instalación a medias, también la rescatamos.',
+        tags: ['v10 → v19', 'Nómina', 'Módulos custom', 'Datos históricos'],
+        estado: 'Disponible',
+      },
+      {
+        code: 'SVC-03',
+        t: 'Módulos y desarrollo a medida',
+        d: 'Construimos lo que Odoo no trae de fábrica: módulos de diagnóstico vehicular conectados a ventas y contabilidad, sistemas de tracking de producto visibles en el sitio web, parches de núcleo para cerrar vulnerabilidades de POS, reportes fiscales con formato específico por entidad gubernamental. OWL, QWeb, Python y SQL.',
+        tags: ['Python', 'OWL / QWeb', 'SQL', 'Reportes', 'POS'],
+        estado: 'Disponible',
+      },
+    ],
+  },
+  {
+    cat: 'Integraciones',
+    ref: 'CAT-B',
+    servicios: [
+      {
+        code: 'SVC-04',
+        t: 'Integraciones de plataformas',
+        d: 'Conectamos Odoo con el resto del ecosistema del negocio: tiendas WooCommerce (inventario, pedidos, clientes en tiempo real), migración de CRM desde HubSpot, pasarelas de pago locales como Recurrente y QpayPro. Usamos REST, XML-RPC, JSON-RPC y OAuth/JWT según lo que la plataforma exponga.',
+        tags: ['WooCommerce', 'HubSpot', 'Recurrente', 'QpayPro', 'REST'],
+        estado: 'Disponible',
+      },
+      {
+        code: 'SVC-05',
+        t: 'Conectores logísticos propios',
+        d: 'Construimos desde cero conectores para las principales empresas de paquetería en Guatemala y Centroamérica: Forza, Guatex, CargoExpreso, y Boxful (próximo a publicar). No es reventa de librerías de terceros — son conectores desarrollados y mantenidos por nosotros, con trazabilidad completa dentro de Odoo.',
+        tags: ['Forza', 'Guatex', 'CargoExpreso', 'Boxful', 'Trazabilidad'],
+        estado: 'En producción · Boxful próximo',
+      },
+      {
+        code: 'SVC-06',
+        t: 'Automatización WhatsApp Business',
+        d: 'Integración de la API oficial de WhatsApp Business con Odoo: notificaciones automáticas de pedido, confirmaciones de entrega, alertas de inventario, flujos de atención al cliente disparados desde el CRM. Sin bots genéricos — flujos configurados para el proceso específico del negocio.',
+        tags: ['WhatsApp API', 'CRM', 'Automatización', 'Notificaciones'],
+        estado: 'Disponible',
+      },
+    ],
+  },
+  {
+    cat: 'Infraestructura y diagnóstico',
+    ref: 'CAT-C',
+    servicios: [
+      {
+        code: 'SVC-07',
+        t: 'Hosting multi-tenant',
+        d: 'Instancias Odoo en infraestructura propia: Docker, PostgreSQL, Caddy como reverse proxy con TLS automático. Respaldo diario con verificación de integridad. Recuperación documentada y probada. Monitoreo continuo. Sin compartir servidor con clientes desconocidos — cada tenant en su contenedor.',
+        tags: ['Docker', 'PostgreSQL', 'Caddy', 'TLS', 'Backup validado'],
+        estado: 'Disponible · Cupo limitado',
+      },
+      {
+        code: 'SVC-08',
+        t: 'Diagnóstico y corrección de arquitectura',
+        d: 'Análisis profundo de instancias con problemas: sobrevaloración de inventario (hemos identificado y corregido diferencias de Q1,000,000+ en ~120 movimientos), configuraciones contables que consumen 50%+ de la memoria de la instancia, vulnerabilidades de flujo de caja en POS. Entregamos informe técnico con causa raíz y plan de remediación.',
+        tags: ['Valuación', 'Contabilidad', 'POS', 'Memoria', 'Rendimiento'],
+        estado: 'Disponible',
+      },
+      {
+        code: 'SVC-09',
+        t: 'Auditoría fiscal y reportes',
+        d: 'Generación y validación de reportes fiscales para Guatemala: libro mayor, desglose de ventas y compras por régimen, historiales para auditoría del SAT, formatos específicos por entidad (IGSS, contratos gubernamentales). Automatizamos lo que antes se copiaba manualmente desde Word o Excel.',
+        tags: ['SAT', 'IGSS', 'Libro mayor', 'Reportes', 'Guatemala'],
+        estado: 'Disponible',
+      },
+    ],
+  },
+  {
+    cat: 'Hardware',
+    ref: 'CAT-D',
+    servicios: [
+      {
+        code: 'HW-01',
+        t: 'nioClock — Terminal de asistencia',
+        d: 'Terminal biométrico y RFID de diseño modular, desarrollado internamente. Firmware con arquitectura de dos etapas y actualización OTA sin intervención manual. Integración nativa con el módulo de Asistencia de Odoo. Construido sobre ESP32-C3/S6. Hardware industrial, sin dependencia de servicios en la nube de terceros.',
+        tags: ['ESP32', 'RFID', 'Biométrico', 'OTA', 'Odoo Attendance'],
+        estado: 'Desarrollo avanzado',
+      },
+    ],
+  },
+];
+---
+<Base
+  title="Soluciones — NioSystems"
+  description="Catálogo completo de servicios NioSystems: Odoo ERP, migraciones, integraciones, conectores logísticos propios, infraestructura y hardware propio en Guatemala."
+>
+  <Nav />
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <div class="sec-rule"><span class="sec-id"><b>DOC. NIO-SVC</b>Catálogo de soluciones</span></div>
+        <h1>Soluciones.</h1>
+        <p class="hero-desc">Nueve líneas de servicio, construidas desde la operación real de empresas guatemaltecas. Cada código es una capacidad entregada, no una promesa de preventa.</p>
+        <ul class="status-strip">
+          <li class="status-chip"><span class="status-dot"></span>SVC-01 — SVC-09 · Disponibles</li>
+          <li class="status-chip"><span class="status-dot is-accent"></span>HW-01 · nioClock en desarrollo</li>
+          <li class="status-chip"><span class="status-dot"></span>Conectores logísticos · En producción</li>
+        </ul>
+      </div>
+    </section>
+
+    {catalogo.map(({ cat, ref, servicios }) => (
+      <section class="cat-section">
+        <div class="container">
+          <div class="sec-rule">
+            <span class="sec-id"><b>{ref}</b>{cat}</span>
+          </div>
+          <div class="svc-grid">
+            {servicios.map(({ code, t, d, tags, estado }) => (
+              <article class="svc-card">
+                <header class="svc-head">
+                  <span class="ref-code">{code}</span>
+                  <span class:list={['estado-pill', { 'is-dev': estado.includes('Desarrollo') || estado.includes('próximo') }]}>
+                    {estado}
+                  </span>
+                </header>
+                <h3>{t}</h3>
+                <p>{d}</p>
+                <ul class="tag-row" aria-label="Tecnologías">
+                  {tags.map(tag => <li>{tag}</li>)}
+                </ul>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))}
+
+    <section class="page-cta">
+      <div class="container">
+        <div class="contact-card">
+          <div class="sec-rule"><span class="sec-id"><b>SIGUIENTE PASO</b>Diagnóstico sin costo</span></div>
+          <h2>¿Cuál de estas aplica a su caso?</h2>
+          <p class="lede">Si no está seguro, cuéntenos el problema. Le decimos qué código aplica — y si ninguno aplica, también se lo decimos.</p>
+          <div class="cta">
+            <a href="mailto:hola@nio.gt?subject=Consulta%20Soluciones%20NioSystems" class="btn btn-primary">hola@nio.gt</a>
+            <a href="https://wa.me/50255155215" class="btn btn-ghost">WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .page-hero {
+    border-bottom: 1px solid var(--border);
+    padding-block: clamp(48px, 7vw, 88px);
+  }
+  .page-hero h1 { margin-bottom: 16px; }
+  .hero-desc {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    max-width: 58ch;
+    margin-bottom: 28px;
+  }
+
+  .cat-section { padding-block: clamp(48px, 6vw, 80px); }
+  .cat-section + .cat-section { border-top: 1px solid var(--border); }
+
+  .svc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+    gap: 0;
+    border: 1px solid var(--border-hard);
+    margin-top: 28px;
+  }
+
+  .svc-card {
+    padding: 28px;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: background var(--transition);
+  }
+  .svc-card:hover { background: var(--accent-subtle); }
+  .svc-card:last-child { border-right: 0; border-bottom: 0; }
+  .svc-card:nth-child(3n) { border-right: 0; }
+
+  .svc-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .ref-code {
+    font-family: var(--font-mono);
+    font-size: .6875rem;
+    letter-spacing: .06em;
+    color: var(--ink-tertiary);
+  }
+  .estado-pill {
+    font-family: var(--font-mono);
+    font-size: .625rem;
+    letter-spacing: .06em;
+    padding: 3px 8px;
+    border: 1px solid var(--status-ok);
+    color: var(--status-ok);
+    border-radius: 2px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .estado-pill.is-dev {
+    border-color: var(--amber-ink);
+    color: var(--amber-ink);
+  }
+  .svc-card h3 { font-size: 1.0625rem; }
+  .svc-card p { font-size: .9375rem; flex: 1; }
+
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .tag-row li {
+    font-family: var(--font-mono);
+    font-size: .625rem;
+    letter-spacing: .06em;
+    color: var(--ink-tertiary);
+    padding: 2px 7px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+  }
+
+  .page-cta { padding-block: clamp(48px, 6vw, 80px); border-top: 1px solid var(--border); }
+
+  @media (max-width: 720px) {
+    .svc-card { border-right: 0; }
+    .svc-card:nth-child(3n) { border-right: 0; }
+    .svc-card:last-child { border-bottom: 0; }
+    .svc-card:not(:last-child) { border-bottom: 1px solid var(--border); }
+  }
+</style>

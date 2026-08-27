@@ -1,0 +1,274 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+const casos = [
+  {
+    id: 'CASO-01',
+    sector: 'Distribución mayorista',
+    titulo: 'Sistema de precios por zona y recompensas de volumen para red de ruteros',
+    contexto: 'Distribuidora con tres centros de distribución y red de vendedores en campo. Cada zona opera con listas de precio distintas y el equipo de ruteros registra pedidos desde dispositivos móviles con conectividad intermitente.',
+    problema: 'Los precios de lista no reflejaban la zona del cliente ni el volumen acumulado del período. Los cálculos se hacían manualmente en hojas de cálculo externas y luego se introducían en Odoo, generando descuadres frecuentes entre lo facturado y lo cobrado en ruta.',
+    intervencion: 'Desarrollo de lógica de precios multi-zona dentro del motor de listas de precio de Odoo, integrando reglas de volumen acumulado por período. Adaptación de la app móvil de ventas para operar offline con sincronización al conectarse. Múltiples unidades de medida por SKU según destino.',
+    resultado: 'Eliminación del proceso manual intermedio. Los ruteros cotizan y confirman precios correctos desde el campo. Cero descuadres en cierre de período desde la implementación.',
+    tags: ['Distribución', 'Multi-zona', 'Móvil', 'Múltiples UoM'],
+  },
+  {
+    id: 'CASO-02',
+    sector: 'Importación / Comercio exterior',
+    titulo: 'Diagnóstico y corrección de sobrevaloración de inventario de Q1,000,000',
+    contexto: 'Importadora de equipo industrial con alto flujo de contenedores. Usaban valoración de inventario en costo promedio estándar de Odoo, más documentos aduaneros procesados manualmente después del ingreso al sistema.',
+    problema: 'Auditoría contable detectó una diferencia de aproximadamente Q1,000,000 entre el valor contable del inventario y el valor real. La diferencia se había acumulado durante meses sin que el sistema emitiera ninguna alerta.',
+    intervencion: 'Análisis de ~120 movimientos de inventario afectados, identificando una condición en la capa de valoración contable de Odoo que subestimaba el costo de aterrizaje al procesar ajustes posteriores al ingreso. Desarrollo de módulo de prorrateo con referencia al documento aduanero, que distribuye el costo real al momento del ingreso en lugar de como ajuste posterior.',
+    resultado: 'Diferencia contable corregida. El módulo de prorrateo elimina la carga manual de ajuste y previene la acumulación de la discrepancia en ciclos futuros.',
+    tags: ['Inventario', 'Valoración', 'Importaciones', 'Contabilidad'],
+  },
+  {
+    id: 'CASO-03',
+    sector: 'Restauración / Food service',
+    titulo: 'Diagnóstico de configuración contable que consumía 53% de memoria de instancia',
+    contexto: 'Cadena de 5 puntos de venta con POS de alto flujo. Los reportes de cierre diario comenzaron a tardar varios minutos y en ocasiones colapsaban la instancia completa.',
+    problema: 'El equipo asumía que el problema era hardware. Habían migrado a un servidor con más RAM dos veces sin mejora sostenida. Los cierres de POS en hora pico dejaban la instancia inoperable por varios minutos.',
+    intervencion: 'Análisis de consultas SQL activas durante un cierre de POS. Se identificó que una entrada de diario generada por una configuración contable por defecto de Odoo (activada sin intención durante la configuración inicial) producía una consulta de agregación que escaneaba la tabla entera de movimientos contables en cada cierre. La tabla tenía millones de filas acumuladas.',
+    resultado: 'Corrección de la configuración contable y limpieza de las entradas generadas incorrectamente. Uso de memoria normalizado en el siguiente cierre. Sin cambio de hardware.',
+    tags: ['POS', 'Rendimiento', 'Contabilidad', 'Restaurantes'],
+  },
+  {
+    id: 'CASO-04',
+    sector: 'Hotelería / Restauración',
+    titulo: 'Cierre de vulnerabilidad de POS: eliminación de órdenes ya cobradas',
+    contexto: 'Hotel con restaurante de alto volumen. El sistema de POS de Odoo permite, en condiciones normales, cancelar o eliminar órdenes antes de que sean pagadas. Sin embargo, se detectó una vía para explotar esta funcionalidad después del pago.',
+    problema: 'Empleados explotaban una condición de carrera en el flujo de pago del POS: registraban el pago en el sistema externo (TPV físico) pero cancelaban la orden en Odoo antes de que el estado se sincronizara, quedando el dinero físico sin registro digital.',
+    intervencion: 'Análisis del flujo de estados del POS en el código fuente de Odoo. Identificación de la ventana de tiempo en la que la transición de estado era vulnerable. Desarrollo de parche sobre el núcleo del módulo de POS que bloquea la cancelación cuando el estado de pago ha sido iniciado, independientemente de la sincronización.',
+    resultado: 'Vulnerabilidad cerrada. El parche opera de forma transparente para los cajeros en uso normal y bloquea específicamente la condición de explotación.',
+    tags: ['POS', 'Seguridad', 'Núcleo Odoo', 'Hotelería'],
+  },
+  {
+    id: 'CASO-05',
+    sector: 'Salud / Sector público',
+    titulo: 'Automatización de formatos de facturación para contratos IGSS',
+    contexto: 'Intermediaria de equipo médico con contratos activos con el Instituto Guatemalteco de Seguridad Social y otras entidades de gobierno. Cada entidad exige un formato de factura con campos, distribución y numeración específicos.',
+    problema: 'El equipo administrativo reconstruía manualmente el formato de cada factura copiando datos desde Word hacia Odoo, ajustando el documento según la entidad destinataria. El proceso consumía horas por lote de facturas y era propenso a errores que podían trabar el proceso de pago gubernamental.',
+    intervencion: 'Mapeo de todos los formatos requeridos por entidad. Desarrollo de módulo que detecta la entidad pagadora desde el pedido de venta y selecciona automáticamente la plantilla QWeb correspondiente al generar la factura. Los campos requeridos se llenan desde el contrato registrado en Odoo.',
+    resultado: 'Generación automatizada de facturas con formato correcto por entidad. El proceso que tomaba horas ahora es un botón.',
+    tags: ['IGSS', 'Sector público', 'QWeb', 'Automatización'],
+  },
+  {
+    id: 'CASO-06',
+    sector: 'Manufactura',
+    titulo: 'Módulo de diagnóstico vehicular integrado a ventas y contabilidad',
+    contexto: 'Empresa de manufactura del sector motos con red de servicios técnicos. Los técnicos registraban diagnósticos en papel; el traspaso a presupuesto y luego a factura era manual y tardaba entre días y semanas según la carga.',
+    problema: 'No existía trazabilidad digital del diagnóstico al presupuesto, ni del presupuesto a la orden de trabajo, ni de la orden al repuesto consumido en inventario. Cada paso requería entrada manual duplicada.',
+    intervencion: 'Diseño y desarrollo de módulo completo de diagnóstico vehicular: registro de síntomas, asignación de técnico, generación automática de presupuesto en Odoo, aprobación por el cliente, conversión a orden de trabajo con descuento automático de inventario y facturación al cierre. Conectado a contabilidad en tiempo real.',
+    resultado: 'Ciclo completo diagnóstico → factura trazable y sin entrada duplicada. Los gerentes visualizan el estado de cada unidad en servicio desde el tablero de Odoo.',
+    tags: ['Manufactura', 'Módulo custom', 'Órdenes de trabajo', 'Inventario'],
+  },
+  {
+    id: 'CASO-07',
+    sector: 'Construcción / Infraestructura vial',
+    titulo: 'Migración v10 → v19 con nómina completa',
+    contexto: 'Empresa del sector construcción y asfaltos con instancia Odoo v10 en producción durante varios años. El sistema acumulaba datos de nómina, contabilidad, compras e inventario que no podían perderse ni quedar desconectados.',
+    problema: 'Versión v10 fuera de soporte, sin posibilidad de instalar conectores modernos ni cumplir con actualizaciones de FEL. El salto de v10 a v19 implica cruzar seis versiones mayores, cada una con cambios de esquema de base de datos, modelos depreciados y APIs modificadas.',
+    intervencion: 'Migración en etapas con entorno de staging paralelo: migración de datos por módulo (contabilidad → inventario → nómina → ventas/compras), ejecución y validación de scripts de transformación de esquema para cada salto de versión, pruebas de integridad de datos antes de cada paso. Módulos a medida reescritos para v19.',
+    resultado: 'Instancia v19 en producción con historial íntegro. Nómina operativa desde el primer período en el sistema nuevo. Módulos propios funcionando.',
+    tags: ['Migración', 'v10 → v19', 'Nómina', 'Construcción'],
+  },
+  {
+    id: 'CASO-08',
+    sector: 'Consultoría contable',
+    titulo: 'Configuración de estructura multiempresa para cartera de clientes',
+    contexto: 'Consultora contable que administra la contabilidad de múltiples empresas cliente desde una sola instancia Odoo usando el modo multicompañía.',
+    problema: 'La configuración inicial de la estructura multiempresa generaba cruces de asientos entre compañías en operaciones intercompañía, y los reportes consolidados mezclaban monedas sin conversión correcta.',
+    intervencion: 'Revisión y reconfiguración de la jerarquía de compañías, cuentas intercompañía y reglas de reconciliación automática. Configuración del módulo de multi-moneda con tasas actualizables. Plantillas de reporte separadas por compañía y consolidado.',
+    resultado: 'Aislamiento correcto entre compañías. Reportes consolidados con conversión de moneda validada. La consultora opera la cartera completa sin riesgo de contaminación entre clientes.',
+    tags: ['Multiempresa', 'Contabilidad', 'Multi-moneda', 'Consultoría'],
+  },
+];
+---
+<Base
+  title="Casos de campo — NioSystems"
+  description="Casos reales de implementación Odoo en Guatemala: diagnóstico de inventario, migración v10-v19, vulnerabilidades POS, automatización IGSS. Empresas reales, resultados medibles."
+>
+  <Nav />
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <div class="sec-rule"><span class="sec-id"><b>DOC. NIO-CASOS</b>Casos de campo</span></div>
+        <h1>Operaciones reales,<br/>resultados documentados.</h1>
+        <p class="hero-desc">Ocho intervenciones representativas en empresas guatemaltecas. Los nombres son confidenciales; los problemas, las causas y los resultados son exactos.</p>
+        <ul class="status-strip">
+          <li class="status-chip"><span class="status-dot"></span>8 casos documentados</li>
+          <li class="status-chip"><span class="status-dot"></span>Distribución · Manufactura · Restaurantes · Salud · Construcción</li>
+          <li class="status-chip"><span class="status-dot"></span>Guatemala · v10 → v19</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="casos-section">
+      <div class="container">
+        <div class="casos-list">
+          {casos.map(({ id, sector, titulo, contexto, problema, intervencion, resultado, tags }) => (
+            <article class="caso-card">
+              <div class="caso-meta">
+                <span class="ref-code">{id}</span>
+                <span class="sector-label">{sector}</span>
+              </div>
+              <h2 class="caso-titulo">{titulo}</h2>
+              <div class="caso-body">
+                <div class="caso-col">
+                  <div class="caso-bloque">
+                    <span class="bloque-label">Contexto</span>
+                    <p>{contexto}</p>
+                  </div>
+                  <div class="caso-bloque is-problema">
+                    <span class="bloque-label">Problema identificado</span>
+                    <p>{problema}</p>
+                  </div>
+                </div>
+                <div class="caso-col">
+                  <div class="caso-bloque is-intervencion">
+                    <span class="bloque-label">Intervención</span>
+                    <p>{intervencion}</p>
+                  </div>
+                  <div class="caso-bloque is-resultado">
+                    <span class="bloque-label">Resultado</span>
+                    <p>{resultado}</p>
+                  </div>
+                </div>
+              </div>
+              <ul class="tag-row" aria-label="Área">
+                {tags.map(tag => <li>{tag}</li>)}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="page-cta">
+      <div class="container">
+        <div class="contact-card">
+          <div class="sec-rule"><span class="sec-id"><b>SIGUIENTE PASO</b>Su caso</span></div>
+          <h2>¿Su operación tiene un problema parecido?</h2>
+          <p class="lede">El diagnóstico inicial es sin costo. Cuéntenos qué está pasando y le decimos si aplica — y cómo.</p>
+          <div class="cta">
+            <a href="mailto:hola@nio.gt?subject=Diagnóstico%20NioSystems" class="btn btn-primary">hola@nio.gt</a>
+            <a href="https://wa.me/50255155215" class="btn btn-ghost">WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .page-hero {
+    border-bottom: 1px solid var(--border);
+    padding-block: clamp(48px, 7vw, 88px);
+  }
+  .page-hero h1 { margin-bottom: 16px; }
+  .hero-desc {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    max-width: 58ch;
+    margin-bottom: 28px;
+  }
+
+  .casos-section { padding-block: clamp(48px, 6vw, 80px); }
+
+  .casos-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--border-hard);
+  }
+
+  .caso-card {
+    padding: clamp(24px, 3vw, 40px);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: background var(--transition);
+  }
+  .caso-card + .caso-card { border-top: 1px solid var(--border); }
+  .caso-card:hover { background: var(--accent-subtle); }
+
+  .caso-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .ref-code {
+    font-family: var(--font-mono);
+    font-size: .6875rem;
+    letter-spacing: .06em;
+    color: var(--ink-tertiary);
+  }
+  .sector-label {
+    font-family: var(--font-mono);
+    font-size: .6875rem;
+    letter-spacing: .06em;
+    color: var(--amber-ink);
+    padding: 2px 8px;
+    border: 1px solid var(--amber-ink);
+    border-radius: 2px;
+  }
+
+  .caso-titulo {
+    font-size: clamp(1.0625rem, 2.2vw, 1.3125rem);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    max-width: 72ch;
+  }
+
+  .caso-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .caso-col { display: flex; flex-direction: column; gap: 16px; }
+
+  .caso-bloque { display: flex; flex-direction: column; gap: 6px; }
+
+  .bloque-label {
+    font-family: var(--font-mono);
+    font-size: .625rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-tertiary);
+  }
+  .caso-bloque.is-problema .bloque-label { color: var(--amber-ink); }
+  .caso-bloque.is-resultado .bloque-label { color: var(--status-ok); }
+  .caso-bloque.is-intervencion .bloque-label { color: var(--accent); }
+
+  .caso-bloque p { font-size: .9375rem; line-height: 1.6; }
+
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    list-style: none;
+    padding: 12px 0 0;
+    margin: 0;
+    border-top: 1px solid var(--border);
+  }
+  .tag-row li {
+    font-family: var(--font-mono);
+    font-size: .625rem;
+    letter-spacing: .06em;
+    color: var(--ink-tertiary);
+    padding: 2px 7px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+  }
+
+  .page-cta { padding-block: clamp(48px, 6vw, 80px); border-top: 1px solid var(--border); }
+
+  @media (max-width: 760px) {
+    .caso-body { grid-template-columns: 1fr; }
+  }
+</style>
