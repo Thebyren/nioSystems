@@ -360,5 +360,11 @@ const hardware = {
     .arch-block { grid-template-columns: 1fr; }
     .hw-block { grid-template-columns: 1fr; }
     .stack-item { grid-template-columns: 1fr; gap: 4px; }
+    .page-hero h1 { font-size: clamp(1.6rem, 6vw, 2.2rem); }
+    .spec-row { grid-template-columns: 130px 1fr; gap: 10px; }
+    .lt-card { padding: 20px 16px; }
+  }
+  @media (max-width: 480px) {
+    .spec-row { grid-template-columns: 1fr; gap: 4px; }
   }
 </style>

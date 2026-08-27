@@ -7,42 +7,52 @@ const casos = [
   {
     id: 'CASO-01',
     sector: 'Distribución mayorista',
-    titulo: 'Sistema de precios por zona y recompensas de volumen para red de ruteros',
-    contexto: 'Distribuidora con tres centros de distribución y red de vendedores en campo. Cada zona opera con listas de precio distintas y el equipo de ruteros registra pedidos desde dispositivos móviles con conectividad intermitente.',
-    problema: 'Los precios de lista no reflejaban la zona del cliente ni el volumen acumulado del período. Los cálculos se hacían manualmente en hojas de cálculo externas y luego se introducían en Odoo, generando descuadres frecuentes entre lo facturado y lo cobrado en ruta.',
-    intervencion: 'Desarrollo de lógica de precios multi-zona dentro del motor de listas de precio de Odoo, integrando reglas de volumen acumulado por período. Adaptación de la app móvil de ventas para operar offline con sincronización al conectarse. Múltiples unidades de medida por SKU según destino.',
-    resultado: 'Eliminación del proceso manual intermedio. Los ruteros cotizan y confirman precios correctos desde el campo. Cero descuadres en cierre de período desde la implementación.',
-    tags: ['Distribución', 'Multi-zona', 'Móvil', 'Múltiples UoM'],
+    titulo: 'Precios por zona, recompensas de volumen y fuerza de ventas en campo',
+    contexto: 'Distribuidora con tres centros de distribución y red de ruteros cubriendo el sur del país. Cada zona opera con rentabilidad y políticas de fidelidad distintas. El equipo en campo registra pedidos desde dispositivos móviles con conectividad intermitente.',
+    problema: 'Los precios de lista no reflejaban ni la zona del cliente ni el volumen acumulado del período. Los cálculos correctos se hacían en hojas de cálculo externas y luego se introducían manualmente en Odoo, generando descuadres frecuentes entre lo facturado y lo cobrado en ruta.',
+    intervencion: 'Lógica de precios multi-zona dentro del motor de listas de precio de Odoo, con reglas de volumen acumulado por período comercial. Adaptación de las vistas de la app móvil de ventas para operar sin conexión con sincronización diferida. Múltiples unidades de medida por SKU según destino de distribución.',
+    resultado: 'Eliminación del proceso de cálculo manual externo. Los ruteros cotizan y confirman precios correctos desde el campo. Cero descuadres en cierre de período desde la implementación.',
+    tags: ['Distribución', 'Multi-zona', 'App móvil', 'Múltiples UoM', 'Offline-first'],
   },
   {
     id: 'CASO-02',
     sector: 'Importación / Comercio exterior',
     titulo: 'Diagnóstico y corrección de sobrevaloración de inventario de Q1,000,000',
-    contexto: 'Importadora de equipo industrial con alto flujo de contenedores. Usaban valoración de inventario en costo promedio estándar de Odoo, más documentos aduaneros procesados manualmente después del ingreso al sistema.',
-    problema: 'Auditoría contable detectó una diferencia de aproximadamente Q1,000,000 entre el valor contable del inventario y el valor real. La diferencia se había acumulado durante meses sin que el sistema emitiera ninguna alerta.',
-    intervencion: 'Análisis de ~120 movimientos de inventario afectados, identificando una condición en la capa de valoración contable de Odoo que subestimaba el costo de aterrizaje al procesar ajustes posteriores al ingreso. Desarrollo de módulo de prorrateo con referencia al documento aduanero, que distribuye el costo real al momento del ingreso en lugar de como ajuste posterior.',
-    resultado: 'Diferencia contable corregida. El módulo de prorrateo elimina la carga manual de ajuste y previene la acumulación de la discrepancia en ciclos futuros.',
-    tags: ['Inventario', 'Valoración', 'Importaciones', 'Contabilidad'],
+    contexto: 'Importadora de equipo industrial con alto flujo de contenedores. Valoración de inventario en costo promedio estándar de Odoo, con documentos aduaneros procesados manualmente como ajuste posterior al ingreso.',
+    problema: 'Auditoría contable detectó una diferencia de ~Q1,000,000 entre el valor contable del inventario y el valor real, acumulada en ~120 movimientos durante meses sin alerta del sistema. La causa raíz no era evidente: una modificación previa de otro desarrollador alteró el recálculo de un campo contable, haciendo que el precio del primer producto afectado se arrastrara a través de toda la cadena de valoración posterior.',
+    intervencion: 'Trazado de la cadena de valoración movimiento a movimiento hasta identificar el campo y la línea de código fuente responsable. Corrección del comportamiento. Desarrollo de módulo de prorrateo con referencia al DUCA (documento aduanero), que distribuye el costo de aterrizaje real en el momento del ingreso — no como ajuste retroactivo.',
+    resultado: 'Diferencia contable corregida. El módulo de prorrateo elimina la carga manual y previene la acumulación de la discrepancia en ciclos futuros.',
+    tags: ['Inventario', 'Valoración', 'DUCA', 'Importaciones', 'Código fuente Odoo'],
   },
   {
     id: 'CASO-03',
     sector: 'Restauración / Food service',
-    titulo: 'Diagnóstico de configuración contable que consumía 53% de memoria de instancia',
-    contexto: 'Cadena de 5 puntos de venta con POS de alto flujo. Los reportes de cierre diario comenzaron a tardar varios minutos y en ocasiones colapsaban la instancia completa.',
-    problema: 'El equipo asumía que el problema era hardware. Habían migrado a un servidor con más RAM dos veces sin mejora sostenida. Los cierres de POS en hora pico dejaban la instancia inoperable por varios minutos.',
-    intervencion: 'Análisis de consultas SQL activas durante un cierre de POS. Se identificó que una entrada de diario generada por una configuración contable por defecto de Odoo (activada sin intención durante la configuración inicial) producía una consulta de agregación que escaneaba la tabla entera de movimientos contables en cada cierre. La tabla tenía millones de filas acumuladas.',
-    resultado: 'Corrección de la configuración contable y limpieza de las entradas generadas incorrectamente. Uso de memoria normalizado en el siguiente cierre. Sin cambio de hardware.',
-    tags: ['POS', 'Rendimiento', 'Contabilidad', 'Restaurantes'],
+    titulo: 'Configuración de contabilidad anglosajona consumía 53% de la memoria de instancia',
+    contexto: 'Cadena de 5 puntos de venta con POS de alto flujo. Los reportes de cierre diario comenzaron a tardar varios minutos y colapsaban la instancia en horas pico. El equipo había migrado dos veces a servidores con más RAM sin mejora sostenida.',
+    problema: 'La instancia tenía activada la configuración de contabilidad anglosajona — una opción por defecto de Odoo que en instalaciones de bajo volumen es inocua, pero en operaciones de alto flujo genera millones de líneas en el diario de valoración de inventario. Una consulta de agregación sobre esa tabla en cada cierre de POS consumía 53% de la memoria total de la instancia.',
+    intervencion: 'Análisis de consultas SQL activas durante un cierre de POS para identificar la consulta responsable. Trazado hasta la configuración contable. Desactivación de la opción anglosajona y limpieza de las entradas de diario generadas incorrectamente.',
+    resultado: 'Uso de memoria normalizado en el siguiente cierre. Sin cambio de hardware. El problema de rendimiento que había "requerido" dos actualizaciones de servidor era configuración — no capacidad.',
+    tags: ['POS', 'Rendimiento', 'Contabilidad', 'SQL', 'Restaurantes'],
   },
   {
     id: 'CASO-04',
-    sector: 'Hotelería / Restauración',
-    titulo: 'Cierre de vulnerabilidad de POS: eliminación de órdenes ya cobradas',
-    contexto: 'Hotel con restaurante de alto volumen. El sistema de POS de Odoo permite, en condiciones normales, cancelar o eliminar órdenes antes de que sean pagadas. Sin embargo, se detectó una vía para explotar esta funcionalidad después del pago.',
-    problema: 'Empleados explotaban una condición de carrera en el flujo de pago del POS: registraban el pago en el sistema externo (TPV físico) pero cancelaban la orden en Odoo antes de que el estado se sincronizara, quedando el dinero físico sin registro digital.',
-    intervencion: 'Análisis del flujo de estados del POS en el código fuente de Odoo. Identificación de la ventana de tiempo en la que la transición de estado era vulnerable. Desarrollo de parche sobre el núcleo del módulo de POS que bloquea la cancelación cuando el estado de pago ha sido iniciado, independientemente de la sincronización.',
-    resultado: 'Vulnerabilidad cerrada. El parche opera de forma transparente para los cajeros en uso normal y bloquea específicamente la condición de explotación.',
-    tags: ['POS', 'Seguridad', 'Núcleo Odoo', 'Hotelería'],
+    sector: 'Hotelería / Restauración · Instancia propia',
+    titulo: 'Condición de carrera en POS: empleados eliminaban órdenes ya cobradas',
+    contexto: 'Hotel con restaurante de alto volumen. El POS de Odoo incluye protección estándar contra cancelación de órdenes cobradas, pero la mitigación estándar tiene una ventana de vulnerabilidad específica.',
+    problema: 'Empleados enviaban la orden a comanda y la eliminaban durante ese envío — exactamente en la ventana en que el estado de pago había sido iniciado pero aún no confirmado. La mitigación estándar de Odoo no cubre esa transición. El dinero cobrado físicamente no quedaba registrado en el sistema.',
+    intervencion: 'Análisis del flujo de estados del módulo de POS en el código fuente. Identificación de la ventana exacta de la condición de carrera. Parche sobre el núcleo de POS que bloquea la eliminación cuando el estado de pago ha sido iniciado, independientemente del progreso de la sincronización.',
+    resultado: 'Vulnerabilidad cerrada. El parche es transparente en uso normal y bloquea específicamente la condición de explotación.',
+    tags: ['POS', 'Seguridad', 'Condición de carrera', 'Núcleo Odoo', 'Hotelería'],
+  },
+  {
+    id: 'CASO-05',
+    sector: 'Restauración · Instancia SaaS oficial',
+    titulo: 'El mismo fraude de POS, sin acceso a código: solución por configuración y trazabilidad',
+    contexto: 'Dos restaurantes operando en la instancia SaaS oficial de odoo.com. Se identificó el mismo patrón de fraude interno que en CASO-04 — empleados manipulando órdenes para retener efectivo — pero sin posibilidad de modificar código.',
+    problema: 'En SaaS oficial no hay acceso al código fuente ni a la base de datos. Las mismas restricciones que hacen el entorno más seguro para el operador también impiden aplicar el parche a nivel de código. La vulnerabilidad en esa versión no estaba resuelta por Odoo.',
+    intervencion: 'Diseño de un esquema de permisos restringidos para cajeros que elimina el acceso a funciones críticas innecesarias. Implementación de un sistema de trazabilidad de estado de caja que registra la actividad del empleado durante el turno, generando una auditoría visible para el administrador sin intervención manual.',
+    resultado: 'Vector de fraude cerrado mediante configuración y visibilidad operativa. La solución es replicable en cualquier instancia SaaS sin tocar código.',
+    tags: ['POS', 'SaaS', 'Seguridad', 'Permisos', 'Trazabilidad'],
   },
   {
     id: 'CASO-05',
@@ -77,18 +87,38 @@ const casos = [
   {
     id: 'CASO-08',
     sector: 'Consultoría contable',
-    titulo: 'Configuración de estructura multiempresa para cartera de clientes',
-    contexto: 'Consultora contable que administra la contabilidad de múltiples empresas cliente desde una sola instancia Odoo usando el modo multicompañía.',
-    problema: 'La configuración inicial de la estructura multiempresa generaba cruces de asientos entre compañías en operaciones intercompañía, y los reportes consolidados mezclaban monedas sin conversión correcta.',
-    intervencion: 'Revisión y reconfiguración de la jerarquía de compañías, cuentas intercompañía y reglas de reconciliación automática. Configuración del módulo de multi-moneda con tasas actualizables. Plantillas de reporte separadas por compañía y consolidado.',
-    resultado: 'Aislamiento correcto entre compañías. Reportes consolidados con conversión de moneda validada. La consultora opera la cartera completa sin riesgo de contaminación entre clientes.',
+    titulo: 'Estructura multiempresa para cartera de clientes con multi-moneda',
+    contexto: 'Consultora contable que administra la contabilidad de múltiples empresas cliente desde una sola instancia Odoo en modo multicompañía, con clientes operando en distintas monedas.',
+    problema: 'La configuración inicial generaba cruces de asientos entre compañías en operaciones intercompañía. Los reportes consolidados mezclaban monedas sin conversión correcta. El equipo contable de la consultora dedicaba tiempo significativo a correcciones manuales al final de cada período.',
+    intervencion: 'Reconfiguración de la jerarquía de compañías, cuentas intercompañía y reglas de reconciliación automática. Configuración del módulo de multi-moneda con tasas actualizables. Plantillas de reporte separadas por compañía y consolidado. Soporte especializado en tipos y códigos contables por los términos contractuales estrictos del negocio.',
+    resultado: 'Aislamiento correcto entre compañías. Reportes consolidados con conversión de moneda validada. Cero correcciones manuales en el siguiente cierre de período.',
     tags: ['Multiempresa', 'Contabilidad', 'Multi-moneda', 'Consultoría'],
+  },
+  {
+    id: 'CASO-09',
+    sector: 'E-commerce / Equipamiento industrial',
+    titulo: 'Módulo de tracking de pedido visible al cliente en tiempo real desde la web',
+    contexto: 'Empresa de equipamiento de laboratorio con presencia en LATAM y procesos de importación/envío complejos. Los pedidos pasan por etapas con información técnica relevante: aduana, despacho, envío, entrega — con tiempos y detalles que el cliente necesita conocer sin tener que consultar.',
+    problema: 'Los clientes no tenían visibilidad del estado real de su pedido entre la confirmación y la entrega. El equipo comercial respondía manualmente decenas de preguntas de seguimiento por semana. La información existía en Odoo pero era inaccesible desde el exterior.',
+    intervencion: 'Desarrollo de módulo de tracking personalizado en Odoo: etapas de seguimiento con campos técnicos de estado (número de despacho, courier, aduana, fecha estimada de entrega). Integración con el sitio web mediante código de seguimiento único visible al cliente, que actualiza el estado en tiempo real desde Odoo sin intervención manual.',
+    resultado: 'Los clientes consultan el estado de su pedido sin contactar al equipo comercial. El número de preguntas de seguimiento bajó de forma medible en las primeras semanas.',
+    tags: ['E-commerce', 'Tracking', 'LATAM', 'Sitio web', 'Importaciones'],
+  },
+  {
+    id: 'CASO-10',
+    sector: 'Soporte regional · Centroamérica',
+    titulo: 'Soporte continuo a instancia multi-sucursal con presencia en 4 países',
+    contexto: 'Empresa con sucursales activas en cuatro países de Centroamérica operando sobre una instancia Odoo compartida. Las sucursales operan con distintas configuraciones fiscales, distintos catálogos parciales y necesidades de soporte simultáneas en zonas horarias distintas.',
+    problema: 'El soporte técnico y funcional a una instancia regional requiere entender las variaciones de configuración por país, gestionar cambios que no pueden afectar operaciones activas en otras sucursales, y mantener disponibilidad sin intervenciones en horario de cierre de alguna de las unidades.',
+    intervencion: 'Soporte funcional y técnico continuo durante dos años a los módulos Odoo de las sucursales regionales: resolución de incidencias, ajustes de configuración por unidad, coordinación de cambios con impacto multi-sucursal, y documentación de las variaciones específicas por país.',
+    resultado: 'Instancia regional estable durante dos años. Soporte coordinado sin incidentes de disponibilidad inter-sucursal.',
+    tags: ['Regional', 'Centroamérica', 'Multi-sucursal', 'Soporte continuo'],
   },
 ];
 ---
 <Base
   title="Casos de campo — NioSystems"
-  description="Casos reales de implementación Odoo en Guatemala: diagnóstico de inventario, migración v10-v19, vulnerabilidades POS, automatización IGSS. Empresas reales, resultados medibles."
+  description="Casos reales de implementación Odoo en Guatemala y Centroamérica: diagnóstico de inventario, migración v10-v19, vulnerabilidades POS, automatización IGSS, soporte regional. Empresas reales, resultados medibles."
 >
   <Nav />
   <main>
@@ -96,11 +126,11 @@ const casos = [
       <div class="container">
         <div class="sec-rule"><span class="sec-id"><b>DOC. NIO-CASOS</b>Casos de campo</span></div>
         <h1>Operaciones reales,<br/>resultados documentados.</h1>
-        <p class="hero-desc">Ocho intervenciones representativas en empresas guatemaltecas. Los nombres son confidenciales; los problemas, las causas y los resultados son exactos.</p>
+        <p class="hero-desc">Diez intervenciones representativas en empresas de Guatemala y Centroamérica. Los nombres son confidenciales; los problemas, las causas raíz y los resultados son exactos.</p>
         <ul class="status-strip">
-          <li class="status-chip"><span class="status-dot"></span>8 casos documentados</li>
-          <li class="status-chip"><span class="status-dot"></span>Distribución · Manufactura · Restaurantes · Salud · Construcción</li>
-          <li class="status-chip"><span class="status-dot"></span>Guatemala · v10 → v19</li>
+          <li class="status-chip"><span class="status-dot"></span>10 casos documentados</li>
+          <li class="status-chip"><span class="status-dot"></span>Distribución · Manufactura · Restaurantes · Salud · Construcción · E-commerce</li>
+          <li class="status-chip"><span class="status-dot"></span>Guatemala · Centroamérica · LATAM · v10 → v19</li>
         </ul>
       </div>
     </section>
@@ -270,5 +300,8 @@ const casos = [
 
   @media (max-width: 760px) {
     .caso-body { grid-template-columns: 1fr; }
+    .caso-card { padding: 20px 16px; }
+    .caso-titulo { font-size: 1.0625rem; }
+    .page-hero h1 { font-size: clamp(1.6rem, 6vw, 2.2rem); }
   }
 </style>

@@ -11,8 +11,8 @@ const catalogo = [
       {
         code: 'SVC-01',
         t: 'Implementación Odoo',
-        d: 'Instalación certificada de Odoo Community o Enterprise, configurada para operar en Guatemala desde el día cero: plan de cuentas, regímenes fiscales, FEL/DTE con la SAT, IGSS e ISR. Acompañamos la migración de datos, la capacitación del equipo y el arranque operativo.',
-        tags: ['Community', 'Enterprise', 'FEL / DTE', 'IGSS', 'ISR'],
+        d: 'Instalación certificada de Odoo Community o Enterprise, configurada para operar en Guatemala desde el día cero: plan de cuentas, regímenes fiscales, FEL/DTE con la SAT (módulo l10n_gt_fel_tekra, con validación de NIT y CUI/DPI), IGSS e ISR. Acompañamos la migración de datos, la capacitación del equipo y el arranque operativo. Hemos contribuido código a la localización fiscal oficial de Odoo Enterprise para Guatemala.',
+        tags: ['Community', 'Enterprise', 'FEL / DTE', 'l10n_gt_fel_tekra', 'IGSS', 'ISR'],
         estado: 'Disponible',
       },
       {
@@ -51,9 +51,9 @@ const catalogo = [
       },
       {
         code: 'SVC-06',
-        t: 'Automatización WhatsApp Business',
-        d: 'Integración de la API oficial de WhatsApp Business con Odoo: notificaciones automáticas de pedido, confirmaciones de entrega, alertas de inventario, flujos de atención al cliente disparados desde el CRM. Sin bots genéricos — flujos configurados para el proceso específico del negocio.',
-        tags: ['WhatsApp API', 'CRM', 'Automatización', 'Notificaciones'],
+        t: 'Automatización WhatsApp + IA',
+        d: 'Integración de la API oficial de WhatsApp Business con Odoo: notificaciones automáticas de pedido, confirmaciones de entrega, alertas de inventario, flujos de atención al cliente disparados desde el CRM. Opcionalmente: asistente conversacional con IA conectado a Odoo para respuestas contextuales sobre pedidos, inventario o estado de soporte. Sin bots genéricos — flujos configurados para el proceso específico del negocio.',
+        tags: ['WhatsApp API', 'IA', 'CRM', 'Automatización', 'Notificaciones'],
         estado: 'Disponible',
       },
     ],
@@ -86,8 +86,21 @@ const catalogo = [
     ],
   },
   {
-    cat: 'Hardware',
+    cat: 'Observabilidad operativa',
     ref: 'CAT-D',
+    servicios: [
+      {
+        code: 'SVC-10',
+        t: 'Portal de clientes — Observabilidad de la relación',
+        d: 'Una consultoría no debería ser una caja negra. El portal de clientes de NioSystems es la interfaz mediante la cual el cliente entiende su relación con nosotros en tiempo real: estado del proyecto, entregables completos, tickets de soporte, horas consumidas, saldo disponible, decisiones tomadas y acciones pendientes — sin tener que preguntar. La información disponible va al portal; las acciones requeridas van con notificación. Actualmente en desarrollo como producto propio.',
+        tags: ['Proyecto', 'Soporte', 'Tickets', 'Horas', 'Decisiones', 'ADR'],
+        estado: 'En desarrollo',
+      },
+    ],
+  },
+  {
+    cat: 'Hardware',
+    ref: 'CAT-E',
     servicios: [
       {
         code: 'HW-01',
@@ -258,5 +271,8 @@ const catalogo = [
     .svc-card:nth-child(3n) { border-right: 0; }
     .svc-card:last-child { border-bottom: 0; }
     .svc-card:not(:last-child) { border-bottom: 1px solid var(--border); }
+    .svc-card { padding: 20px 16px; }
+    .svc-head { flex-direction: column; gap: 8px; align-items: flex-start; }
+    .page-hero h1 { font-size: clamp(1.6rem, 6vw, 2.2rem); }
   }
 </style>
