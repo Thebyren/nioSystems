@@ -47,6 +47,33 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://nio.gt/').t
       document.documentElement.setAttribute('data-theme', preferred);
     })();
   </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "NioSystems",
+    "image": "https://nio.gt/og-default.png",
+    "@id": "https://nio.gt",
+    "url": "https://nio.gt/",
+    "telephone": "", 
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Jutiapa",
+      "addressCountry": "GT"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 14.2915,
+      "longitude": -89.8956
+    },
+    "sameAs": [
+      "https://instagram.com",
+      "https://linkedin.com"
+    ],
+    "description": "Consultoría Odoo ERP y desarrollo a medida para Guatemala y LATAM. Especialistas en localización fiscal FEL/DTE, IGSS e ISR."
+  }
+  </script>
 </head>
 <body>
   <div class="sheet">
