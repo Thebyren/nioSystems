@@ -425,6 +425,12 @@ p  { margin: 0; color: var(--ink-secondary); }
 }
 .status-dot.is-accent { background: var(--accent); }
 .status-dot.is-accent::after { background: var(--accent); }
+.chip-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--transition);
+}
+.chip-link:hover { color: var(--accent); }
 @keyframes signal-ping {
   0% { transform: scale(1); opacity: .5; }
   70%, 100% { transform: scale(2.6); opacity: 0; }
