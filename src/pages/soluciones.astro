@@ -38,9 +38,10 @@ const catalogo = [
       {
         code: 'SVC-04',
         t: 'Integraciones de plataformas',
-        d: 'Conectamos Odoo con el resto del ecosistema del negocio: tiendas WooCommerce (inventario, pedidos, clientes en tiempo real), migración de CRM desde HubSpot, pasarelas de pago locales como Recurrente y QpayPro. Usamos REST, XML-RPC, JSON-RPC y OAuth/JWT según lo que la plataforma exponga.',
+        d: 'Conectamos Odoo con el resto del ecosistema del negocio: tiendas WooCommerce (inventario, pedidos, clientes en tiempo real), migración de CRM desde HubSpot, pasarelas de pago locales como Recurrente y QpayPro. El conector Recurrente Checkout está publicado en el Odoo App Store — hosted checkout, tarjetas guardadas y reembolsos, para Odoo 19 y 20, LGPL-3.',
         tags: ['WooCommerce', 'HubSpot', 'Recurrente', 'QpayPro', 'REST'],
         estado: 'Disponible',
+        appstore: { label: 'Recurrente Checkout · Odoo App Store ↗', href: 'https://apps.odoo.com/apps/modules/20.0/payment_recurrente_api' },
       },
       {
         code: 'SVC-05',
@@ -139,7 +140,7 @@ const catalogo = [
             <span class="sec-id"><b>{ref}</b>{cat}</span>
           </div>
           <div class="svc-grid">
-            {servicios.map(({ code, t, d, tags, estado }) => (
+            {servicios.map(({ code, t, d, tags, estado, appstore }) => (
               <article class="svc-card">
                 <header class="svc-head">
                   <span class="ref-code">{code}</span>
@@ -149,6 +150,11 @@ const catalogo = [
                 </header>
                 <h3>{t}</h3>
                 <p>{d}</p>
+                {appstore && (
+                  <a href={appstore.href} target="_blank" rel="noopener noreferrer" class="appstore-link">
+                    {appstore.label}
+                  </a>
+                )}
                 <ul class="tag-row" aria-label="Tecnologías">
                   {tags.map(tag => <li>{tag}</li>)}
                 </ul>
@@ -242,6 +248,25 @@ const catalogo = [
   }
   .svc-card h3 { font-size: 1.0625rem; }
   .svc-card p { font-size: .9375rem; flex: 1; }
+
+  .appstore-link {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: .625rem;
+    letter-spacing: .06em;
+    color: var(--accent);
+    text-decoration: none;
+    border: 1px solid var(--accent);
+    border-radius: 2px;
+    padding: 3px 8px;
+    align-self: flex-start;
+    transition: background var(--transition), color var(--transition);
+  }
+  .appstore-link:hover {
+    background: var(--accent);
+    color: var(--bg);
+  }
 
   .tag-row {
     display: flex;
