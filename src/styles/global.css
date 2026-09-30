@@ -520,6 +520,13 @@ section + section { border-top: 1px solid var(--border); }
   background: var(--bg-elevated);
 }
 .contact-card .lede { max-width: 52ch; margin: 14px 0 26px; }
+.cta-promise {
+  margin-top: 16px;
+  font-family: var(--font-mono);
+  font-size: .6875rem;
+  letter-spacing: .06em;
+  color: var(--ink-tertiary);
+}
 
 /* ═══ Cajetín: el bloque de título del plano, como footer ═══ */
 .cajetin {
