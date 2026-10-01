@@ -7,11 +7,27 @@ import Servicios from '../components/Servicios.astro';
 import EstadoNioberp from '../components/EstadoNioberp.astro';
 import Contacto from '../components/Contacto.astro';
 import Footer from '../components/Footer.astro';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  '@id': 'https://nio.gt/#org',
+  name: 'NioSystems',
+  url: 'https://nio.gt/',
+  image: 'https://nio.gt/og-default.png',
+  email: 'hola@nio.gt',
+  telephone: '+502 5515 5215',
+  address: { '@type': 'PostalAddress', addressLocality: 'Jutiapa', addressCountry: 'GT' },
+  geo: { '@type': 'GeoCoordinates', latitude: 14.2915, longitude: -89.8956 },
+  areaServed: ['GT', 'SV', 'HN', 'NI', 'CR', 'PA'],
+  description: 'Consultoría Odoo ERP y desarrollo a medida para Guatemala y LATAM. Localización fiscal FEL/DTE, IGSS e ISR.',
+};
 ---
 <Base
-  title="NioSystems | Primero diagnosticamos"
-  description="Consultoría Odoo ERP y desarrollo a medida para Guatemala y LATAM. Especialistas en FEL/DTE, IGSS, ISR. El diagnóstico primero, siempre."
+  title="Odoo Guatemala: implementación, migración y rescate | NioSystems"
+  description="Consultoría Odoo en Guatemala: implementación con FEL/DTE, migración de versiones, rescate de instancias y hosting propio. Primero diagnosticamos, sin costo."
 >
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} />
   <Nav />
   <main>
     <Hero />

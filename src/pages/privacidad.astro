@@ -1,0 +1,57 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+<Base
+  title="Aviso de privacidad | NioSystems"
+  description="Qué datos recoge nio.gt, para qué se usan y cómo contactarnos para consultarlos o eliminarlos."
+>
+  <Nav />
+  <main>
+    <section class="legal">
+      <div class="container">
+        <div class="sec-rule"><span class="sec-id"><b>DOC. NIO-LEG</b>Aviso de privacidad</span></div>
+        <h1>Aviso de privacidad.</h1>
+        <p class="meta">Última actualización: octubre de 2026</p>
+
+        <h2>Quién es el responsable</h2>
+        <p>NioSystems, con sede en Jutiapa, Guatemala. Contacto: <a href="mailto:hola@nio.gt">hola@nio.gt</a>.</p>
+
+        <h2>Qué datos recogemos</h2>
+        <p>Este sitio no tiene formularios, cuentas de usuario ni herramientas de analítica o publicidad. No recogemos datos personales por navegar.</p>
+        <p>Solo recibimos datos cuando usted nos escribe por correo o por WhatsApp: su nombre, su medio de contacto y lo que decida contarnos sobre su operación.</p>
+
+        <h2>Para qué los usamos</h2>
+        <p>Para responder su consulta y, si lo solicita, preparar un diagnóstico o una propuesta. No vendemos ni compartimos esa información con terceros para fines comerciales. Si compartimos algo con otro proveedor para atender su caso, se lo diremos antes.</p>
+
+        <h2>Servicios de terceros</h2>
+        <ul>
+          <li><b>Cloudflare</b> aloja el sitio y puede registrar datos técnicos de la visita, como la dirección IP, para seguridad y entrega del contenido.</li>
+          <li><b>Google Fonts</b> sirve la tipografía, por lo que su navegador se conecta a servidores de Google al cargar la página.</li>
+          <li><b>WhatsApp (Meta)</b> y su proveedor de correo procesan los mensajes que usted nos envía, bajo sus propias condiciones.</li>
+        </ul>
+
+        <h2>Almacenamiento en su navegador</h2>
+        <p>El sitio guarda en su navegador una sola preferencia, el tema claro u oscuro, y solo en su dispositivo. No es una cookie de seguimiento.</p>
+
+        <h2>Sus derechos</h2>
+        <p>Puede pedirnos en cualquier momento que le indiquemos qué información suya conservamos, que la corrijamos o que la eliminemos. Escriba a <a href="mailto:hola@nio.gt?subject=Privacidad">hola@nio.gt</a> y le respondemos en un plazo razonable.</p>
+
+        <h2>Cambios</h2>
+        <p>Si este aviso cambia, publicaremos la versión nueva en esta página con su fecha de actualización.</p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .legal { padding-block: clamp(48px, 7vw, 88px); }
+  .legal h1 { margin-bottom: 8px; }
+  .meta { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .06em; color: var(--ink-tertiary); margin-bottom: 32px; }
+  .legal h2 { font-size: 1.125rem; margin: 32px 0 8px; }
+  .legal p, .legal li { max-width: 68ch; font-size: .9375rem; line-height: 1.7; }
+  .legal ul { padding-left: 1.25rem; display: grid; gap: 8px; }
+  .legal a { color: var(--accent); }
+</style>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nio.gt/sitemap-index.xml
