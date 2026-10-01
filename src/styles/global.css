@@ -344,13 +344,17 @@ p  { margin: 0; color: var(--ink-secondary); }
 .nreveal .n-edge { stroke: var(--border-hard); }
 .ring-pulse {
   transform-origin: 200px 200px;
-  animation: ring-emit 4s ease-out infinite;
+  animation: ring-emit 4.8s cubic-bezier(.25,.55,.45,1) infinite;
   stroke: var(--accent);
+  vector-effect: non-scaling-stroke;
+  fill: none;
   opacity: 0;
 }
+/* r=100 escala hasta 3.3 (r=330): rebasa las esquinas (r~283) del recuadro de 400x400 */
 @keyframes ring-emit {
-  0%   { transform: scale(.3); opacity: .7; }
-  100% { transform: scale(1.35); opacity: 0; }
+  0%   { transform: scale(.04); opacity: .75; }
+  60%  { opacity: .4; }
+  100% { transform: scale(3.3); opacity: 0; }
 }
 
 /* El informe traslapa al símbolo: el diagnóstico sale de la señal */
