@@ -18,7 +18,7 @@ const catalogo = [
       {
         code: 'SVC-02',
         t: 'Migración y rescate de versión',
-        d: 'Actualizamos instancias de cualquier versión — hemos cerrado el salto más extenso posible, v10 a v19, con nómina completa. Migramos módulos a medida, preservamos el historial contable, la trazabilidad de inventario y las reglas de negocio. Si otro implementador dejó la instalación a medias, también la rescatamos.',
+        d: 'Actualizamos instancias de cualquier versión. Hemos cerrado el salto más extenso posible, de v10 a v19, con nómina completa. Migramos módulos a medida, preservamos el historial contable, la trazabilidad de inventario y las reglas de negocio. Si otro implementador dejó la instalación a medias, también la rescatamos.',
         tags: ['v10 → v19', 'Nómina', 'Módulos custom', 'Datos históricos'],
         estado: 'Disponible',
       },
@@ -38,22 +38,22 @@ const catalogo = [
       {
         code: 'SVC-04',
         t: 'Integraciones de plataformas',
-        d: 'Conectamos Odoo con el resto del ecosistema del negocio: tiendas WooCommerce (inventario, pedidos, clientes en tiempo real), migración de CRM desde HubSpot, pasarelas de pago locales como Recurrente y QpayPro. El conector Recurrente Checkout está publicado en el Odoo App Store — hosted checkout, tarjetas guardadas y reembolsos, para Odoo 19 y 20, LGPL-3.',
+        d: 'Conectamos Odoo con el resto del ecosistema del negocio: tiendas WooCommerce (inventario, pedidos, clientes en tiempo real), migración de CRM desde HubSpot, pasarelas de pago locales como Recurrente y QpayPro. Nuestro módulo de Recurrente es gratuito y está publicado en el Odoo App Store.',
         tags: ['WooCommerce', 'HubSpot', 'Recurrente', 'QpayPro', 'REST'],
         estado: 'Disponible',
-        appstore: { label: 'Recurrente Checkout · Odoo App Store ↗', href: 'https://apps.odoo.com/apps/modules/20.0/payment_recurrente_api' },
+        appstore: { label: 'Ver todas las integraciones →', href: '/integraciones' },
       },
       {
         code: 'SVC-05',
         t: 'Conectores logísticos propios',
-        d: 'Construimos desde cero conectores para las principales empresas de paquetería en Guatemala y Centroamérica: Forza, Guatex, CargoExpreso, y Boxful (próximo a publicar). No es reventa de librerías de terceros — son conectores desarrollados y mantenidos por nosotros, con trazabilidad completa dentro de Odoo.',
+        d: 'Construimos desde cero conectores para las principales empresas de paquetería en Guatemala y Centroamérica: Forza, Guatex, CargoExpreso, y Boxful (próximo a publicar). No es reventa de librerías de terceros: son conectores desarrollados y mantenidos por nosotros, con trazabilidad completa dentro de Odoo.',
         tags: ['Forza', 'Guatex', 'CargoExpreso', 'Boxful', 'Trazabilidad'],
         estado: 'En producción · Boxful próximo',
       },
       {
         code: 'SVC-06',
         t: 'Automatización WhatsApp + IA',
-        d: 'Integración de la API oficial de WhatsApp Business con Odoo: notificaciones automáticas de pedido, confirmaciones de entrega, alertas de inventario, flujos de atención al cliente disparados desde el CRM. Opcionalmente: asistente conversacional con IA conectado a Odoo para respuestas contextuales sobre pedidos, inventario o estado de soporte. Sin bots genéricos — flujos configurados para el proceso específico del negocio.',
+        d: 'Integración de la API oficial de WhatsApp Business con Odoo: notificaciones automáticas de pedido, confirmaciones de entrega, alertas de inventario, flujos de atención al cliente disparados desde el CRM. Opcionalmente: asistente conversacional con IA conectado a Odoo para respuestas contextuales sobre pedidos, inventario o estado de soporte. Sin bots genéricos: flujos configurados para el proceso específico del negocio.',
         tags: ['WhatsApp API', 'IA', 'CRM', 'Automatización', 'Notificaciones'],
         estado: 'Disponible',
       },
@@ -66,7 +66,7 @@ const catalogo = [
       {
         code: 'SVC-07',
         t: 'Hosting multi-tenant',
-        d: 'Instancias Odoo en infraestructura propia: Docker, PostgreSQL, Caddy como reverse proxy con TLS automático. Respaldo diario con verificación de integridad. Recuperación documentada y probada. Monitoreo continuo. Sin compartir servidor con clientes desconocidos — cada tenant en su contenedor.',
+        d: 'Instancias Odoo en infraestructura propia: Docker, PostgreSQL, Caddy como reverse proxy con TLS automático. Respaldo diario con verificación de integridad. Recuperación documentada y probada. Monitoreo continuo. Sin compartir servidor con clientes desconocidos: cada tenant en su contenedor.',
         tags: ['Docker', 'PostgreSQL', 'Caddy', 'TLS', 'Backup validado'],
         estado: 'Disponible · Cupo limitado',
       },
@@ -92,8 +92,8 @@ const catalogo = [
     servicios: [
       {
         code: 'SVC-10',
-        t: 'Portal de clientes — Observabilidad de la relación',
-        d: 'Una consultoría no debería ser una caja negra. El portal de clientes de NioSystems es la interfaz mediante la cual el cliente entiende su relación con nosotros en tiempo real: estado del proyecto, entregables completos, tickets de soporte, horas consumidas, saldo disponible, decisiones tomadas y acciones pendientes — sin tener que preguntar. La información disponible va al portal; las acciones requeridas van con notificación. Actualmente en desarrollo como producto propio.',
+        t: 'Portal de clientes: observabilidad de la relación',
+        d: 'Una consultoría no debería ser una caja negra. El portal de clientes de NioSystems es la interfaz mediante la cual el cliente entiende su relación con nosotros en tiempo real: estado del proyecto, entregables completos, tickets de soporte, horas consumidas, saldo disponible, decisiones tomadas y acciones pendientes, sin tener que preguntar. La información disponible va al portal; las acciones requeridas van con notificación. Actualmente en desarrollo como producto propio.',
         tags: ['Proyecto', 'Soporte', 'Tickets', 'Horas', 'Decisiones', 'ADR'],
         estado: 'En desarrollo',
       },
@@ -105,7 +105,7 @@ const catalogo = [
     servicios: [
       {
         code: 'HW-01',
-        t: 'nioClock — Terminal de asistencia',
+        t: 'nioClock: terminal de asistencia',
         d: 'Terminal biométrico y RFID de diseño modular, desarrollado internamente. Firmware con arquitectura de dos etapas y actualización OTA sin intervención manual. Integración nativa con el módulo de Asistencia de Odoo. Construido sobre ESP32-C3/S6. Hardware industrial, sin dependencia de servicios en la nube de terceros.',
         tags: ['ESP32', 'RFID', 'Biométrico', 'OTA', 'Odoo Attendance'],
         estado: 'Desarrollo avanzado',
@@ -115,7 +115,7 @@ const catalogo = [
 ];
 ---
 <Base
-  title="Soluciones — NioSystems"
+  title="Soluciones | NioSystems"
   description="Catálogo completo de servicios NioSystems: Odoo ERP, migraciones, integraciones, conectores logísticos propios, infraestructura y hardware propio en Guatemala."
 >
   <Nav />
@@ -126,7 +126,7 @@ const catalogo = [
         <h1>Soluciones.</h1>
         <p class="hero-desc">Nueve líneas de servicio, construidas desde la operación real de empresas guatemaltecas. Cada código es una capacidad entregada, no una promesa de preventa.</p>
         <ul class="status-strip">
-          <li class="status-chip"><span class="status-dot"></span>SVC-01 — SVC-09 · Disponibles</li>
+          <li class="status-chip"><span class="status-dot"></span>SVC-01 a SVC-09 · Disponibles</li>
           <li class="status-chip"><span class="status-dot is-accent"></span>HW-01 · nioClock en desarrollo</li>
           <li class="status-chip"><span class="status-dot"></span>Conectores logísticos · En producción</li>
         </ul>
@@ -151,7 +151,7 @@ const catalogo = [
                 <h3>{t}</h3>
                 <p>{d}</p>
                 {appstore && (
-                  <a href={appstore.href} target="_blank" rel="noopener noreferrer" class="appstore-link">
+                  <a href={appstore.href} class="appstore-link">
                     {appstore.label}
                   </a>
                 )}
@@ -170,7 +170,7 @@ const catalogo = [
         <div class="contact-card">
           <div class="sec-rule"><span class="sec-id"><b>SIGUIENTE PASO</b>Diagnóstico sin costo</span></div>
           <h2>¿Cuál de estas aplica a su caso?</h2>
-          <p class="lede">Si no está seguro, cuéntenos el problema. Le decimos qué código aplica — y si ninguno aplica, también se lo decimos.</p>
+          <p class="lede">Si no está seguro, cuéntenos el problema. Le decimos qué código aplica y, si ninguno aplica, también se lo decimos.</p>
           <div class="cta">
             <a href="mailto:hola@nio.gt?subject=Consulta%20Soluciones%20NioSystems" class="btn btn-primary">hola@nio.gt</a>
             <a href="https://wa.me/50255155215" class="btn btn-ghost">WhatsApp</a>

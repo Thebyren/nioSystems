@@ -20,7 +20,7 @@ const casos = [
     titulo: 'Diagnóstico y corrección de sobrevaloración de inventario de Q1,000,000',
     contexto: 'Importadora de equipo industrial con alto flujo de contenedores. Valoración de inventario en costo promedio estándar de Odoo, con documentos aduaneros procesados manualmente como ajuste posterior al ingreso.',
     problema: 'Auditoría contable detectó una diferencia de ~Q1,000,000 entre el valor contable del inventario y el valor real, acumulada en ~120 movimientos durante meses sin alerta del sistema. La causa raíz no era evidente: una modificación previa de otro desarrollador alteró el recálculo de un campo contable, haciendo que el precio del primer producto afectado se arrastrara a través de toda la cadena de valoración posterior.',
-    intervencion: 'Trazado de la cadena de valoración movimiento a movimiento hasta identificar el campo y la línea de código fuente responsable. Corrección del comportamiento. Desarrollo de módulo de prorrateo con referencia al DUCA (documento aduanero), que distribuye el costo de aterrizaje real en el momento del ingreso — no como ajuste retroactivo.',
+    intervencion: 'Trazado de la cadena de valoración movimiento a movimiento hasta identificar el campo y la línea de código fuente responsable. Corrección del comportamiento. Desarrollo de módulo de prorrateo con referencia al DUCA (documento aduanero), que distribuye el costo de aterrizaje real en el momento del ingreso, no como ajuste retroactivo.',
     resultado: 'Diferencia contable corregida. El módulo de prorrateo elimina la carga manual y previene la acumulación de la discrepancia en ciclos futuros.',
     tags: ['Inventario', 'Valoración', 'DUCA', 'Importaciones', 'Código fuente Odoo'],
   },
@@ -29,9 +29,9 @@ const casos = [
     sector: 'Restauración / Food service',
     titulo: 'Configuración de contabilidad anglosajona consumía 53% de la memoria de instancia',
     contexto: 'Cadena de 5 puntos de venta con POS de alto flujo. Los reportes de cierre diario comenzaron a tardar varios minutos y colapsaban la instancia en horas pico. El equipo había migrado dos veces a servidores con más RAM sin mejora sostenida.',
-    problema: 'La instancia tenía activada la configuración de contabilidad anglosajona — una opción por defecto de Odoo que en instalaciones de bajo volumen es inocua, pero en operaciones de alto flujo genera millones de líneas en el diario de valoración de inventario. Una consulta de agregación sobre esa tabla en cada cierre de POS consumía 53% de la memoria total de la instancia.',
+    problema: 'La instancia tenía activada la configuración de contabilidad anglosajona, una opción por defecto de Odoo que en instalaciones de bajo volumen es inocua pero en operaciones de alto flujo genera millones de líneas en el diario de valoración de inventario. Una consulta de agregación sobre esa tabla en cada cierre de POS consumía 53% de la memoria total de la instancia.',
     intervencion: 'Análisis de consultas SQL activas durante un cierre de POS para identificar la consulta responsable. Trazado hasta la configuración contable. Desactivación de la opción anglosajona y limpieza de las entradas de diario generadas incorrectamente.',
-    resultado: 'Uso de memoria normalizado en el siguiente cierre. Sin cambio de hardware. El problema de rendimiento que había "requerido" dos actualizaciones de servidor era configuración — no capacidad.',
+    resultado: 'Uso de memoria normalizado en el siguiente cierre. Sin cambio de hardware. El problema de rendimiento que había "requerido" dos actualizaciones de servidor era configuración, no capacidad.',
     tags: ['POS', 'Rendimiento', 'Contabilidad', 'SQL', 'Restaurantes'],
   },
   {
@@ -39,7 +39,7 @@ const casos = [
     sector: 'Hotelería / Restauración · Instancia propia',
     titulo: 'Condición de carrera en POS: empleados eliminaban órdenes ya cobradas',
     contexto: 'Hotel con restaurante de alto volumen. El POS de Odoo incluye protección estándar contra cancelación de órdenes cobradas, pero la mitigación estándar tiene una ventana de vulnerabilidad específica.',
-    problema: 'Empleados enviaban la orden a comanda y la eliminaban durante ese envío — exactamente en la ventana en que el estado de pago había sido iniciado pero aún no confirmado. La mitigación estándar de Odoo no cubre esa transición. El dinero cobrado físicamente no quedaba registrado en el sistema.',
+    problema: 'Empleados enviaban la orden a comanda y la eliminaban durante ese envío, justo en la ventana en que el estado de pago había sido iniciado pero aún no confirmado. La mitigación estándar de Odoo no cubre esa transición. El dinero cobrado físicamente no quedaba registrado en el sistema.',
     intervencion: 'Análisis del flujo de estados del módulo de POS en el código fuente. Identificación de la ventana exacta de la condición de carrera. Parche sobre el núcleo de POS que bloquea la eliminación cuando el estado de pago ha sido iniciado, independientemente del progreso de la sincronización.',
     resultado: 'Vulnerabilidad cerrada. El parche es transparente en uso normal y bloquea específicamente la condición de explotación.',
     tags: ['POS', 'Seguridad', 'Condición de carrera', 'Núcleo Odoo', 'Hotelería'],
@@ -48,7 +48,7 @@ const casos = [
     id: 'CASO-05',
     sector: 'Restauración · Instancia SaaS oficial',
     titulo: 'El mismo fraude de POS, sin acceso a código: solución por configuración y trazabilidad',
-    contexto: 'Dos restaurantes operando en la instancia SaaS oficial de odoo.com. Se identificó el mismo patrón de fraude interno que en CASO-04 — empleados manipulando órdenes para retener efectivo — pero sin posibilidad de modificar código.',
+    contexto: 'Dos restaurantes operando en la instancia SaaS oficial de odoo.com. Se identificó el mismo patrón de fraude interno que en CASO-04 (empleados manipulando órdenes para retener efectivo), pero sin posibilidad de modificar código.',
     problema: 'En SaaS oficial no hay acceso al código fuente ni a la base de datos. Las mismas restricciones que hacen el entorno más seguro para el operador también impiden aplicar el parche a nivel de código. La vulnerabilidad en esa versión no estaba resuelta por Odoo.',
     intervencion: 'Diseño de un esquema de permisos restringidos para cajeros que elimina el acceso a funciones críticas innecesarias. Implementación de un sistema de trazabilidad de estado de caja que registra la actividad del empleado durante el turno, generando una auditoría visible para el administrador sin intervención manual.',
     resultado: 'Vector de fraude cerrado mediante configuración y visibilidad operativa. La solución es replicable en cualquier instancia SaaS sin tocar código.',
@@ -98,7 +98,7 @@ const casos = [
     id: 'CASO-09',
     sector: 'E-commerce / Equipamiento industrial',
     titulo: 'Módulo de tracking de pedido visible al cliente en tiempo real desde la web',
-    contexto: 'Empresa de equipamiento de laboratorio con presencia en LATAM y procesos de importación/envío complejos. Los pedidos pasan por etapas con información técnica relevante: aduana, despacho, envío, entrega — con tiempos y detalles que el cliente necesita conocer sin tener que consultar.',
+    contexto: 'Empresa de equipamiento de laboratorio con presencia en LATAM y procesos de importación/envío complejos. Los pedidos pasan por etapas con información técnica relevante: aduana, despacho, envío y entrega, con tiempos y detalles que el cliente necesita conocer sin tener que consultar.',
     problema: 'Los clientes no tenían visibilidad del estado real de su pedido entre la confirmación y la entrega. El equipo comercial respondía manualmente decenas de preguntas de seguimiento por semana. La información existía en Odoo pero era inaccesible desde el exterior.',
     intervencion: 'Desarrollo de módulo de tracking personalizado en Odoo: etapas de seguimiento con campos técnicos de estado (número de despacho, courier, aduana, fecha estimada de entrega). Integración con el sitio web mediante código de seguimiento único visible al cliente, que actualiza el estado en tiempo real desde Odoo sin intervención manual.',
     resultado: 'Los clientes consultan el estado de su pedido sin contactar al equipo comercial. El número de preguntas de seguimiento bajó de forma medible en las primeras semanas.',
@@ -117,7 +117,7 @@ const casos = [
 ];
 ---
 <Base
-  title="Casos de campo — NioSystems"
+  title="Casos de campo | NioSystems"
   description="Experiencia profesional en implementación Odoo: diagnóstico de inventario, migración v10-v19, vulnerabilidades POS, automatización IGSS, soporte regional. El criterio de diagnóstico que aplica NioSystems."
 >
   <Nav />
@@ -126,7 +126,7 @@ const casos = [
       <div class="container">
         <div class="sec-rule"><span class="sec-id"><b>DOC. NIO-CASOS</b>Casos de campo</span></div>
         <h1>Experiencia aplicada,<br/>resultados documentados.</h1>
-        <p class="hero-desc">Estos casos resumen mi experiencia profesional como desarrollador y consultor Odoo — el criterio de diagnóstico que hoy aplico en NioSystems. Los detalles han sido generalizados para proteger la confidencialidad de cada cliente y empleador anterior.</p>
+        <p class="hero-desc">Estos casos resumen mi experiencia profesional como desarrollador y consultor Odoo, el criterio de diagnóstico que hoy aplico en NioSystems. Los detalles han sido generalizados para proteger la confidencialidad de cada cliente y empleador anterior.</p>
         <ul class="status-strip">
           <li class="status-chip"><span class="status-dot"></span>10 casos documentados</li>
           <li class="status-chip"><span class="status-dot"></span>Distribución · Manufactura · Restaurantes · Salud · Construcción · E-commerce</li>
@@ -181,7 +181,7 @@ const casos = [
         <div class="contact-card">
           <div class="sec-rule"><span class="sec-id"><b>SIGUIENTE PASO</b>Su caso</span></div>
           <h2>¿Su operación tiene un problema parecido?</h2>
-          <p class="lede">El diagnóstico inicial es sin costo. Cuéntenos qué está pasando y le decimos si aplica — y cómo.</p>
+          <p class="lede">El diagnóstico inicial es sin costo. Cuéntenos qué está pasando y le decimos si aplica y cómo.</p>
           <div class="cta">
             <a href="mailto:hola@nio.gt?subject=Diagnóstico%20NioSystems" class="btn btn-primary">hola@nio.gt</a>
             <a href="https://wa.me/50255155215" class="btn btn-ghost">WhatsApp</a>

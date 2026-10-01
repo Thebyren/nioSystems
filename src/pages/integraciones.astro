@@ -1,0 +1,297 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+const APPSTORE = 'https://apps.odoo.com/apps/modules/20.0/payment_recurrente_api';
+
+const capacidades = [
+  { t: 'Checkout alojado', d: 'El cliente paga en la página de Recurrente desde su tienda web, un enlace de pago de factura o el portal de clientes. En quetzales y dólares. Los datos de la tarjeta nunca llegan a su servidor Odoo.' },
+  { t: 'Tarjetas guardadas', d: 'El cliente guarda su tarjeta al pagar y Odoo puede volver a cobrarla cuando lo necesite, por ejemplo en suscripciones. Si un cobro falla, se informa el motivo que reporta Recurrente.' },
+  { t: 'Reembolsos', d: 'Totales y parciales (cuando el procesador lo permite) desde la propia transacción. Cada solicitud lleva una clave de idempotencia: un reintento nunca reembolsa dos veces.' },
+  { t: 'Seguridad', d: 'Webhooks firmados con Svix, verificación del estado contra la API, llaves de prueba y producción separadas, y credenciales borradas al neutralizar una base de datos.' },
+];
+
+const pasos = [
+  'Instale el módulo y abra Contabilidad > Configuración > Proveedores de pago > Recurrente.',
+  'Pegue su llave secreta: sk_test_... para el entorno de pruebas o sk_live_... para cobros reales.',
+  'En Recurrente, registre el webhook con los eventos intent.* y refund.create, y pegue su secreto de firma (whsec_...) en Odoo.',
+  'Active el modo de prueba y haga un pago de sandbox con la tarjeta 4242 4242 4242 4242.',
+  'Cuando todo funcione, habilite el proveedor. Opcional: permitir guardar métodos de pago.',
+];
+
+const otras = [
+  {
+    code: 'INT-02',
+    t: 'Conectores logísticos',
+    d: 'Forza, Guatex y CargoExpreso en producción, y Boxful próximo a publicar. Desarrollados y mantenidos por nosotros, con trazabilidad completa del envío dentro de Odoo.',
+    tags: ['Forza', 'Guatex', 'CargoExpreso', 'Boxful'],
+    estado: 'En producción',
+  },
+  {
+    code: 'INT-03',
+    t: 'WhatsApp Business',
+    d: 'Notificaciones de pedido, confirmaciones de entrega, alertas de inventario y flujos de atención disparados desde el CRM, sobre la API oficial. Opcionalmente, un asistente con IA conectado a Odoo.',
+    tags: ['WhatsApp API', 'CRM', 'IA'],
+    estado: 'Disponible',
+  },
+  {
+    code: 'INT-04',
+    t: 'Tiendas en línea',
+    d: 'WooCommerce conectado a Odoo con inventario, pedidos y clientes en tiempo real, sin doble digitación.',
+    tags: ['WooCommerce', 'REST', 'Inventario'],
+    estado: 'Disponible',
+  },
+  {
+    code: 'INT-05',
+    t: 'Pasarela QpayPro',
+    d: 'Otra opción de cobro local para negocios que ya operan con QpayPro, integrada al flujo de facturación de Odoo.',
+    tags: ['QpayPro', 'Pagos'],
+    estado: 'Disponible',
+  },
+  {
+    code: 'INT-06',
+    t: 'Migración de CRM',
+    d: 'Traslado de contactos, oportunidades e historial desde HubSpot hacia Odoo CRM, conservando la trazabilidad comercial.',
+    tags: ['HubSpot', 'CRM', 'Migración'],
+    estado: 'Disponible',
+  },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Recurrente Checkout para Odoo',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Odoo 19, Odoo 20',
+  description: 'Proveedor de pago Recurrente para Odoo: checkout alojado, tarjetas guardadas y reembolsos en GTQ y USD.',
+  url: APPSTORE,
+  license: 'https://www.gnu.org/licenses/lgpl-3.0.html',
+  author: { '@type': 'Organization', name: 'NioSystems', url: 'https://nio.gt/' },
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+};
+---
+<Base
+  title="Integraciones Odoo en Guatemala | Recurrente, logística, WhatsApp | NioSystems"
+  description="Módulo gratuito de Recurrente para Odoo (LGPL-3, Odoo 19 y 20) y otras integraciones: conectores logísticos, WhatsApp Business, WooCommerce y QpayPro."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <Nav />
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <div class="sec-rule"><span class="sec-id"><b>DOC. NIO-INT</b>Integraciones</span></div>
+        <h1>Integraciones.</h1>
+        <p class="hero-desc">Odoo rara vez vive solo. Conectamos pagos, envíos, mensajería y tienda en línea con el resto de su operación, y publicamos lo que podemos como módulos abiertos.</p>
+        <ul class="status-strip">
+          <li class="status-chip"><span class="status-dot is-accent"></span>Módulo gratuito en el Odoo App Store</li>
+          <li class="status-chip"><span class="status-dot"></span>Conectores logísticos · En producción</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="featured" id="recurrente">
+      <div class="container">
+        <div class="sec-rule"><span class="sec-id"><b>INT-01</b>Módulo publicado</span></div>
+        <div class="feat-grid">
+          <div class="feat-main">
+            <ul class="badge-row" aria-label="Datos del módulo">
+              <li>Gratis</li><li>LGPL-3</li><li>Odoo 19 y 20</li><li>Community + Enterprise</li><li>GTQ + USD</li>
+            </ul>
+            <h2>Recurrente para Odoo</h2>
+            <p class="feat-lede">Acepte pagos con tarjeta en Odoo a través de Recurrente, la pasarela guatemalteca. Checkout alojado, tarjetas guardadas y reembolsos, sin pagar licencia y con código abierto que puede auditar.</p>
+            <div class="cta">
+              <a href={APPSTORE} target="_blank" rel="noopener noreferrer" class="btn btn-primary">Descargar en el Odoo App Store</a>
+              <a href="https://wa.me/50255155215?text=Hola%2C%20quiero%20ayuda%20con%20el%20m%C3%B3dulo%20Recurrente%20para%20Odoo" class="btn btn-ghost">Pedir ayuda con la instalación</a>
+            </div>
+            <p class="fine">Requiere una cuenta activa en Recurrente. El módulo es gratuito; el procesamiento de pagos se rige por las condiciones de Recurrente.</p>
+          </div>
+
+          <aside class="flow" aria-label="Flujo de pago">
+            <span class="flow-k">Flujo de pago</span>
+            <ol>
+              <li><b>Checkout</b><span>El cliente paga en la página de Recurrente.</span></li>
+              <li><b>Recurrente API</b><span>Odoo consulta el pago con su llave secreta, también al recibir un webhook firmado.</span></li>
+              <li><b>Odoo</b><span>La transacción queda pagada, pendiente o fallida.</span></li>
+            </ol>
+            <p>Ni la redirección del navegador ni el cuerpo del webhook se toman como verdad: el estado siempre se consulta a la API.</p>
+          </aside>
+        </div>
+
+        <div class="cap-grid">
+          {capacidades.map(({ t, d }) => (
+            <article class="cap">
+              <h3>{t}</h3>
+              <p>{d}</p>
+            </article>
+          ))}
+        </div>
+
+        <div class="setup">
+          <h3>Del módulo al sandbox en cinco minutos</h3>
+          <ol>
+            {pasos.map(p => <li>{p}</li>)}
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="others">
+      <div class="container">
+        <div class="sec-rule"><span class="sec-id"><b>INT-02 a INT-06</b>Otras integraciones</span></div>
+        <div class="int-grid">
+          {otras.map(({ code, t, d, tags, estado }) => (
+            <article class="int-card">
+              <header>
+                <span class="ref-code">{code}</span>
+                <span class="estado-pill">{estado}</span>
+              </header>
+              <h3>{t}</h3>
+              <p>{d}</p>
+              <ul class="tag-row" aria-label="Tecnologías">
+                {tags.map(tag => <li>{tag}</li>)}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="page-cta">
+      <div class="container">
+        <div class="contact-card">
+          <div class="sec-rule"><span class="sec-id"><b>SIGUIENTE PASO</b>Integración a medida</span></div>
+          <h2>¿Necesita conectar algo que no está aquí?</h2>
+          <p class="lede">Cuéntenos con qué sistema trabaja. Revisamos si tiene API, qué se puede automatizar y cuánto tomaría, antes de comprometer nada.</p>
+          <div class="cta">
+            <a href="https://wa.me/50255155215" class="btn btn-primary">Escribir por WhatsApp</a>
+            <a href="mailto:hola@nio.gt?subject=Consulta%20Integraciones%20NioSystems" class="btn btn-ghost">hola@nio.gt</a>
+          </div>
+          <p class="cta-promise">Respondemos en menos de 24 h · Sin compromiso</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .page-hero {
+    border-bottom: 1px solid var(--border);
+    padding-block: clamp(48px, 7vw, 88px);
+  }
+  .page-hero h1 { margin-bottom: 16px; }
+  .hero-desc { font-size: 1.0625rem; line-height: 1.65; max-width: 58ch; margin-bottom: 28px; }
+
+  .featured { padding-block: clamp(48px, 6vw, 80px); }
+  .feat-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: clamp(24px, 4vw, 56px);
+    margin-top: 28px;
+  }
+  .badge-row {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    list-style: none; padding: 0; margin: 0 0 18px;
+  }
+  .badge-row li {
+    font-family: var(--font-mono);
+    font-size: .625rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    border-radius: 2px;
+  }
+  .feat-main h2 { margin-bottom: 14px; }
+  .feat-lede { font-size: 1.0625rem; line-height: 1.65; max-width: 58ch; margin-bottom: 24px; }
+  .fine {
+    margin-top: 16px;
+    font-size: .8125rem;
+    color: var(--ink-tertiary);
+    max-width: 58ch;
+  }
+
+  .flow {
+    border: 1px solid var(--border-hard);
+    padding: 24px;
+    align-self: start;
+  }
+  .flow-k {
+    font-family: var(--font-mono);
+    font-size: .625rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink-tertiary);
+  }
+  .flow ol { list-style: none; padding: 0; margin: 16px 0; display: grid; gap: 14px; counter-reset: f; }
+  .flow li { display: grid; gap: 2px; padding-left: 34px; position: relative; counter-increment: f; }
+  .flow li::before {
+    content: counter(f, decimal-leading-zero);
+    position: absolute; left: 0; top: 1px;
+    font-family: var(--font-mono); font-size: .6875rem; color: var(--accent);
+  }
+  .flow li b { font-size: .9375rem; }
+  .flow li span { font-size: .875rem; color: var(--ink-secondary); }
+  .flow p { font-size: .8125rem; color: var(--ink-tertiary); margin: 0; padding-top: 14px; border-top: 1px solid var(--border); }
+
+  .cap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    border: 1px solid var(--border-hard);
+    margin-top: 40px;
+  }
+  .cap { padding: 24px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .cap h3 { font-size: 1rem; margin-bottom: 8px; }
+  .cap p { font-size: .9rem; margin: 0; }
+
+  .setup { margin-top: 40px; max-width: 70ch; }
+  .setup h3 { margin-bottom: 14px; }
+  .setup ol { padding-left: 1.25rem; display: grid; gap: 10px; }
+  .setup li { font-size: .9375rem; line-height: 1.6; }
+
+  .others { padding-block: clamp(48px, 6vw, 80px); border-top: 1px solid var(--border); }
+  .int-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+    border: 1px solid var(--border-hard);
+    margin-top: 28px;
+  }
+  .int-card {
+    padding: 24px;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    display: flex; flex-direction: column; gap: 12px;
+    transition: background var(--transition);
+  }
+  .int-card:hover { background: var(--accent-subtle); }
+  .int-card header { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+  .int-card h3 { font-size: 1.0625rem; }
+  .int-card p { font-size: .9375rem; flex: 1; margin: 0; }
+  .ref-code { font-family: var(--font-mono); font-size: .6875rem; letter-spacing: .06em; color: var(--ink-tertiary); }
+  .estado-pill {
+    font-family: var(--font-mono); font-size: .625rem; letter-spacing: .06em;
+    padding: 3px 8px; border: 1px solid var(--status-ok); color: var(--status-ok);
+    border-radius: 2px; white-space: nowrap; flex-shrink: 0;
+  }
+  .tag-row {
+    display: flex; flex-wrap: wrap; gap: 6px; list-style: none;
+    padding: 12px 0 0; margin: 0; border-top: 1px solid var(--border);
+  }
+  .tag-row li {
+    font-family: var(--font-mono); font-size: .625rem; letter-spacing: .06em;
+    color: var(--ink-tertiary); padding: 2px 7px; border: 1px solid var(--border); border-radius: 2px;
+  }
+
+  .page-cta { padding-block: clamp(48px, 6vw, 80px); border-top: 1px solid var(--border); }
+
+  @media (max-width: 860px) {
+    .feat-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 720px) {
+    .page-hero h1 { font-size: clamp(1.6rem, 6vw, 2.2rem); }
+    .cap, .int-card { padding: 20px 16px; }
+    .flow { padding: 20px 16px; }
+  }
+</style>

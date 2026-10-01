@@ -8,12 +8,12 @@
       <li>
         <span class="ref-code">SVC-01 / IMPLEMENTACIÓN ERP</span>
         <h3>Implementación Odoo</h3>
-        <p>Community o Enterprise, certificado SAT, configurado para operar desde el primer día. Facturación electrónica FEL/DTE incluida.</p>
+        <p>Community o Enterprise, configurado para operar en Guatemala desde el primer día. Facturación electrónica FEL/DTE incluida.</p>
       </li>
       <li>
         <span class="ref-code">SVC-02 / MIGRACIÓN Y RESCATE</span>
         <h3>Migración y rescate</h3>
-        <p>Saltamos cualquier brecha de versión — incluyendo v10 a v19 con nómina completa — sin perder historial contable ni trazabilidad de inventario.</p>
+        <p>Saltamos cualquier brecha de versión, incluso de v10 a v19 con nómina completa, sin perder historial contable ni trazabilidad de inventario.</p>
       </li>
       <li>
         <span class="ref-code">SVC-03 / DIAGNÓSTICO Y AUDITORÍA</span>
@@ -30,6 +30,13 @@
       <a href="/soluciones" class="btn btn-ghost">Ver catálogo completo →</a>
       <span class="catalog-note">9 líneas de servicio · conectores logísticos · hardware propio</span>
     </div>
+
+    <a href="/integraciones#recurrente" class="module-feature">
+      <span class="ref-code">MÓDULO GRATUITO · ODOO APP STORE</span>
+      <h3>Recurrente para Odoo</h3>
+      <p>Checkout alojado, tarjetas guardadas y reembolsos en GTQ y USD. Código abierto LGPL-3 para Odoo 19 y 20.</p>
+      <span class="module-go">Ver módulo e instalación →</span>
+    </a>
   </div>
 </section>
 
@@ -42,6 +49,25 @@
     margin-top: 24px;
     padding-top: 24px;
     border-top: 1px solid var(--border);
+  }
+  .module-feature {
+    display: grid;
+    gap: 8px;
+    margin-top: 32px;
+    padding: 24px;
+    border: 1px solid var(--accent);
+    text-decoration: none;
+    color: inherit;
+    transition: background var(--transition);
+  }
+  .module-feature:hover { background: var(--accent-subtle); }
+  .module-feature h3 { margin: 0; }
+  .module-feature p { margin: 0; max-width: 60ch; }
+  .module-go {
+    font-family: var(--font-mono);
+    font-size: .75rem;
+    letter-spacing: .06em;
+    color: var(--accent);
   }
   .catalog-note {
     font-family: var(--font-mono);
