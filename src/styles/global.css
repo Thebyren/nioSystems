@@ -294,7 +294,7 @@ p  { margin: 0; color: var(--ink-secondary); }
 .mobile-menu-foot { padding-top: 16px; }
 
 /* ── Hero: riel lateral + texto + N-Reveal con panel traslapado ── */
-.hero { border-bottom: 1px solid var(--border); }
+.hero { border-bottom: 1px solid var(--border); position: relative; isolation: isolate; overflow: hidden; }
 .hero-grid {
   display: grid;
   grid-template-columns: 44px minmax(0, 1.05fr) minmax(0, .95fr);
@@ -342,19 +342,30 @@ p  { margin: 0; color: var(--ink-secondary); }
 .nreveal .rings-faint { color: var(--ink-tertiary); opacity: .28; }
 .nreveal .rings-full { color: var(--accent); }
 .nreveal .n-edge { stroke: var(--border-hard); }
+/* Ondas: nacen en el centro del logo y barren toda la sección, por detrás del texto */
+.waves {
+  position: absolute;
+  top: 0; left: 50%;
+  width: min(100%, 400px);
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  overflow: visible;
+  z-index: -1;
+  pointer-events: none;
+}
 .ring-pulse {
   transform-origin: 200px 200px;
-  animation: ring-emit 4.8s cubic-bezier(.25,.55,.45,1) infinite;
+  animation: ring-emit 9s cubic-bezier(.3,.5,.5,1) infinite;
   stroke: var(--accent);
+  stroke-width: 1;
   vector-effect: non-scaling-stroke;
-  fill: none;
   opacity: 0;
 }
-/* r=100 escala hasta 3.3 (r=330): rebasa las esquinas (r~283) del recuadro de 400x400 */
+/* r=100 escala hasta 11 (r=1100): cubre el ancho de la sección */
 @keyframes ring-emit {
-  0%   { transform: scale(.04); opacity: .75; }
-  60%  { opacity: .4; }
-  100% { transform: scale(3.3); opacity: 0; }
+  0%   { transform: scale(.04); opacity: .32; }
+  50%  { opacity: .14; }
+  100% { transform: scale(11); opacity: 0; }
 }
 
 /* El informe traslapa al símbolo: el diagnóstico sale de la señal */
@@ -569,7 +580,7 @@ section + section { border-top: 1px solid var(--border); }
   .hero-grid { grid-template-columns: 1fr; }
   .hero-rail { display: none; }
   .nreveal-wrap { padding-bottom: 0; }
-  .nreveal { display: none; }
+  .nreveal, .waves { display: none; }
   .nreveal-wrap .diag-panel { position: static; width: 100%; }
   .list { grid-template-columns: 1fr; }
   .list li { border-right: 0; }
