@@ -1,0 +1,165 @@
+---
+import Base from '../../layouts/Base.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { casos } from '../../data/casos';
+---
+<Base
+  title="Casos reales de Odoo en Guatemala: inventario, POS, migración | NioSystems"
+  description="Experiencia profesional en implementación Odoo: diagnóstico de inventario, migración v10-v19, vulnerabilidades POS, automatización IGSS, soporte regional. El criterio de diagnóstico que aplica NioSystems."
+>
+  <Nav />
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <div class="sec-rule"><span class="sec-id"><b>DOC. NIO-CASOS</b>Casos de campo</span></div>
+        <h1>Experiencia aplicada,<br/>resultados documentados.</h1>
+        <p class="hero-desc">Estos casos resumen mi experiencia profesional como desarrollador y consultor Odoo, el criterio de diagnóstico que hoy aplico en NioSystems. Los detalles han sido generalizados para proteger la confidencialidad de cada cliente y empleador anterior.</p>
+        <ul class="status-strip">
+          <li class="status-chip"><span class="status-dot"></span>11 casos documentados</li>
+          <li class="status-chip"><span class="status-dot"></span>Distribución · Manufactura · Restaurantes · Salud · Construcción · E-commerce</li>
+          <li class="status-chip"><span class="status-dot"></span>Guatemala · Centroamérica · LATAM · v10 → v19</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="casos-section">
+      <div class="container">
+        <div class="casos-list">
+          {casos.map(({ id, slug, sector, titulo, resultado, tags }) => (
+            <a class="caso-card" href={`/casos/${slug}/`}>
+              <div class="caso-meta">
+                <span class="ref-code">{id}</span>
+                <span class="sector-label">{sector}</span>
+              </div>
+              <h2 class="caso-titulo">{titulo}</h2>
+              <p class="caso-resumen"><span class="bloque-label">Resultado</span>{resultado}</p>
+              <ul class="tag-row" aria-label="Área">
+                {tags.map(tag => <li>{tag}</li>)}
+              </ul>
+              <span class="caso-go">Leer el caso completo →</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="page-cta">
+      <div class="container">
+        <div class="contact-card">
+          <div class="sec-rule"><span class="sec-id"><b>SIGUIENTE PASO</b>Su caso</span></div>
+          <h2>¿Su operación tiene un problema parecido?</h2>
+          <p class="lede">El diagnóstico inicial es sin costo. Cuéntenos qué está pasando y le decimos si aplica y cómo.</p>
+          <div class="cta">
+            <a href="mailto:hola@nio.gt?subject=Diagnóstico%20NioSystems" class="btn btn-primary">hola@nio.gt</a>
+            <a href="https://wa.me/50255155215" class="btn btn-ghost">WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .page-hero {
+    border-bottom: 1px solid var(--border);
+    padding-block: clamp(48px, 7vw, 88px);
+  }
+  .page-hero h1 { margin-bottom: 16px; }
+  .hero-desc {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    max-width: 58ch;
+    margin-bottom: 28px;
+  }
+
+  .casos-section { padding-block: clamp(48px, 6vw, 80px); }
+
+  .casos-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--border-hard);
+  }
+
+  .caso-card {
+    text-decoration: none;
+    color: inherit;
+    padding: clamp(24px, 3vw, 40px);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: background var(--transition);
+  }
+  .caso-card + .caso-card { border-top: 1px solid var(--border); }
+  .caso-card:hover { background: var(--accent-subtle); }
+
+  .caso-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .ref-code {
+    font-family: var(--font-mono);
+    font-size: .6875rem;
+    letter-spacing: .06em;
+    color: var(--ink-tertiary);
+  }
+  .sector-label {
+    font-family: var(--font-mono);
+    font-size: .6875rem;
+    letter-spacing: .06em;
+    color: var(--amber-ink);
+    padding: 2px 8px;
+    border: 1px solid var(--amber-ink);
+    border-radius: 2px;
+  }
+
+  .caso-titulo {
+    font-size: clamp(1.0625rem, 2.2vw, 1.3125rem);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    max-width: 72ch;
+  }
+
+  .bloque-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: .625rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--status-ok);
+    margin-bottom: 4px;
+  }
+  .caso-resumen { font-size: .9375rem; line-height: 1.6; max-width: 72ch; }
+  .caso-go { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .06em; color: var(--accent); }
+
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    list-style: none;
+    padding: 12px 0 0;
+    margin: 0;
+    border-top: 1px solid var(--border);
+  }
+  .tag-row li {
+    font-family: var(--font-mono);
+    font-size: .625rem;
+    letter-spacing: .06em;
+    color: var(--ink-tertiary);
+    padding: 2px 7px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+  }
+
+  .page-cta { padding-block: clamp(48px, 6vw, 80px); border-top: 1px solid var(--border); }
+
+  @media (max-width: 760px) {
+    .caso-card { padding: 20px 16px; }
+    .caso-titulo { font-size: 1.0625rem; }
+    .page-hero h1 { font-size: clamp(1.6rem, 6vw, 2.2rem); }
+  }
+</style>

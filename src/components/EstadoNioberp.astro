@@ -1,0 +1,175 @@
+---
+type Estado = 'hecho' | 'curso' | 'pendiente' | 'plan';
+
+const etiqueta: Record<Estado, string> = {
+  hecho: 'Hecho',
+  curso: 'En progreso',
+  pendiente: 'Pendiente',
+  plan: 'Planificado',
+};
+
+const fases: {
+  id: string;
+  t: string;
+  estado: Estado;
+  d: string;
+  items: { ref?: string; t: string; d: string; estado: Estado }[];
+}[] = [
+  {
+    id: 'FASE 1',
+    t: 'El kernel financiero',
+    estado: 'hecho',
+    d: 'La base para que una operación con dinero deje rastro y no se repita por accidente.',
+    items: [
+      { ref: 'A0.2', t: 'Trazabilidad de cada operación', d: 'Cada acción queda ligada a su identificador, su empresa y su usuario. Si algo falla, soporte no adivina: ubica la operación exacta.', estado: 'hecho' },
+      { ref: 'A0.4', t: 'Idempotencia', d: 'Si la red se cae y una operación se reintenta, el sistema reconoce que ya la procesó y no la ejecuta dos veces.', estado: 'hecho' },
+      { ref: 'A0.3', t: 'Auditoría en dos capas', d: 'Lo operativo (soporte, depuración) y lo financiero (legal, fiscal) viven separados. Un log de soporte nunca se mezcla con el historial contable.', estado: 'hecho' },
+      { ref: 'A0.5', t: 'Migraciones versionadas y reversibles', d: 'Cada cambio de base de datos queda registrado, verificado y con vuelta atrás. Sin despliegues manuales.', estado: 'hecho' },
+    ],
+  },
+  {
+    id: 'FASE 2',
+    t: 'Dinero real y confiable',
+    estado: 'curso',
+    d: 'El libro contable y las reglas para que los números cuadren siempre.',
+    items: [
+      { ref: 'A1.1', t: 'Libro mayor de partida doble inmutable', d: 'Una transacción publicada no se edita ni se borra en silencio. Solo se corrige o se reversa, y ambas cosas quedan registradas.', estado: 'hecho' },
+      { ref: 'A1.2', t: 'Modelo de tiempo', d: 'Registro con zonas horarias y periodos fiscales cerrados.', estado: 'hecho' },
+      { ref: 'A1.1', t: 'Auditoría obligatoria sobre el libro mayor', d: 'Hoy las operaciones del libro mayor todavía no pasan por el registro de auditoría. Es la brecha conocida y el bloqueo antes de avanzar: sin esto no hay fase siguiente.', estado: 'pendiente' },
+      { ref: 'A1.3', t: 'Concurrencia explícita', d: 'Definir qué ocurre cuando dos usuarios tocan la misma cuenta al mismo tiempo.', estado: 'plan' },
+      { ref: 'A1.6', t: 'Sellado criptográfico del historial', d: 'Un registro financiero que demuestre que no fue alterado.', estado: 'plan' },
+    ],
+  },
+  {
+    id: 'FASE 3',
+    t: 'Cumplimiento regional',
+    estado: 'plan',
+    d: 'Cumplir leyes locales sin tocar el motor base.',
+    items: [
+      { t: 'Contabilidad base agnóstica', d: 'Transacciones inmutables que no dependen de la legislación de ningún país.', estado: 'plan' },
+      { t: 'Extensión LATAM (SAT)', d: 'Datos fiscales en tablas separadas (identificador fiscal, código de impuesto), pensados para Guatemala.', estado: 'plan' },
+      { t: 'Extensión Europa (GDPR)', d: 'Derecho al olvido borrando los datos personales, no la transacción, que permanece íntegra para auditoría.', estado: 'plan' },
+    ],
+  },
+  {
+    id: 'FASE 4',
+    t: 'Resiliencia y escala',
+    estado: 'plan',
+    d: 'Para que crecer no se note en la operación.',
+    items: [
+      { ref: 'A2.2', t: 'Tareas en segundo plano y flujos de negocio', d: 'Separar comandos reintentables de reportes pesados.', estado: 'plan' },
+      { ref: 'B1 · B2', t: 'Cortacircuitos y colas de errores', d: 'Si un servicio externo cae, el resto sigue operando y los mensajes fallidos quedan aislados, sin perderse.', estado: 'plan' },
+      { ref: 'C1 · C3', t: 'Caché y búsqueda', d: 'Consultas rápidas sin cargar la base transaccional.', estado: 'plan' },
+    ],
+  },
+];
+---
+<section id="nioberp" class="estado">
+  <div class="container">
+    <div class="sec-rule"><span class="sec-id"><b>SEC. 03</b>Estado de NioBerp</span></div>
+    <h2>Construimos nuestro propio motor, y mostramos cómo va.</h2>
+    <p class="lede">NioBerp es nuestro motor ERP en Rust. Hoy es investigación y desarrollo, no un producto a la venta: lo que aprendemos aquí alimenta las decisiones de arquitectura de los proyectos Odoo. Publicamos su avance tal cual, incluidas las brechas.</p>
+
+    <ul class="legend" aria-label="Leyenda de estados">
+      {(Object.keys(etiqueta) as Estado[]).map(e => (
+        <li><span class={`dot is-${e}`}></span>{etiqueta[e]}</li>
+      ))}
+    </ul>
+
+    <div class="phases">
+      {fases.map(({ id, t, estado, d, items }) => (
+        <article class="phase">
+          <header>
+            <span class="ref-code">{id}</span>
+            <span class={`pill is-${estado}`}>{etiqueta[estado]}</span>
+          </header>
+          <h3>{t}</h3>
+          <p class="phase-d">{d}</p>
+          <ul>
+            {items.map(it => (
+              <li>
+                <span class={`dot is-${it.estado}`} title={etiqueta[it.estado]}></span>
+                <div>
+                  <b>{it.t}</b>{it.ref && <span class="item-ref">{it.ref}</span>}
+                  <span class="sr-only"> ({etiqueta[it.estado]})</span>
+                  <p>{it.d}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .estado { border-top: 1px solid var(--border); }
+  .estado h2 { max-width: 24ch; }
+  .estado .lede { max-width: 62ch; margin: 14px 0 20px; }
+
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 8px 22px;
+    list-style: none; padding: 0; margin: 0 0 28px;
+    font-family: var(--font-mono); font-size: .6875rem; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--ink-tertiary);
+  }
+  .legend li { display: inline-flex; align-items: center; gap: 8px; }
+
+  .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    flex-shrink: 0; display: inline-block;
+    background: var(--ink-tertiary);
+  }
+  .dot.is-hecho { background: var(--status-ok); }
+  .dot.is-curso { background: var(--accent); }
+  .dot.is-pendiente { background: var(--amber-ink); }
+  .dot.is-plan { background: transparent; border: 1.5px solid var(--ink-tertiary); }
+
+  .phases {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border: 1px solid var(--border-hard);
+  }
+  .phase {
+    padding: 28px;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .phase:nth-child(2n) { border-right: 0; }
+  .phase:nth-last-child(-n+2) { border-bottom: 0; }
+  .phase header { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .phase h3 { font-size: 1.1875rem; }
+  .phase-d { font-size: .9375rem; margin: 0 0 6px; }
+
+  .ref-code { font-family: var(--font-mono); font-size: .6875rem; letter-spacing: .06em; color: var(--ink-tertiary); }
+  .pill {
+    font-family: var(--font-mono); font-size: .625rem; letter-spacing: .06em;
+    text-transform: uppercase; padding: 3px 8px; border-radius: 2px; border: 1px solid;
+    white-space: nowrap;
+  }
+  .pill.is-hecho { color: var(--status-ok); border-color: var(--status-ok); }
+  .pill.is-curso { color: var(--accent); border-color: var(--accent); }
+  .pill.is-pendiente { color: var(--amber-ink); border-color: var(--amber-ink); }
+  .pill.is-plan { color: var(--ink-tertiary); border-color: var(--border-hard); }
+
+  .phase ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+  .phase li { display: grid; grid-template-columns: 8px 1fr; gap: 12px; align-items: start; }
+  .phase li .dot { margin-top: 7px; }
+  .phase li b { font-size: .9375rem; }
+  .item-ref { font-family: var(--font-mono); font-size: .625rem; letter-spacing: .06em; color: var(--ink-tertiary); margin-left: 8px; }
+  .phase li p { font-size: .875rem; margin: 2px 0 0; color: var(--ink-secondary); }
+
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+  }
+
+  @media (max-width: 860px) {
+    .phases { grid-template-columns: 1fr; }
+    .phase { border-right: 0; padding: 22px 16px; }
+    .phase:nth-last-child(-n+2) { border-bottom: 1px solid var(--border); }
+    .phase:last-child { border-bottom: 0; }
+  }
+</style>

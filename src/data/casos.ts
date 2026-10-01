@@ -1,11 +1,19 @@
----
-import Base from '../layouts/Base.astro';
-import Nav from '../components/Nav.astro';
-import Footer from '../components/Footer.astro';
+export interface Caso {
+  id: string;
+  slug: string;
+  sector: string;
+  titulo: string;
+  contexto: string;
+  problema: string;
+  intervencion: string;
+  resultado: string;
+  tags: string[];
+}
 
-const casos = [
+export const casos: Caso[] = [
   {
-    id: 'CASO-01',
+    id: 'CASO-001',
+    slug: 'caso-001-precios-multizona',
     sector: 'Distribución mayorista',
     titulo: 'Precios por zona, recompensas de volumen y fuerza de ventas en campo',
     contexto: 'Distribuidora con tres centros de distribución y red de ruteros cubriendo el sur del país. Cada zona opera con rentabilidad y políticas de fidelidad distintas. El equipo en campo registra pedidos desde dispositivos móviles con conectividad intermitente.',
@@ -15,7 +23,8 @@ const casos = [
     tags: ['Distribución', 'Multi-zona', 'App móvil', 'Múltiples UoM', 'Offline-first'],
   },
   {
-    id: 'CASO-02',
+    id: 'CASO-002',
+    slug: 'caso-002-sobrevaloracion-inventario',
     sector: 'Importación / Comercio exterior',
     titulo: 'Diagnóstico y corrección de sobrevaloración de inventario de Q1,000,000',
     contexto: 'Importadora de equipo industrial con alto flujo de contenedores. Valoración de inventario en costo promedio estándar de Odoo, con documentos aduaneros procesados manualmente como ajuste posterior al ingreso.',
@@ -25,7 +34,8 @@ const casos = [
     tags: ['Inventario', 'Valoración', 'DUCA', 'Importaciones', 'Código fuente Odoo'],
   },
   {
-    id: 'CASO-03',
+    id: 'CASO-003',
+    slug: 'caso-003-contabilidad-anglosajona-memoria',
     sector: 'Restauración / Food service',
     titulo: 'Configuración de contabilidad anglosajona consumía 53% de la memoria de instancia',
     contexto: 'Cadena de 5 puntos de venta con POS de alto flujo. Los reportes de cierre diario comenzaron a tardar varios minutos y colapsaban la instancia en horas pico. El equipo había migrado dos veces a servidores con más RAM sin mejora sostenida.',
@@ -35,7 +45,8 @@ const casos = [
     tags: ['POS', 'Rendimiento', 'Contabilidad', 'SQL', 'Restaurantes'],
   },
   {
-    id: 'CASO-04',
+    id: 'CASO-004',
+    slug: 'caso-004-pos-condicion-de-carrera',
     sector: 'Hotelería / Restauración · Instancia propia',
     titulo: 'Condición de carrera en POS: empleados eliminaban órdenes ya cobradas',
     contexto: 'Hotel con restaurante de alto volumen. El POS de Odoo incluye protección estándar contra cancelación de órdenes cobradas, pero la mitigación estándar tiene una ventana de vulnerabilidad específica.',
@@ -45,17 +56,19 @@ const casos = [
     tags: ['POS', 'Seguridad', 'Condición de carrera', 'Núcleo Odoo', 'Hotelería'],
   },
   {
-    id: 'CASO-05',
+    id: 'CASO-005',
+    slug: 'caso-005-pos-saas-sin-codigo',
     sector: 'Restauración · Instancia SaaS oficial',
     titulo: 'El mismo fraude de POS, sin acceso a código: solución por configuración y trazabilidad',
-    contexto: 'Dos restaurantes operando en la instancia SaaS oficial de odoo.com. Se identificó el mismo patrón de fraude interno que en CASO-04 (empleados manipulando órdenes para retener efectivo), pero sin posibilidad de modificar código.',
+    contexto: 'Dos restaurantes operando en la instancia SaaS oficial de odoo.com. Se identificó el mismo patrón de fraude interno que en CASO-004 (empleados manipulando órdenes para retener efectivo), pero sin posibilidad de modificar código.',
     problema: 'En SaaS oficial no hay acceso al código fuente ni a la base de datos. Las mismas restricciones que hacen el entorno más seguro para el operador también impiden aplicar el parche a nivel de código. La vulnerabilidad en esa versión no estaba resuelta por Odoo.',
     intervencion: 'Diseño de un esquema de permisos restringidos para cajeros que elimina el acceso a funciones críticas innecesarias. Implementación de un sistema de trazabilidad de estado de caja que registra la actividad del empleado durante el turno, generando una auditoría visible para el administrador sin intervención manual.',
     resultado: 'Vector de fraude cerrado mediante configuración y visibilidad operativa. La solución es replicable en cualquier instancia SaaS sin tocar código.',
     tags: ['POS', 'SaaS', 'Seguridad', 'Permisos', 'Trazabilidad'],
   },
   {
-    id: 'CASO-05',
+    id: 'CASO-006',
+    slug: 'caso-006-facturacion-igss',
     sector: 'Salud / Sector público',
     titulo: 'Automatización de formatos de facturación para contratos IGSS',
     contexto: 'Intermediaria de equipo médico con contratos activos con el Instituto Guatemalteco de Seguridad Social y otras entidades de gobierno. Cada entidad exige un formato de factura con campos, distribución y numeración específicos.',
@@ -65,7 +78,8 @@ const casos = [
     tags: ['IGSS', 'Sector público', 'QWeb', 'Automatización'],
   },
   {
-    id: 'CASO-06',
+    id: 'CASO-007',
+    slug: 'caso-007-diagnostico-vehicular',
     sector: 'Manufactura',
     titulo: 'Módulo de diagnóstico vehicular integrado a ventas y contabilidad',
     contexto: 'Empresa de manufactura del sector motos con red de servicios técnicos. Los técnicos registraban diagnósticos en papel; el traspaso a presupuesto y luego a factura era manual y tardaba entre días y semanas según la carga.',
@@ -75,7 +89,8 @@ const casos = [
     tags: ['Manufactura', 'Módulo custom', 'Órdenes de trabajo', 'Inventario'],
   },
   {
-    id: 'CASO-07',
+    id: 'CASO-008',
+    slug: 'caso-008-migracion-v10-v19',
     sector: 'Manufactura / Construcción',
     titulo: 'Migración v10 → v19 con nómina completa',
     contexto: 'Empresa del sector construcción y asfaltos con instancia Odoo v10 en producción durante varios años. El sistema acumulaba datos de nómina, contabilidad, compras e inventario que no podían perderse ni quedar desconectados.',
@@ -85,7 +100,8 @@ const casos = [
     tags: ['Migración', 'v10 → v19', 'Nómina', 'Construcción'],
   },
   {
-    id: 'CASO-08',
+    id: 'CASO-009',
+    slug: 'caso-009-multiempresa-multimoneda',
     sector: 'Consultoría contable',
     titulo: 'Estructura multiempresa para cartera de clientes con multi-moneda',
     contexto: 'Consultora contable que administra la contabilidad de múltiples empresas cliente desde una sola instancia Odoo en modo multicompañía, con clientes operando en distintas monedas.',
@@ -95,7 +111,8 @@ const casos = [
     tags: ['Multiempresa', 'Contabilidad', 'Multi-moneda', 'Consultoría'],
   },
   {
-    id: 'CASO-09',
+    id: 'CASO-010',
+    slug: 'caso-010-tracking-pedidos-web',
     sector: 'E-commerce / Equipamiento industrial',
     titulo: 'Módulo de tracking de pedido visible al cliente en tiempo real desde la web',
     contexto: 'Empresa de equipamiento de laboratorio con presencia en LATAM y procesos de importación/envío complejos. Los pedidos pasan por etapas con información técnica relevante: aduana, despacho, envío y entrega, con tiempos y detalles que el cliente necesita conocer sin tener que consultar.',
@@ -105,7 +122,8 @@ const casos = [
     tags: ['E-commerce', 'Tracking', 'LATAM', 'Sitio web', 'Importaciones'],
   },
   {
-    id: 'CASO-10',
+    id: 'CASO-011',
+    slug: 'caso-011-soporte-regional-multisucursal',
     sector: 'Soporte regional · Centroamérica',
     titulo: 'Soporte continuo a instancia multi-sucursal con presencia en 4 países',
     contexto: 'Empresa con sucursales activas en cuatro países de Centroamérica operando sobre una instancia Odoo compartida. Las sucursales operan con distintas configuraciones fiscales, distintos catálogos parciales y necesidades de soporte simultáneas en zonas horarias distintas.',
@@ -115,193 +133,3 @@ const casos = [
     tags: ['Regional', 'Centroamérica', 'Multi-sucursal', 'Soporte continuo'],
   },
 ];
----
-<Base
-  title="Casos de campo | NioSystems"
-  description="Experiencia profesional en implementación Odoo: diagnóstico de inventario, migración v10-v19, vulnerabilidades POS, automatización IGSS, soporte regional. El criterio de diagnóstico que aplica NioSystems."
->
-  <Nav />
-  <main>
-    <section class="page-hero">
-      <div class="container">
-        <div class="sec-rule"><span class="sec-id"><b>DOC. NIO-CASOS</b>Casos de campo</span></div>
-        <h1>Experiencia aplicada,<br/>resultados documentados.</h1>
-        <p class="hero-desc">Estos casos resumen mi experiencia profesional como desarrollador y consultor Odoo, el criterio de diagnóstico que hoy aplico en NioSystems. Los detalles han sido generalizados para proteger la confidencialidad de cada cliente y empleador anterior.</p>
-        <ul class="status-strip">
-          <li class="status-chip"><span class="status-dot"></span>10 casos documentados</li>
-          <li class="status-chip"><span class="status-dot"></span>Distribución · Manufactura · Restaurantes · Salud · Construcción · E-commerce</li>
-          <li class="status-chip"><span class="status-dot"></span>Guatemala · Centroamérica · LATAM · v10 → v19</li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="casos-section">
-      <div class="container">
-        <div class="casos-list">
-          {casos.map(({ id, sector, titulo, contexto, problema, intervencion, resultado, tags }) => (
-            <article class="caso-card">
-              <div class="caso-meta">
-                <span class="ref-code">{id}</span>
-                <span class="sector-label">{sector}</span>
-              </div>
-              <h2 class="caso-titulo">{titulo}</h2>
-              <div class="caso-body">
-                <div class="caso-col">
-                  <div class="caso-bloque">
-                    <span class="bloque-label">Contexto</span>
-                    <p>{contexto}</p>
-                  </div>
-                  <div class="caso-bloque is-problema">
-                    <span class="bloque-label">Problema identificado</span>
-                    <p>{problema}</p>
-                  </div>
-                </div>
-                <div class="caso-col">
-                  <div class="caso-bloque is-intervencion">
-                    <span class="bloque-label">Intervención</span>
-                    <p>{intervencion}</p>
-                  </div>
-                  <div class="caso-bloque is-resultado">
-                    <span class="bloque-label">Resultado</span>
-                    <p>{resultado}</p>
-                  </div>
-                </div>
-              </div>
-              <ul class="tag-row" aria-label="Área">
-                {tags.map(tag => <li>{tag}</li>)}
-              </ul>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <section class="page-cta">
-      <div class="container">
-        <div class="contact-card">
-          <div class="sec-rule"><span class="sec-id"><b>SIGUIENTE PASO</b>Su caso</span></div>
-          <h2>¿Su operación tiene un problema parecido?</h2>
-          <p class="lede">El diagnóstico inicial es sin costo. Cuéntenos qué está pasando y le decimos si aplica y cómo.</p>
-          <div class="cta">
-            <a href="mailto:hola@nio.gt?subject=Diagnóstico%20NioSystems" class="btn btn-primary">hola@nio.gt</a>
-            <a href="https://wa.me/50255155215" class="btn btn-ghost">WhatsApp</a>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-  <Footer />
-</Base>
-
-<style>
-  .page-hero {
-    border-bottom: 1px solid var(--border);
-    padding-block: clamp(48px, 7vw, 88px);
-  }
-  .page-hero h1 { margin-bottom: 16px; }
-  .hero-desc {
-    font-size: 1.0625rem;
-    line-height: 1.65;
-    max-width: 58ch;
-    margin-bottom: 28px;
-  }
-
-  .casos-section { padding-block: clamp(48px, 6vw, 80px); }
-
-  .casos-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    border: 1px solid var(--border-hard);
-  }
-
-  .caso-card {
-    padding: clamp(24px, 3vw, 40px);
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    transition: background var(--transition);
-  }
-  .caso-card + .caso-card { border-top: 1px solid var(--border); }
-  .caso-card:hover { background: var(--accent-subtle); }
-
-  .caso-meta {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-  .ref-code {
-    font-family: var(--font-mono);
-    font-size: .6875rem;
-    letter-spacing: .06em;
-    color: var(--ink-tertiary);
-  }
-  .sector-label {
-    font-family: var(--font-mono);
-    font-size: .6875rem;
-    letter-spacing: .06em;
-    color: var(--amber-ink);
-    padding: 2px 8px;
-    border: 1px solid var(--amber-ink);
-    border-radius: 2px;
-  }
-
-  .caso-titulo {
-    font-size: clamp(1.0625rem, 2.2vw, 1.3125rem);
-    font-weight: 700;
-    line-height: 1.25;
-    letter-spacing: -0.01em;
-    max-width: 72ch;
-  }
-
-  .caso-body {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-  }
-
-  .caso-col { display: flex; flex-direction: column; gap: 16px; }
-
-  .caso-bloque { display: flex; flex-direction: column; gap: 6px; }
-
-  .bloque-label {
-    font-family: var(--font-mono);
-    font-size: .625rem;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--ink-tertiary);
-  }
-  .caso-bloque.is-problema .bloque-label { color: var(--amber-ink); }
-  .caso-bloque.is-resultado .bloque-label { color: var(--status-ok); }
-  .caso-bloque.is-intervencion .bloque-label { color: var(--accent); }
-
-  .caso-bloque p { font-size: .9375rem; line-height: 1.6; }
-
-  .tag-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    list-style: none;
-    padding: 12px 0 0;
-    margin: 0;
-    border-top: 1px solid var(--border);
-  }
-  .tag-row li {
-    font-family: var(--font-mono);
-    font-size: .625rem;
-    letter-spacing: .06em;
-    color: var(--ink-tertiary);
-    padding: 2px 7px;
-    border: 1px solid var(--border);
-    border-radius: 2px;
-  }
-
-  .page-cta { padding-block: clamp(48px, 6vw, 80px); border-top: 1px solid var(--border); }
-
-  @media (max-width: 760px) {
-    .caso-body { grid-template-columns: 1fr; }
-    .caso-card { padding: 20px 16px; }
-    .caso-titulo { font-size: 1.0625rem; }
-    .page-hero h1 { font-size: clamp(1.6rem, 6vw, 2.2rem); }
-  }
-</style>

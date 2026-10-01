@@ -1,0 +1,20 @@
+# NioSystems
+
+> Consultoría Odoo ERP y desarrollo a medida en Guatemala y LATAM. Implementación con facturación electrónica FEL/DTE, migración y rescate de versiones, integraciones, hosting propio y diagnóstico de arquitectura. Primero diagnosticamos, después construimos.
+
+NioSystems tiene sede en Jutiapa, Guatemala. Contacto: hola@nio.gt o WhatsApp +502 5515 5215. El diagnóstico inicial es sin costo.
+
+## Servicios
+
+- [Soluciones](https://nio.gt/soluciones/): catálogo de servicios Odoo (implementación, migración, módulos a medida, integraciones, hosting multi-tenant, diagnóstico y auditoría fiscal) y hardware propio nioClock.
+- [Integraciones](https://nio.gt/integraciones/): módulo gratuito Recurrente Checkout para Odoo 19 y 20, conectores logísticos, WhatsApp Business, WooCommerce, QpayPro y HubSpot.
+- [Infraestructura](https://nio.gt/infraestructura/): stack técnico, arquitectura de hosting, especificaciones de nioClock y proyecto de investigación NioBerp.
+
+## Casos
+
+- [Casos de campo](https://nio.gt/casos/): experiencia profesional documentada en diagnóstico de inventario, POS, migración v10 a v19, automatización IGSS y soporte regional. Cada caso tiene su propia página bajo /casos/.
+
+## Recursos
+
+- [Recurrente Checkout en el Odoo App Store](https://apps.odoo.com/apps/modules/20.0/payment_recurrente_api): módulo gratuito (LGPL-3), checkout alojado, tarjetas guardadas y reembolsos en GTQ y USD.
+- [Aviso de privacidad](https://nio.gt/privacidad/)

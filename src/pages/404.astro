@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+<Base title="Página no encontrada | NioSystems" description="La página que busca no existe." noindex>
+  <Nav />
+  <main>
+    <section class="nf">
+      <div class="container">
+        <div class="sec-rule"><span class="sec-id"><b>ERROR 404</b>Página no encontrada</span></div>
+        <h1>No encontramos esa página.</h1>
+        <p class="lede">Puede que el enlace haya cambiado. Estas son las secciones del sitio:</p>
+        <div class="cta">
+          <a href="/" class="btn btn-primary">Ir al inicio</a>
+          <a href="/soluciones/" class="btn btn-ghost">Soluciones</a>
+          <a href="/integraciones/" class="btn btn-ghost">Integraciones</a>
+          <a href="/casos/" class="btn btn-ghost">Casos</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .nf { padding-block: clamp(64px, 10vw, 128px); }
+  .nf h1 { margin-bottom: 14px; }
+  .nf .lede { margin-bottom: 28px; max-width: 52ch; }
+</style>

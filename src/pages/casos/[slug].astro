@@ -1,0 +1,150 @@
+---
+import Base from '../../layouts/Base.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { casos } from '../../data/casos';
+
+export function getStaticPaths() {
+  return casos.map((caso, i) => ({
+    params: { slug: caso.slug },
+    props: { caso, prev: casos[i - 1], next: casos[i + 1] },
+  }));
+}
+
+const { caso, prev, next } = Astro.props;
+const { id, sector, titulo, contexto, problema, intervencion, resultado, tags } = caso;
+
+const firstSentence = resultado.split(/(?<=\.)\s/)[0];
+const raw = `${titulo}. ${firstSentence}`;
+const description = raw.length <= 158 ? raw : raw.slice(0, 155).replace(/\s+\S*$/, '') + '...';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://nio.gt/' },
+    { '@type': 'ListItem', position: 2, name: 'Casos', item: 'https://nio.gt/casos/' },
+    { '@type': 'ListItem', position: 3, name: titulo, item: `https://nio.gt/casos/${caso.slug}/` },
+  ],
+};
+
+const bloques = [
+  { cls: '', label: 'Contexto', text: contexto },
+  { cls: 'is-problema', label: 'Problema identificado', text: problema },
+  { cls: 'is-intervencion', label: 'Intervención', text: intervencion },
+  { cls: 'is-resultado', label: 'Resultado', text: resultado },
+];
+---
+<Base title={`${titulo} | Caso Odoo | NioSystems`} description={description}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <Nav />
+  <main>
+    <article class="caso">
+      <div class="container">
+        <nav class="crumbs" aria-label="Ruta">
+          <a href="/casos/">Casos</a><span aria-hidden="true">/</span><span>{id}</span>
+        </nav>
+        <div class="caso-meta">
+          <span class="ref-code">{id}</span>
+          <span class="sector-label">{sector}</span>
+        </div>
+        <h1>{titulo}</h1>
+
+        <div class="bloques">
+          {bloques.map(({ cls, label, text }) => (
+            <section class:list={['bloque', cls]}>
+              <h2 class="bloque-label">{label}</h2>
+              <p>{text}</p>
+            </section>
+          ))}
+        </div>
+
+        <ul class="tag-row" aria-label="Área">
+          {tags.map(tag => <li>{tag}</li>)}
+        </ul>
+
+        <p class="nota">Caso de experiencia profesional previa a NioSystems. Los detalles se generalizaron para proteger la confidencialidad de cada cliente y empleador.</p>
+
+        <nav class="pager" aria-label="Otros casos">
+          {prev ? <a href={`/casos/${prev.slug}/`} rel="prev"><span>← {prev.id}</span>{prev.titulo}</a> : <span></span>}
+          {next ? <a href={`/casos/${next.slug}/`} rel="next" class="is-next"><span>{next.id} →</span>{next.titulo}</a> : <span></span>}
+        </nav>
+      </div>
+    </article>
+
+    <section class="page-cta">
+      <div class="container">
+        <div class="contact-card">
+          <div class="sec-rule"><span class="sec-id"><b>SIGUIENTE PASO</b>Su caso</span></div>
+          <h2>¿Su operación tiene un problema parecido?</h2>
+          <p class="lede">El diagnóstico inicial es sin costo. Cuéntenos qué está pasando y le decimos si aplica y cómo.</p>
+          <div class="cta">
+            <a href="https://wa.me/50255155215" class="btn btn-primary">Escribir por WhatsApp</a>
+            <a href="mailto:hola@nio.gt?subject=Diagn%C3%B3stico%20NioSystems" class="btn btn-ghost">hola@nio.gt</a>
+          </div>
+          <p class="cta-promise">Respondemos en menos de 24 h · Sin compromiso</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .caso { padding-block: clamp(40px, 6vw, 80px); }
+  .crumbs {
+    display: flex; gap: 10px; margin-bottom: 20px;
+    font-family: var(--font-mono); font-size: .6875rem; letter-spacing: .06em; color: var(--ink-tertiary);
+  }
+  .crumbs a { color: var(--accent); text-decoration: none; }
+  .caso-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 16px; margin-bottom: 14px; }
+  .ref-code { font-family: var(--font-mono); font-size: .6875rem; letter-spacing: .06em; color: var(--ink-tertiary); }
+  .sector-label {
+    font-family: var(--font-mono); font-size: .6875rem; letter-spacing: .06em;
+    color: var(--amber-ink); padding: 2px 8px; border: 1px solid var(--amber-ink); border-radius: 2px;
+  }
+  h1 { font-size: clamp(1.5rem, 4vw, 2.25rem); line-height: 1.2; max-width: 26ch; margin-bottom: 36px; }
+
+  .bloques { display: grid; gap: 28px; max-width: 70ch; }
+  .bloque { border-left: 2px solid var(--border-hard); padding-left: 18px; }
+  .bloque.is-problema { border-color: var(--amber-ink); }
+  .bloque.is-intervencion { border-color: var(--accent); }
+  .bloque.is-resultado { border-color: var(--status-ok); }
+  .bloque-label {
+    font-family: var(--font-mono); font-size: .6875rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--ink-tertiary); font-weight: 400; margin: 0 0 8px;
+  }
+  .is-problema .bloque-label { color: var(--amber-ink); }
+  .is-intervencion .bloque-label { color: var(--accent); }
+  .is-resultado .bloque-label { color: var(--status-ok); }
+  .bloque p { font-size: 1rem; line-height: 1.7; margin: 0; }
+
+  .tag-row {
+    display: flex; flex-wrap: wrap; gap: 6px; list-style: none;
+    padding: 16px 0 0; margin: 36px 0 0; border-top: 1px solid var(--border); max-width: 70ch;
+  }
+  .tag-row li {
+    font-family: var(--font-mono); font-size: .625rem; letter-spacing: .06em;
+    color: var(--ink-tertiary); padding: 2px 7px; border: 1px solid var(--border); border-radius: 2px;
+  }
+  .nota { margin-top: 20px; font-size: .8125rem; color: var(--ink-tertiary); max-width: 70ch; }
+
+  .pager {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 44px;
+  }
+  .pager a {
+    display: grid; gap: 6px; padding: 16px; border: 1px solid var(--border-hard);
+    text-decoration: none; color: inherit; font-size: .9375rem; line-height: 1.4;
+    transition: background var(--transition);
+  }
+  .pager a:hover { background: var(--accent-subtle); }
+  .pager a span { font-family: var(--font-mono); font-size: .6875rem; letter-spacing: .06em; color: var(--accent); }
+  .pager .is-next { text-align: right; }
+
+  .page-cta { padding-block: clamp(48px, 6vw, 80px); border-top: 1px solid var(--border); }
+
+  @media (max-width: 640px) {
+    .pager { grid-template-columns: 1fr; }
+    .pager .is-next { text-align: left; }
+  }
+</style>
