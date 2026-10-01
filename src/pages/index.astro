@@ -10,15 +10,17 @@ import Footer from '../components/Footer.astro';
 
 const schema = {
   '@context': 'https://schema.org',
-  '@type': 'ProfessionalService',
+  '@type': 'Organization',
   '@id': 'https://nio.gt/#org',
   name: 'NioSystems',
   url: 'https://nio.gt/',
   image: 'https://nio.gt/og-default.png',
   email: 'hola@nio.gt',
   telephone: '+502 5515 5215',
+  logo: 'https://nio.gt/favicon.svg',
   address: { '@type': 'PostalAddress', addressLocality: 'Jutiapa', addressCountry: 'GT' },
-  geo: { '@type': 'GeoCoordinates', latitude: 14.2915, longitude: -89.8956 },
+  location: { '@type': 'Place', name: 'Jutiapa, Guatemala', geo: { '@type': 'GeoCoordinates', latitude: 14.2915, longitude: -89.8956 } },
+  knowsAbout: ['Odoo', 'ERP', 'FEL/DTE Guatemala', 'Migración de Odoo', 'Integraciones logísticas', 'Hosting Odoo'],
   sameAs: [
     'https://www.linkedin.com/company/niosystems/',
     'https://github.com/niosystems',
