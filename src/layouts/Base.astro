@@ -5,12 +5,14 @@ interface Props {
   title?: string;
   description?: string;
   ogImage?: string;
+  noindex?: boolean;
 }
 
 const {
   title       = 'NioSystems | Primero diagnosticamos',
   description = 'Consultoría Odoo ERP y desarrollo a medida para Guatemala y LATAM. Especialistas en FEL/DTE, IGSS, ISR. El diagnóstico primero, siempre.',
   ogImage     = '/og-default.png',
+  noindex     = false,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://nio.gt/').toString();
@@ -21,7 +23,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://nio.gt/').t
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content={description} />
-  <link rel="canonical" href={canonical} />
+  {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
 
   <meta property="og:title"       content={title} />
   <meta property="og:description" content={description} />
