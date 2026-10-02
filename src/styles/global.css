@@ -355,7 +355,7 @@ p  { margin: 0; color: var(--ink-secondary); }
 }
 .ring-pulse {
   transform-origin: 200px 200px;
-  animation: ring-emit 9s cubic-bezier(.3,.5,.5,1) infinite;
+  animation: ring-emit 12s cubic-bezier(.4,0,.8,.8) infinite;
   stroke: var(--accent);
   stroke-width: 1;
   vector-effect: non-scaling-stroke;
