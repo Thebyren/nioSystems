@@ -624,6 +624,13 @@ section + section { border-top: 1px solid var(--border); }
   .sec-rule::after { display: none; }
 }
 
+/* Teléfonos: sin marco de plano, para recuperar ancho útil (~26px) */
+@media (max-width: 640px) {
+  :root { --sheet-gap: 0px; }
+  .sheet { border: 0; min-height: 100dvh; }
+  .reg-mark, .sheet-ref { display: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .status-dot::after, .ring-pulse { animation: none; }
 }
