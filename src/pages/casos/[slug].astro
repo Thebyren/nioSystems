@@ -28,6 +28,8 @@ const schema = {
   ],
 };
 
+const waLink = `https://wa.me/50255155215?text=${encodeURIComponent(`Hola NioSystems, leí el caso ${id} (${titulo}) y mi operación tiene algo parecido. ¿Me ayudan con un diagnóstico?`)}`;
+
 const bloques = [
   { cls: '', label: 'Contexto', text: contexto },
   { cls: 'is-problema', label: 'Problema identificado', text: problema },
@@ -79,7 +81,7 @@ const bloques = [
           <h2>¿Su operación tiene un problema parecido?</h2>
           <p class="lede">El diagnóstico inicial es sin costo. Cuéntenos qué está pasando y le decimos si aplica y cómo.</p>
           <div class="cta">
-            <a href="https://wa.me/50255155215" class="btn btn-primary">Escribir por WhatsApp</a>
+            <a href={waLink} class="btn btn-primary">Escribir por WhatsApp</a>
             <a href="mailto:hola@nio.gt?subject=Diagn%C3%B3stico%20NioSystems" class="btn btn-ghost">hola@nio.gt</a>
           </div>
           <p class="cta-promise">Respondemos en menos de 24 h · Sin compromiso</p>

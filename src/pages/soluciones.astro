@@ -2,21 +2,41 @@
 import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import { casos } from '../data/casos';
+
+const casoLabel: Record<string, string> = {
+  'CASO-001': 'Precios por zona y fuerza de ventas en campo',
+  'CASO-002': 'Sobrevaloración de inventario de Q1,000,000',
+  'CASO-003': 'Contabilidad anglosajona al 53 % de la memoria',
+  'CASO-004': 'Condición de carrera en POS',
+  'CASO-005': 'Fraude de POS sin acceso a código',
+  'CASO-006': 'Formatos de facturación IGSS automatizados',
+  'CASO-007': 'Diagnóstico vehicular integrado a ventas',
+  'CASO-008': 'Migración v10 a v19 con nómina',
+  'CASO-009': 'Estructura multiempresa y multi-moneda',
+  'CASO-010': 'Tracking de pedido en tiempo real desde la web',
+};
+const casoSlug = Object.fromEntries(casos.map(c => [c.id, c.slug]));
 
 const catalogo = [
   {
     cat: 'ERP · Odoo',
     ref: 'CAT-A',
+    corto: 'ERP',
     servicios: [
       {
         code: 'SVC-01',
+        resuelve: 'Arrancar Odoo en Guatemala con facturación FEL, IGSS e ISR funcionando desde el primer día.',
+        casos: ['CASO-001', 'CASO-009'],
         t: 'Implementación Odoo',
-        d: 'Instalación certificada de Odoo Community o Enterprise, configurada para operar en Guatemala desde el día cero: plan de cuentas, regímenes fiscales, FEL/DTE con la SAT (módulo l10n_gt_fel_tekra, con validación de NIT y CUI/DPI), IGSS e ISR. Acompañamos la migración de datos, la capacitación del equipo y el arranque operativo. Hemos contribuido código a la localización fiscal oficial de Odoo Enterprise para Guatemala.',
+        d: 'Instalación de Odoo Community o Enterprise, configurada para operar en Guatemala desde el día cero: plan de cuentas, regímenes fiscales, FEL/DTE con la SAT (módulo l10n_gt_fel_tekra, con validación de NIT y CUI/DPI), IGSS e ISR. Acompañamos la migración de datos, la capacitación del equipo y el arranque operativo. Hemos contribuido código a la localización fiscal oficial de Odoo Enterprise para Guatemala.',
         tags: ['Community', 'Enterprise', 'FEL / DTE', 'l10n_gt_fel_tekra', 'IGSS', 'ISR'],
         estado: 'Disponible',
       },
       {
         code: 'SVC-02',
+        resuelve: 'Una instalación vieja, rota o dejada a medias que ya no se puede actualizar.',
+        casos: ['CASO-008'],
         t: 'Migración y rescate de versión',
         d: 'Actualizamos instancias de cualquier versión. Hemos cerrado el salto más extenso posible, de v10 a v19, con nómina completa. Migramos módulos a medida, preservamos el historial contable, la trazabilidad de inventario y las reglas de negocio. Si otro implementador dejó la instalación a medias, también la rescatamos.',
         tags: ['v10 → v19', 'Nómina', 'Módulos custom', 'Datos históricos'],
@@ -24,6 +44,8 @@ const catalogo = [
       },
       {
         code: 'SVC-03',
+        resuelve: 'Lo que Odoo no trae de fábrica: procesos propios, reportes por entidad y parches de POS.',
+        casos: ['CASO-007', 'CASO-010'],
         t: 'Módulos y desarrollo a medida',
         d: 'Construimos lo que Odoo no trae de fábrica: módulos de diagnóstico vehicular conectados a ventas y contabilidad, sistemas de tracking de producto visibles en el sitio web, parches de núcleo para cerrar vulnerabilidades de POS, reportes fiscales con formato específico por entidad gubernamental. OWL, QWeb, Python y SQL.',
         tags: ['Python', 'OWL / QWeb', 'SQL', 'Reportes', 'POS'],
@@ -34,17 +56,22 @@ const catalogo = [
   {
     cat: 'Integraciones',
     ref: 'CAT-B',
+    corto: 'Integraciones',
     servicios: [
       {
         code: 'SVC-04',
+        resuelve: 'Datos copiados a mano entre Odoo, la tienda en línea, el CRM y la pasarela de pago.',
+        casos: [],
         t: 'Integraciones de plataformas',
         d: 'Conectamos Odoo con el resto del ecosistema del negocio: tiendas WooCommerce (inventario, pedidos, clientes en tiempo real), migración de CRM desde HubSpot, pasarelas de pago locales como Recurrente y QpayPro. Nuestro módulo de Recurrente es gratuito y está publicado en el Odoo App Store.',
         tags: ['WooCommerce', 'HubSpot', 'Recurrente', 'QpayPro', 'REST'],
         estado: 'Disponible',
-        appstore: { label: 'Ver todas las integraciones →', href: '/integraciones' },
+        appstore: { label: 'Ver todas las integraciones →', href: '/integraciones/' },
       },
       {
         code: 'SVC-05',
+        resuelve: 'Envíos que se gestionan fuera de Odoo y sin trazabilidad.',
+        casos: [],
         t: 'Conectores logísticos propios',
         d: 'Construimos desde cero conectores para las principales empresas de paquetería en Guatemala y Centroamérica: Forza, Guatex, CargoExpreso, y Boxful (próximo a publicar). No es reventa de librerías de terceros: son conectores desarrollados y mantenidos por nosotros, con trazabilidad completa dentro de Odoo.',
         tags: ['Forza', 'Guatex', 'CargoExpreso', 'Boxful', 'Trazabilidad'],
@@ -52,6 +79,8 @@ const catalogo = [
       },
       {
         code: 'SVC-06',
+        resuelve: 'Clientes que preguntan por su pedido y un equipo que responde a mano.',
+        casos: [],
         t: 'Automatización WhatsApp + IA',
         d: 'Integración de la API oficial de WhatsApp Business con Odoo: notificaciones automáticas de pedido, confirmaciones de entrega, alertas de inventario, flujos de atención al cliente disparados desde el CRM. Opcionalmente: asistente conversacional con IA conectado a Odoo para respuestas contextuales sobre pedidos, inventario o estado de soporte. Sin bots genéricos: flujos configurados para el proceso específico del negocio.',
         tags: ['WhatsApp API', 'IA', 'CRM', 'Automatización', 'Notificaciones'],
@@ -62,9 +91,12 @@ const catalogo = [
   {
     cat: 'Infraestructura y diagnóstico',
     ref: 'CAT-C',
+    corto: 'Infraestructura',
     servicios: [
       {
         code: 'SVC-07',
+        resuelve: 'Administrar servidores, respaldos y certificados por su cuenta.',
+        casos: [],
         t: 'Hosting multi-tenant',
         d: 'Instancias Odoo en infraestructura propia: Docker, PostgreSQL, Caddy como reverse proxy con TLS automático. Respaldo diario con verificación de integridad. Recuperación documentada y probada. Monitoreo continuo. Sin compartir servidor con clientes desconocidos: cada tenant en su contenedor.',
         tags: ['Docker', 'PostgreSQL', 'Caddy', 'TLS', 'Backup validado'],
@@ -72,6 +104,8 @@ const catalogo = [
       },
       {
         code: 'SVC-08',
+        resuelve: 'Inventario que no cuadra, cierres lentos o una instancia que consume demasiados recursos.',
+        casos: ['CASO-002', 'CASO-003', 'CASO-004', 'CASO-005'],
         t: 'Diagnóstico y corrección de arquitectura',
         d: 'Análisis profundo de instancias con problemas: sobrevaloración de inventario (hemos identificado y corregido diferencias de Q1,000,000+ en ~120 movimientos), configuraciones contables que consumen 50%+ de la memoria de la instancia, vulnerabilidades de flujo de caja en POS. Entregamos informe técnico con causa raíz y plan de remediación.',
         tags: ['Valuación', 'Contabilidad', 'POS', 'Memoria', 'Rendimiento'],
@@ -79,6 +113,8 @@ const catalogo = [
       },
       {
         code: 'SVC-09',
+        resuelve: 'Reportes fiscales y de auditoría armados a mano desde Word o Excel.',
+        casos: ['CASO-006'],
         t: 'Auditoría fiscal y reportes',
         d: 'Generación y validación de reportes fiscales para Guatemala: libro mayor, desglose de ventas y compras por régimen, historiales para auditoría del SAT, formatos específicos por entidad (IGSS, contratos gubernamentales). Automatizamos lo que antes se copiaba manualmente desde Word o Excel.',
         tags: ['SAT', 'IGSS', 'Libro mayor', 'Reportes', 'Guatemala'],
@@ -89,9 +125,12 @@ const catalogo = [
   {
     cat: 'Observabilidad operativa',
     ref: 'CAT-D',
+    corto: 'Observabilidad',
     servicios: [
       {
         code: 'SVC-10',
+        resuelve: 'No saber cómo va el proyecto ni cuánto se ha consumido sin tener que preguntar.',
+        casos: [],
         t: 'Portal de clientes: observabilidad de la relación',
         d: 'Una consultoría no debería ser una caja negra. El portal de clientes de NioSystems es la interfaz mediante la cual el cliente entiende su relación con nosotros en tiempo real: estado del proyecto, entregables completos, tickets de soporte, horas consumidas, saldo disponible, decisiones tomadas y acciones pendientes, sin tener que preguntar. La información disponible va al portal; las acciones requeridas van con notificación. Actualmente en desarrollo como producto propio.',
         tags: ['Proyecto', 'Soporte', 'Tickets', 'Horas', 'Decisiones', 'ADR'],
@@ -102,9 +141,12 @@ const catalogo = [
   {
     cat: 'Hardware',
     ref: 'CAT-E',
+    corto: 'Hardware',
     servicios: [
       {
         code: 'HW-01',
+        resuelve: 'Control de asistencia desconectado de Odoo y atado a servicios de terceros.',
+        casos: [],
         t: 'nioClock: terminal de asistencia',
         d: 'Terminal biométrico y RFID de diseño modular, desarrollado internamente. Firmware con arquitectura de dos etapas y actualización OTA sin intervención manual. Integración nativa con el módulo de Asistencia de Odoo. Construido sobre ESP32-C3/S6. Hardware industrial, sin dependencia de servicios en la nube de terceros.',
         tags: ['ESP32', 'RFID', 'Biométrico', 'OTA', 'Odoo Attendance'],
@@ -133,23 +175,49 @@ const catalogo = [
       </div>
     </section>
 
+    <nav class="cat-nav" aria-label="Categorías de servicio">
+      <div class="container">
+        <ul>
+          {catalogo.map(({ ref, corto }) => (
+            <li><a href={`#${ref.toLowerCase()}`}><span>{ref}</span>{corto}</a></li>
+          ))}
+        </ul>
+      </div>
+    </nav>
+
     {catalogo.map(({ cat, ref, servicios }) => (
-      <section class="cat-section">
+      <section class="cat-section" id={ref.toLowerCase()} aria-labelledby={`${ref.toLowerCase()}-t`}>
         <div class="container">
-          <div class="sec-rule">
-            <span class="sec-id"><b>{ref}</b>{cat}</span>
+          <div class="cat-head">
+            <span class="cat-ref">{ref}</span>
+            <h2 id={`${ref.toLowerCase()}-t`}>{cat}</h2>
+            <span class="cat-count">{servicios.length} {servicios.length === 1 ? 'servicio' : 'servicios'}</span>
           </div>
-          <div class="svc-grid">
-            {servicios.map(({ code, t, d, tags, estado, appstore }) => (
+          <div class={`svc-grid n-${servicios.length}`}>
+            {servicios.map(({ code, t, d, tags, estado, appstore, resuelve, casos: rel }) => (
               <article class="svc-card">
-                <header class="svc-head">
-                  <span class="ref-code">{code}</span>
-                  <span class:list={['estado-pill', { 'is-dev': estado.includes('Desarrollo') || estado.includes('próximo') }]}>
-                    {estado}
-                  </span>
-                </header>
-                <h3>{t}</h3>
-                <p>{d}</p>
+                <div class="svc-top">
+                  <header class="svc-head">
+                    <span class="ref-code">{code}</span>
+                    <span class:list={['estado-pill', { 'is-dev': estado.includes('Desarrollo') || estado.includes('próximo') }]}>
+                      {estado}
+                    </span>
+                  </header>
+                  <h3>{t}</h3>
+                  <p class="resuelve"><span class="rl">Resuelve</span>{resuelve}</p>
+                </div>
+                <div class="svc-rest">
+                <p class="svc-d">{d}</p>
+                {rel.length > 0 && (
+                  <div class="rel">
+                    <span class="rl">{rel.length > 1 ? 'Casos relacionados' : 'Caso relacionado'}</span>
+                    <ul>
+                      {rel.map(id => (
+                        <li><a href={`/casos/${casoSlug[id]}/`}><span class="rid">{id}</span>{casoLabel[id]}</a></li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
                 {appstore && (
                   <a href={appstore.href} class="appstore-link">
                     {appstore.label}
@@ -158,6 +226,7 @@ const catalogo = [
                 <ul class="tag-row" aria-label="Tecnologías">
                   {tags.map(tag => <li>{tag}</li>)}
                 </ul>
+                </div>
               </article>
             ))}
           </div>
@@ -173,7 +242,7 @@ const catalogo = [
           <p class="lede">Si no está seguro, cuéntenos el problema. Le decimos qué código aplica y, si ninguno aplica, también se lo decimos.</p>
           <div class="cta">
             <a href="mailto:hola@nio.gt?subject=Consulta%20Soluciones%20NioSystems" class="btn btn-primary">hola@nio.gt</a>
-            <a href="https://wa.me/50255155215" class="btn btn-ghost">WhatsApp</a>
+            <a href="https://wa.me/50255155215?text=Hola%20NioSystems%2C%20vi%20su%20cat%C3%A1logo%20de%20soluciones%20y%20quiero%20un%20diagn%C3%B3stico%20gratuito." class="btn btn-ghost">WhatsApp</a>
           </div>
         </div>
       </div>
@@ -195,29 +264,92 @@ const catalogo = [
     margin-bottom: 28px;
   }
 
-  .cat-section { padding-block: clamp(48px, 6vw, 80px); }
+  .cat-section { padding-block: clamp(64px, 8vw, 104px); }
   .cat-section + .cat-section { border-top: 1px solid var(--border); }
+
+  .cat-nav { border-bottom: 1px solid var(--border); padding-block: 14px; }
+  .cat-nav ul { display: flex; flex-wrap: wrap; gap: 8px 10px; list-style: none; margin: 0; padding: 0; }
+  .cat-nav a {
+    display: inline-flex; gap: 8px; align-items: baseline;
+    font-family: var(--font-mono); font-size: .6875rem; letter-spacing: .06em; text-transform: uppercase;
+    padding: 6px 10px; border: 1px solid var(--border-hard); border-radius: 2px;
+    color: var(--ink-secondary); transition: background var(--transition), color var(--transition);
+  }
+  .cat-nav a span { color: var(--ink-tertiary); }
+  .cat-nav a:hover { background: var(--accent-subtle); color: var(--ink); }
+
+  .cat-section { scroll-margin-top: 16px; }
+  .cat-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 16px; margin-bottom: 8px; }
+  .cat-ref { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .08em; color: var(--accent); }
+  .cat-head h2 { font-size: clamp(1.5rem, 3.4vw, 2.1rem); }
+  .cat-count { font-family: var(--font-mono); font-size: .6875rem; letter-spacing: .06em; color: var(--ink-tertiary); margin-left: auto; }
+
+  .rl {
+    display: block; margin-bottom: 4px;
+    font-family: var(--font-mono); font-size: .625rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--ink-tertiary);
+  }
+  .resuelve { font-size: 1rem; line-height: 1.5; color: var(--ink); margin: 0; }
+  .resuelve .rl { color: var(--accent); }
+  .svc-d { color: var(--ink-secondary); }
+
+  .rel { padding-top: 4px; }
+  .rel ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+  .rel a { font-size: .875rem; line-height: 1.4; color: var(--ink-secondary); transition: color var(--transition); }
+  .rel a:hover { color: var(--accent); }
+  .rel .rid { font-family: var(--font-mono); font-size: .625rem; letter-spacing: .06em; color: var(--accent); margin-right: 8px; }
 
   .svc-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
-    gap: 0;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    background: var(--border);
     border: 1px solid var(--border-hard);
     margin-top: 28px;
+  }
+  @media (min-width: 720px) {
+    .svc-grid.n-2, .svc-grid.n-3 { grid-template-columns: repeat(2, 1fr); }
+    /* La tarjeta que queda sola en la última fila ocupa todo el ancho */
+    .svc-grid.n-3 .svc-card:last-child { grid-column: 1 / -1; }
+  }
+  @media (min-width: 1000px) {
+    .svc-grid.n-3 { grid-template-columns: repeat(3, 1fr); }
+    .svc-grid.n-3 .svc-card:last-child { grid-column: auto; }
   }
 
   .svc-card {
     padding: 28px;
-    border-right: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
+    background-color: var(--bg);
     display: flex;
     flex-direction: column;
     gap: 12px;
-    transition: background var(--transition);
+    transition: background-image var(--transition);
   }
-  .svc-card:hover { background: var(--accent-subtle); }
-  .svc-card:last-child { border-right: 0; border-bottom: 0; }
-  .svc-card:nth-child(3n) { border-right: 0; }
+  .svc-card:hover { background-image: linear-gradient(var(--accent-subtle), var(--accent-subtle)); }
+  .svc-top, .svc-rest { display: contents; }
+
+  /* Tarjeta ancha (categoría con un solo servicio, o última fila sola): dos columnas */
+  @media (min-width: 720px) {
+    .svc-grid.n-1 .svc-card,
+    .svc-grid.n-3 .svc-card:last-child {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+      column-gap: clamp(28px, 5vw, 64px);
+      align-items: start;
+    }
+    .svc-grid.n-1 .svc-top, .svc-grid.n-1 .svc-rest,
+    .svc-grid.n-3 .svc-card:last-child .svc-top,
+    .svc-grid.n-3 .svc-card:last-child .svc-rest {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .svc-grid.n-1 .svc-card { padding: 36px 32px; }
+    .svc-grid.n-1 h3 { font-size: 1.375rem; }
+  }
+  @media (min-width: 1000px) {
+    .svc-grid.n-3 .svc-card:last-child { display: flex; }
+    .svc-grid.n-3 .svc-card:last-child .svc-top,
+    .svc-grid.n-3 .svc-card:last-child .svc-rest { display: contents; }
+  }
 
   .svc-head {
     display: flex;
@@ -247,7 +379,8 @@ const catalogo = [
     color: var(--amber-ink);
   }
   .svc-card h3 { font-size: 1.0625rem; }
-  .svc-card p { font-size: .9375rem; flex: 1; }
+  .svc-card p { font-size: .9375rem; }
+  .svc-card .svc-d { flex: 1; }
 
   .appstore-link {
     display: inline-flex;
@@ -292,10 +425,6 @@ const catalogo = [
   .page-cta { padding-block: clamp(48px, 6vw, 80px); border-top: 1px solid var(--border); }
 
   @media (max-width: 720px) {
-    .svc-card { border-right: 0; }
-    .svc-card:nth-child(3n) { border-right: 0; }
-    .svc-card:last-child { border-bottom: 0; }
-    .svc-card:not(:last-child) { border-bottom: 1px solid var(--border); }
     .svc-card { padding: 20px 16px; }
     .svc-head { flex-direction: column; gap: 8px; align-items: flex-start; }
     .page-hero h1 { font-size: clamp(1.6rem, 6vw, 2.2rem); }
