@@ -29,8 +29,8 @@ const catalogo = [
         resuelve: 'Arrancar Odoo en Guatemala con facturación FEL, IGSS e ISR funcionando desde el primer día.',
         casos: ['CASO-001', 'CASO-009'],
         t: 'Implementación Odoo',
-        d: 'Instalación de Odoo Community o Enterprise, configurada para operar en Guatemala desde el día cero: plan de cuentas, regímenes fiscales, FEL/DTE con la SAT (módulo l10n_gt_fel_tekra, con validación de NIT y CUI/DPI), IGSS e ISR. Acompañamos la migración de datos, la capacitación del equipo y el arranque operativo. Hemos contribuido código a la localización fiscal oficial de Odoo Enterprise para Guatemala.',
-        tags: ['Community', 'Enterprise', 'FEL / DTE', 'l10n_gt_fel_tekra', 'IGSS', 'ISR'],
+        d: 'Instalación de Odoo Community o Enterprise, configurada para operar en Guatemala desde el día cero: plan de cuentas, regímenes fiscales, FEL/DTE con la SAT a través del certificador que use su empresa (INFILE, G4S, Codifi, TEKRA o Megaprint), con validación de NIT y CUI/DPI, IGSS e ISR. Acompañamos la migración de datos, la capacitación del equipo y el arranque operativo. Hemos contribuido código a la localización fiscal oficial de Odoo Enterprise para Guatemala.',
+        tags: ['Community', 'Enterprise', 'FEL / DTE', 'INFILE', 'G4S', 'Codifi', 'TEKRA', 'Megaprint', 'IGSS', 'ISR'],
         estado: 'Disponible',
       },
       {
@@ -72,10 +72,10 @@ const catalogo = [
         code: 'SVC-05',
         resuelve: 'Envíos que se gestionan fuera de Odoo y sin trazabilidad.',
         casos: [],
-        t: 'Conectores logísticos propios',
-        d: 'Construimos desde cero conectores para las principales empresas de paquetería en Guatemala y Centroamérica: Forza, Guatex, CargoExpreso, y Boxful (próximo a publicar). No es reventa de librerías de terceros: son conectores desarrollados y mantenidos por nosotros, con trazabilidad completa dentro de Odoo.',
+        t: 'Conectores logísticos',
+        d: 'Estamos construyendo módulos de Odoo para las principales empresas de paquetería de Guatemala y Centroamérica: Forza, Guatex, CargoExpreso y Boxful. La experiencia viene de integraciones previas con Forza, Guatex y CargoExpreso; cada módulo se está rehaciendo desde cero como desarrollo propio de NioSystems, con trazabilidad completa del envío dentro de Odoo. Todavía no están publicados.',
         tags: ['Forza', 'Guatex', 'CargoExpreso', 'Boxful', 'Trazabilidad'],
-        estado: 'En producción · Boxful próximo',
+        estado: 'En desarrollo',
       },
       {
         code: 'SVC-06',
@@ -158,7 +158,7 @@ const catalogo = [
 ---
 <Base
   title="Servicios Odoo en Guatemala: implementación, migración, hosting | NioSystems"
-  description="Servicios Odoo en Guatemala: implementación con FEL/DTE, migraciones v10 a v19, integraciones, conectores logísticos, hosting multi-tenant y hardware propio."
+  description="Servicios Odoo en Guatemala: implementación con FEL/DTE, migraciones v10 a v19, integraciones, conectores logísticos en desarrollo, hosting multi-tenant y hardware propio."
 >
   <Nav />
   <main>
@@ -166,11 +166,11 @@ const catalogo = [
       <div class="container">
         <div class="sec-rule"><span class="sec-id"><b>DOC. NIO-SVC</b>Catálogo de soluciones</span></div>
         <h1>Soluciones.</h1>
-        <p class="hero-desc">Nueve líneas de servicio, construidas desde la operación real de empresas guatemaltecas. Cada código es una capacidad entregada, no una promesa de preventa.</p>
+        <p class="hero-desc">Servicios, integraciones y hardware, construidos desde la operación real de empresas guatemaltecas. Cada código indica su estado real: disponible o en desarrollo.</p>
         <ul class="status-strip">
-          <li class="status-chip"><span class="status-dot"></span>SVC-01 a SVC-09 · Disponibles</li>
+          <li class="status-chip"><span class="status-dot"></span>Disponibles · SVC-01 a 04 y 06 a 09</li>
           <li class="status-chip"><span class="status-dot is-accent"></span>HW-01 · nioClock en desarrollo</li>
-          <li class="status-chip"><span class="status-dot"></span>Conectores logísticos · En producción</li>
+          <li class="status-chip"><span class="status-dot is-accent"></span>SVC-05 · Conectores logísticos en desarrollo</li>
         </ul>
       </div>
     </section>
@@ -199,7 +199,7 @@ const catalogo = [
                 <div class="svc-top">
                   <header class="svc-head">
                     <span class="ref-code">{code}</span>
-                    <span class:list={['estado-pill', { 'is-dev': estado.includes('Desarrollo') || estado.includes('próximo') }]}>
+                    <span class:list={['estado-pill', { 'is-dev': estado.toLowerCase().includes('desarrollo') }]}>
                       {estado}
                     </span>
                   </header>
