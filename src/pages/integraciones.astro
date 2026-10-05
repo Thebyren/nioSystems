@@ -24,9 +24,9 @@ const otras = [
   {
     code: 'INT-02',
     t: 'Conectores logísticos',
-    d: 'Forza, Guatex y CargoExpreso en producción, y Boxful próximo a publicar. Desarrollados y mantenidos por nosotros, con trazabilidad completa del envío dentro de Odoo.',
+    d: 'Módulos para Forza, Guatex, CargoExpreso y Boxful, hoy en desarrollo y sin publicar. Los estamos rehaciendo desde cero como módulos propios de NioSystems, a partir de experiencia previa con las tres primeras, con trazabilidad completa del envío dentro de Odoo.',
     tags: ['Forza', 'Guatex', 'CargoExpreso', 'Boxful'],
-    estado: 'En producción',
+    estado: 'En desarrollo',
   },
   {
     code: 'INT-03',
@@ -73,7 +73,7 @@ const schema = {
 ---
 <Base
   title="Integraciones Odoo en Guatemala | Recurrente, logística, WhatsApp | NioSystems"
-  description="Módulo gratuito de Recurrente para Odoo (LGPL-3, Odoo 19 y 20) y otras integraciones: conectores logísticos, WhatsApp Business, WooCommerce y QpayPro."
+  description="Módulo gratuito de Recurrente para Odoo (LGPL-3, Odoo 19 y 20) y otras integraciones: conectores logísticos en desarrollo, WhatsApp Business, WooCommerce y QpayPro."
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} />
   <Nav />
@@ -85,7 +85,7 @@ const schema = {
         <p class="hero-desc">Odoo rara vez vive solo. Conectamos pagos, envíos, mensajería y tienda en línea con el resto de su operación, y publicamos lo que podemos como módulos abiertos.</p>
         <ul class="status-strip">
           <li class="status-chip"><span class="status-dot is-accent"></span>Módulo gratuito en el Odoo App Store</li>
-          <li class="status-chip"><span class="status-dot"></span>Conectores logísticos · En producción</li>
+          <li class="status-chip"><span class="status-dot is-accent"></span>Conectores logísticos · En desarrollo</li>
         </ul>
       </div>
     </section>
@@ -144,7 +144,7 @@ const schema = {
             <article class="int-card">
               <header>
                 <span class="ref-code">{code}</span>
-                <span class="estado-pill">{estado}</span>
+                <span class:list={['estado-pill', { 'is-dev': estado.toLowerCase().includes('desarrollo') }]}>{estado}</span>
               </header>
               <h3>{t}</h3>
               <p>{d}</p>
@@ -275,6 +275,7 @@ const schema = {
     padding: 3px 8px; border: 1px solid var(--status-ok); color: var(--status-ok);
     border-radius: 2px; white-space: nowrap; flex-shrink: 0;
   }
+  .estado-pill.is-dev { border-color: var(--amber-ink); color: var(--amber-ink); }
   .tag-row {
     display: flex; flex-wrap: wrap; gap: 6px; list-style: none;
     padding: 12px 0 0; margin: 0; border-top: 1px solid var(--border);

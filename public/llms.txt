@@ -7,7 +7,7 @@ NioSystems tiene sede en Jutiapa, Guatemala. Contacto: hola@nio.gt o WhatsApp +5
 ## Servicios
 
 - [Soluciones](https://nio.gt/soluciones/): catálogo de servicios Odoo (implementación, migración, módulos a medida, integraciones, hosting multi-tenant, diagnóstico y auditoría fiscal) y hardware propio nioClock.
-- [Integraciones](https://nio.gt/integraciones/): módulo gratuito Recurrente Checkout para Odoo 19 y 20, conectores logísticos, WhatsApp Business, WooCommerce, QpayPro y HubSpot.
+- [Integraciones](https://nio.gt/integraciones/): módulo gratuito Recurrente Checkout para Odoo 19 y 20, conectores logísticos (en desarrollo), WhatsApp Business, WooCommerce, QpayPro y HubSpot.
 - [Infraestructura](https://nio.gt/infraestructura/): stack técnico, arquitectura de hosting, especificaciones de nioClock y proyecto de investigación NioBerp.
 
 ## Casos
