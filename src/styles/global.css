@@ -445,6 +445,11 @@ p  { margin: 0; color: var(--ink-secondary); }
   opacity: .5;
   animation: signal-ping 2.2s cubic-bezier(.4,0,.2,1) infinite;
 }
+/* Desfase entre indicadores para que no latan todos a la vez */
+.status-chip:nth-child(4n+1) .status-dot::after { animation-delay: -1.65s; }
+.status-chip:nth-child(4n+2) .status-dot::after { animation-delay: -1.1s; }
+.status-chip:nth-child(4n+3) .status-dot::after { animation-delay: -.55s; }
+.status-chip:nth-child(4n+4) .status-dot::after { animation-delay: 0s; }
 .status-dot.is-accent { background: var(--accent); }
 .status-dot.is-accent::after { background: var(--accent); }
 .chip-link {
