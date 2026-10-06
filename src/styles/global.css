@@ -634,6 +634,15 @@ section + section { border-top: 1px solid var(--border); }
   .reg-mark, .sheet-ref { display: none; }
 }
 
+/* Cambio de tema: la animación del círculo la dirige Nav.astro; aquí se anula el fundido por defecto */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) { z-index: 1; }
+::view-transition-new(root) { z-index: 2; }
+
 @media (prefers-reduced-motion: reduce) {
   .status-dot::after, .ring-pulse { animation: none; }
 }
